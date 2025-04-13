@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@300..700&display=swap');
+* {
+    
+    font-family: "Marhey", sans-serif;
+  }
+.back{
+  /* هاد لون الخلفية لداش بورد  */
+/* background-color:  #678999b3 !important; */
+background-color:  #fdfeffb3 !important;
+}
+.back_side{
+background-color:#f3f3f3 !important;
+}
+.back_side2  ul   li a:hover{
+/* background-color:  #2a5d84 !important; */
+background-color: #c37044 !important;
+color: #e6e8e9 !important;;
+}
+.cards .card1{
+  /* هاد لون الخلفية */
+  background-color:#f5f3eb !important;
+}
+.cards .custom-bg{
+  /* background-color:  #526e84  !important; */
+  background-color:  #c3825e   !important;
+}
