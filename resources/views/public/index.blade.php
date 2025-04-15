@@ -64,7 +64,8 @@
           
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               {{-- @if (Route::has('login') && !auth()->check()) --}}
-                <li><a class="dropdown-item" href="{{url('login')}}">تسجيل الدخول</a></li>
+              <li><a class="dropdown-item" href="{{ url('logingo') }}">تسجيل الدخول <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i></a></li>
+              <li><a class="dropdown-item" href="{{url('student ')}}">الملف  الشخصي <i class="fa-regular fa-user" style="color: #838282;"></i> </a></li>
               {{-- @endif --}}
             </ul>
           </div>

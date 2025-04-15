@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/dash', function () {
     return view('dashboard.dash');
 });
+Route::get('/dash', [AdminController::class, 'dash']);
+
+
 
 
 
@@ -85,3 +90,13 @@ Route::get('/aboutus', function () {
 Route::get('/bloge', function () {
     return view('public.bloge');
 });
+
+
+// Route::get('/profile' , function(){
+//     return view('dashboard.pages.profile')->name('profile');
+// });
+Route::view('/profile', 'dashboard.pages.profile')->name('profile');
+Route::get('/profile', [AdminController::class, 'show'])->name('profile');// هاد الروت مشان يجيب معلومات المستخدم الي عمل تسجيل دخول
+Route::get('/logingo', [ProfilController::class, 'logingo']);
+Route::get('/student', [ProfilController::class, 'student']);
+

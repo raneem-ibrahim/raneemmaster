@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('age');
+            $table->string('image')->nullable();
             $table->enum('gender', ['male', 'female']);
             $table->json('desired_study')->nullable(); // لتخزين المواد الدراسية المختارة
             $table->enum('role', ['student', 'teacher', 'admin'])->default('student');
