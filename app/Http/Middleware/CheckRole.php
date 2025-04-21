@@ -27,4 +27,14 @@ class CheckRole
     
         return $next($request);
     }
+
+//     public function handle($request, Closure $next, $role)
+// {
+//     if (auth()->check() && auth()->user()->role === $role) {
+//         return $next($request);
+//     }
+
+//     return redirect('/login'); // ← هنا بيرجع المستخدم للوج إن لو ما عنده الدور
+// }
+
 }

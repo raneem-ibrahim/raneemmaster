@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
-
+    use Notifiable; 
     protected $fillable = [
         'first_name',
         'last_name',
@@ -23,6 +23,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'role'
     ];
   
+
+// للمستخدم كطالب
+// إذا كان المستخدم طالبًا
+public function teacher()
+{
+    return $this->belongsToMany(User::class, 'student_teacher', 'student_id', 'teacher_id');
+}
+
+// إذا كان المستخدم معلمًا
+public function students()
+{
+    return $this->belongsToMany(User::class, 'student_teacher', 'teacher_id', 'student_id');
+}
 
 
 

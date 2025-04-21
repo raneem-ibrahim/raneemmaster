@@ -63,11 +63,38 @@
             </a>
           
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              {{-- @if (Route::has('login') && !auth()->check()) --}}
-              <li><a class="dropdown-item" href="{{ url('logingo') }}">تسجيل الدخول <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i></a></li>
-              <li><a class="dropdown-item" href="{{url('student ')}}">الملف  الشخصي <i class="fa-regular fa-user" style="color: #838282;"></i> </a></li>
-              {{-- @endif --}}
+
+              @guest
+                {{-- يظهر فقط إذا لم يكن المستخدم مسجلاً الدخول --}}
+                <li>
+                  <a class="dropdown-item" href="{{ url('login') }}">
+                    تسجيل الدخول 
+                    <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i>
+                  </a>
+                </li>
+              @endguest
+            
+              @auth
+                {{-- يظهر فقط إذا كان المستخدم مسجلاً الدخول --}}
+                <li>
+                  <a class="dropdown-item" href="{{ url('student') }}">
+                    الملف الشخصي 
+                    <i class="fa-regular fa-user" style="color: #838282;"></i>
+                  </a>
+                </li>
+                <li>
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0; color: inherit;">
+                      تسجيل خروج 
+                      <i class="fa-regular fa-user" style="color: #838282;"></i>
+                    </button>
+                  </form>
+                </li>
+              @endauth
+            
             </ul>
+            
           </div>
         </li>
         </ul>

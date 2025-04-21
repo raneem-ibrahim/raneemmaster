@@ -84,20 +84,20 @@
       </div>
 
       <!-- Remember Me -->
-      <div class="forget">
-        <label for="remember_me">
-          <input id="remember_me" type="checkbox" name="remember">
-          <p>تذكرني</p>
-        </label>
-        
-        @if (Route::has('password.request'))
-          <a href="{{ route('password.request') }}">
-            هل نسيت كلمة المرور؟
-          </a>
-        @endif
-      </div>
+        <div class="forget">
+          <label for="remember_me">
+            <input id="remember_me" type="checkbox" name="remember">
+            <p>تذكرني</p>
+          </label>
+          
+          @if (Route::has('password.request'))
+            <a href="{{ route('password.request') }}">
+              هل نسيت كلمة المرور؟
+            </a>
+          @endif
+        </div>
 
-      <button type="submit">تسجيل الدخول</button>
+        <button type="submit">تسجيل الدخول</button>
     </form>
   </div>
 </body>

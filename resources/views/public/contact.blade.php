@@ -39,7 +39,7 @@
         <ul class="menu-links">
           <span id="close-menu-btn" class="material-symbols-outlined">close</span>
        
-          <li><a href="{{url('index')}}"> الرئيسية</a></li>
+          <li><a href="{{route('index')}}"> الرئيسية</a></li>
           <li><a href="{{url('aboutus')}}">من نحن </a></li>
           <li><a href="{{url('contact')}}">اتصل بنا </a></li>
           <li><a href="{{url('bloge')}}"> مدونة </a></li>

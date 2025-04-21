@@ -51,12 +51,31 @@
           <span class="nav-link-text me-1">حساب تعريفي</span>
         </a>
       </li>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link text-dark" href="../pages/sign-in.html">
           <i class="material-symbols-rounded opacity-10">login</i>
           <span class="nav-link-text me-1">تسجيل الدخول</span>
         </a>
-      </li>
+      </li> --}}
+      @auth
+  <li class="nav-item">
+    <form method="POST" action="{{ route('logout') }}">
+      @csrf
+      <button type="submit" class="nav-link text-dark" style="background: none; border: none; padding: 0;">
+        <i class="material-symbols-rounded opacity-10">logout</i>
+        <span class="nav-link-text me-1">تسجيل الخروج</span>
+      </button>
+    </form>
+  </li>
+@else
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="{{ route('login') }}">
+      <i class="material-symbols-rounded opacity-10">login</i>
+      <span class="nav-link-text me-1">تسجيل الدخول</span>
+    </a>
+  </li>
+@endauth
+
       <li class="nav-item">
         <a class="nav-link text-dark" href="../pages/sign-up.html">
           <i class="material-symbols-rounded opacity-10">assignment</i>
