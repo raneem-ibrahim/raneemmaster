@@ -21,12 +21,11 @@ return new class extends Migration
                     $table->integer('age');
                     $table->string('image')->nullable();
                     $table->enum('gender', ['male', 'female']);
-                    $table->json('desired_study')->nullable(); // لتخزين المواد الدراسية المختارة
                     $table->enum('role', ['student', 'teacher', 'admin'])->default('student');
+                    // $table->enum('memorization_program', ['half_page', 'one_page', 'two_pages'])->nullable();
                     // الأعمدة المضافة للمعلمين فقط:
                     $table->tinyInteger('min_age')->nullable(); // الحد الأدنى لعمر الطالب الذي يدرّسه المعلم
                     $table->tinyInteger('max_age')->nullable(); // الحد الأعلى لعمر الطالب
-                    $table->enum('teaching_type', ['hifz', 'tajweed', 'both'])->nullable(); // نوع التعليم
                     $table->rememberToken();
                     $table->timestamps();
         });

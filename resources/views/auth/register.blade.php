@@ -131,7 +131,7 @@
       </div>
 
       <div class="options-container">
-        <div class="options-title">الجنس   والمادة الدراسية</div>
+        <div class="options-title">الجندر </div>
         <div class="options-group">
           <label for="male" class="option-label">
             <input type="radio" id="male" name="gender" value="male" {{ old('gender') == 'male' ? 'checked' : '' }} required>
@@ -143,7 +143,7 @@
             أنثى
           </label>
 
-          <label for="hifz" class="option-label">
+          {{-- <label for="hifz" class="option-label">
             <input type="checkbox" id="hifz" name="desired_study[]" value="hifz" {{ is_array(old('desired_study')) && in_array('hifz', old('desired_study')) ? 'checked' : '' }}>
             حفظ
           </label>
@@ -151,7 +151,7 @@
           <label for="ahkam" class="option-label">
             <input type="checkbox" id="ahkam" name="desired_study[]" value="ahkam" {{ is_array(old('desired_study')) && in_array('ahkam', old('desired_study')) ? 'checked' : '' }}>
             أحكام
-          </label>
+          </label> --}}
         </div>
         @error('gender')
           <div class="input-error">{{ $message }}</div>

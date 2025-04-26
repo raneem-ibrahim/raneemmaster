@@ -26,83 +26,67 @@
 
 <body class="g-sidenav-show bg-gray-100">
   <div class="container-fluid px-2 px-md-4">
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/image/hero_bg.jpg (6).jpg');">
+    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/image/شفيع.jpg');">
       <span class="mask "></span>
     </div>
 
 
     <div class="card card-body mx-2 mx-md-2 mt-n6">
-      <div class="row gx-4 mb-2">
-
-
-
+      <div class="row gx-4 mb-2 align-items-center justify-content-between">
         {{-- هاي لصورة البروفايل  --}}
-
-            {{-- <div class="avatar avatar-xl position-relative">
-                  <img src="../assets/img/bruce-mars.jpg" alt="صورة الملف الشخصي" class="w-100 border-radius-lg shadow-sm">
-                </div> --}}
-                <form id="avatarForm" action="{{ route('photostudent') }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  @method('PUT')
-                  
-                  <div class="col-auto">
-                      <div class="Image-profile-container">
-                          <div class="avatar-upload">
-                              <div class="avatar-edit">
-                                  <input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg" />
-                                  <label for="imageUpload"></label>
-                              </div>
-                              <div class="avatar-preview">
-                                  <div id="imagePreview" style="background-image: url('{{ auth()->check() && auth()->user()->image ? asset('storage/' . auth()->user()->image) : '/image/profile.jpg' }}');">
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </form>
-              {{-- نهاية لصورة البروفايل  --}}
-
-
-
-        <div class="col-auto my-auto">
-          <div class="h-100">
-            <h5 class="mb-1">
-                {{ $student->first_name }} {{ $student->last_name }}
-            
-            </h5>
-           
-          </div>
+        <div class="col-auto">
+            <form id="avatarForm" action="{{ route('photostudent') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                
+                <div class="Image-profile-container" style="display: flex; align-items: center; gap: 20px;">
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            <input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg" />
+                            <label for="imageUpload"></label>
+                        </div>
+                        <div class="avatar-preview">
+                            <div id="imagePreview" style="background-image: url('{{ auth()->check() && auth()->user()->image ? asset('storage/' . auth()->user()->image) : '/image/profile.jpg' }}');">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="avatar-info">
+                        <h5 class="mb-1">
+                            {{ $student->first_name }} {{ $student->last_name }}
+                        </h5>
+                    </div>
+                </div>
+            </form>
         </div>
-
-
-        {{--  بدايتها هاي تبعت تنقل الصفحات   --}}
-        <div class="col-lg-4 col-md-6 my-sm-auto me-sm-auto ms-sm-0 mx-auto mt-3">
-          <div class="nav-wrapper position-relative start-0">
-            <ul class="nav nav-pills nav-fill p-1" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link mb-0 px-0 py-1 active" id="app-tab" data-bs-toggle="tab" href="#app" role="tab" aria-selected="true">
-                  <i class="material-symbols-rounded text-lg position-relative">home</i>
-                  <span class="me-1">التطبيق</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link mb-0 px-0 py-1" id="messages-tab" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">
-                  <i class="material-symbols-rounded text-lg position-relative">email</i>
-                  <span class="me-1">الرسائل</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link mb-0 px-0 py-1" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="false">
-                  <i class="material-symbols-rounded text-lg position-relative">settings</i>
-                  <span class="me-1">الإعدادات</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+        {{-- نهاية لصورة البروفايل  --}}
+    
+        {{-- بدايتها هاي تبعت تنقل الصفحات  --}}
+        <div class="col-auto">
+            <div class="nav-wrapper position-relative">
+                <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-2 py-1 active" id="app-tab" data-bs-toggle="tab" href="#app" role="tab" aria-selected="true">
+                            <i class="material-symbols-rounded text-lg position-relative">home</i>
+                            <span class="me-1">الرئيسية</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-2 py-1" id="messages-tab" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">
+                            <i class="material-symbols-rounded text-lg position-relative">email</i>
+                            <span class="me-1">جداول الحفظ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-2 py-1" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="false">
+                            <i class="material-symbols-rounded text-lg position-relative">settings</i>
+                            <span class="me-1">احكام التجويد</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         {{-- نهاية تنقل الصفحات  --}}
-
-      </div>
+    </div>
 
 
 
@@ -110,165 +94,183 @@
       <div class="tab-content">
         <div class="tab-pane fade show active" id="app" role="tabpanel" aria-labelledby="app-tab">
           <div class="row">
-           {{-- start informatin personal --}}
-            <div class="col-12 col-xl-4">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">معلومات الملف الشخصي</h6>
+
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="row">
+                  <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div class="card bg-transparent shadow-xl">
+                      <div class="overflow-hidden position-relative border-radius-xl">
+                        <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
+                        <span class="mask bg-gradient-dark opacity-10"></span>
+                        <div class="card-body position-relative z-index-1 p-3">
+                          <i class="material-symbols-rounded text-white p-2">wifi</i>
+                          <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+                          <div class="d-flex">
+                            <div class="d-flex">
+                              <div class="me-4">
+                                <p class="text-white text-sm opacity-8 mb-0">حامل البطاقة</p>
+                                <h6 class="text-white mb-0">جاك بيترسون</h6>
+                              </div>
+                              <div>
+                                <p class="text-white text-sm opacity-8 mb-0">تاريخ الانتهاء</p>
+                                <h6 class="text-white mb-0">11/22</h6>
+                              </div>
+                            </div>
+                            <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                              <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-4 text-start">
-                      <a href="javascript:;" id="edit-profile">
-                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="تعديل الملف"></i>
-                      </a>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="row">
+                      <div class="col-md-6 col-6">
+                        <div class="card">
+                          <div class="card-header mx-4 p-3 text-center">
+                            <div class="icon icon-shape icon-lg bg-gradient-dark shadow text-center border-radius-lg">
+                              <i class="material-symbols-rounded opacity-10">account_balance</i>
+                            </div>
+                          </div>
+
+
+                          <div class="card-body pt-0 p-3 text-center">
+                            <h6 class="text-center mb-0">الراتب</h6>
+                            <span class="text-xs">
+                              @if($selectedTeacher)
+                                المعلم: {{ $selectedTeacher->first_name }} {{ $selectedTeacher->last_name }}
+                              @else
+                                بيلونغ إنترأكتيف
+                              @endif
+                            </span>
+                            <hr class="horizontal dark my-3">
+                            <h5 class="mb-0">+$2000</h5>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-6">
+                        <div class="card">
+                          <div class="card-header mx-4 p-3 text-center">
+                            <div class="icon icon-shape icon-lg bg-gradient-dark shadow text-center border-radius-lg">
+                              <i class="material-symbols-rounded opacity-10">account_balance_wallet</i>
+                            </div>
+                          </div>
+                          <div class="card-body pt-0 p-3 text-center">
+                            <h6 class="text-center mb-0">بايبال</h6>
+                            <span class="text-xs">دفع العمل الحر</span>
+                            <hr class="horizontal dark my-3">
+                            <h5 class="mb-0">$455.00</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-lg-0 mb-4">
+                    <div class="card mt-4">
+                      <div class="card-header pb-0 p-3">
+                        <div class="row">
+                          <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">طرق الدفع</h6>
+                          </div>
+                          <div class="col-6 text-end">
+                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;إضافة بطاقة جديدة</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body p-3">
+                        <div class="row">
+                          <div class="col-md-6 mb-md-0 mb-4">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                              <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
+                              <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
+                              <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="تحرير البطاقة">edit</i>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                              <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
+                              <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
+                              <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="تحرير البطاقة">edit</i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-body p-3">
-                  <p class="text-sm">
-                    مرحبًا، أنا أليك تومسون، القرارات: إذا لم تستطع اتخاذ قرار، فالجواب هو لا. إذا كان هناك مساران متساويان في الصعوبة، اختر الأكثر ألمًا على المدى القصير (تجنب الألم يخلق وهم المساواة).
-                  </p>
-                  <hr class="horizontal gray-light my-4">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 pe-0 pt-0 text-sm"><strong class="text-dark">الاسم الكامل:</strong> &nbsp;  {{ $student->first_name }} {{ $student->last_name }}</li>
-                    <li class="list-group-item border-0 pe-0 text-sm"><strong class="text-dark">البريد الاكتروني:</strong> &nbsp; {{$student->email }}</li>
-                    <li class="list-group-item border-0 pe-0 text-sm"><strong class="text-dark">كلمة المرور :</strong> &nbsp; {{$student->password }}<</li>
-                    <li class="list-group-item border-0 pe-0 text-sm"><strong class="text-dark">المسار:</strong> &nbsp; {{$student->desired_study }}<</li>
-                    {{-- <li class="list-group-item border-0 pe-0 pb-0">
-                      <strong class="text-dark text-sm">التواصل الاجتماعي:</strong> &nbsp;
-                      <a class="btn btn-facebook btn-simple mb-0 pe-1 ps-2 py-0" href="javascript:;">
-                        <i class="fab fa-facebook fa-lg"></i>
-                      </a>
-                      <a class="btn btn-twitter btn-simple mb-0 pe-1 ps-2 py-0" href="javascript:;">
-                        <i class="fab fa-twitter fa-lg"></i>
-                      </a>
-                      <a class="btn btn-instagram btn-simple mb-0 pe-1 ps-2 py-0" href="javascript:;">
-                        <i class="fab fa-instagram fa-lg"></i>
-                      </a>
-                    </li> --}}
-                  </ul>
+              </div>
+              <div class="col-lg-4">
+                <div class="card h-100">
+                  <div class="card-header pb-0 p-3">
+                    <div class="row">
+                      <div class="col-6 d-flex align-items-center">
+                        <h6 class="mb-0">الفواتير</h6>
+                      </div>
+                      <div class="col-6 text-end">
+                        <button class="btn btn-outline-primary btn-sm mb-0">عرض الكل</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-3 pb-0">
+                    <ul class="list-group">
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-1 text-dark font-weight-bold text-sm">مارس، 01، 2020</h6>
+                          <span class="text-xs">#MS-415646</span>
+                        </div>
+                        <div class="d-flex align-items-center text-sm">
+                          $180
+                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+                        </div>
+                      </li>
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="text-dark mb-1 font-weight-bold text-sm">فبراير، 10، 2021</h6>
+                          <span class="text-xs">#RV-126749</span>
+                        </div>
+                        <div class="d-flex align-items-center text-sm">
+                          $250
+                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+                        </div>
+                      </li>
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="text-dark mb-1 font-weight-bold text-sm">أبريل، 05، 2020</h6>
+                          <span class="text-xs">#FB-212562</span>
+                        </div>
+                        <div class="d-flex align-items-center text-sm">
+                          $560
+                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+                        </div>
+                      </li>
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="text-dark mb-1 font-weight-bold text-sm">يونيو، 25، 2019</h6>
+                          <span class="text-xs">#QW-103578</span>
+                        </div>
+                        <div class="d-flex align-items-center text-sm">
+                          $120
+                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+                        </div>
+                      </li>
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="text-dark mb-1 font-weight-bold text-sm">مارس، 01، 2019</h6>
+                          <span class="text-xs">#AR-803481</span>
+                        </div>
+                        <div class="d-flex align-items-center text-sm">
+                          $300
+                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-            {{-- end information personal --}}
-
-            {{-- .......... --}}
-            <div class="col-12 col-xl-4">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">إعدادات المنصة</h6>
-                </div>
-                <div class="card-body p-3">
-                  <h6 class="text-uppercase text-body text-xs font-weight-bolder">الحساب</h6>
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">أرسل لي بريدًا عند متابعة أحد لي</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault1">
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault1">أرسل لي بريدًا عند الرد على منشوري</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault2" checked>
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault2">أرسل لي بريدًا عند ذكر اسمي</label>
-                      </div>
-                    </li>
-                  </ul>
-                  <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">التطبيق</h6>
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault3">
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">الإطلاقات والمشاريع الجديدة</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault4" checked>
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">تحديثات المنتج الشهرية</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item border-0 px-0 pb-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input me-auto" type="checkbox" id="flexSwitchCheckDefault5">
-                        <label class="form-check-label text-body me-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">الاشتراك في النشرة البريدية</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {{-- ............ --}}
-            {{--  .................--> --}}
-            <div class="col-12 col-xl-4">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">المحادثات</h6>
-                </div>
-                <div class="card-body p-3">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/kal-visuals-square.jpg" alt="صوفي" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">صوفي ب.</h6>
-                        <p class="mb-0 text-xs">مرحبًا! أحتاج إلى مزيد من المعلومات..</p>
-                      </div>
-                      <a class="btn btn-link ps-3 pe-0 mb-0 me-auto w-25 w-md-auto" href="javascript:;">رد</a>
-                    </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/marie.jpg" alt="آن ماري" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">آن ماري</h6>
-                        <p class="mb-0 text-xs">عمل رائع، هل يمكنك..</p>
-                      </div>
-                      <a class="btn btn-link ps-3 pe-0 mb-0 me-auto w-25 w-md-auto" href="javascript:;">رد</a>
-                    </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/ivana-square.jpg" alt="إيفانا" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">إيفانا</h6>
-                        <p class="mb-0 text-xs">بخصوص الملفات يمكنني..</p>
-                      </div>
-                      <a class="btn btn-link ps-3 pe-0 mb-0 me-auto w-25 w-md-auto" href="javascript:;">رد</a>
-                    </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/team-4.jpg" alt="بيترسون" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">بيترسون</h6>
-                        <p class="mb-0 text-xs">أتمنى لك ظهيرة سعيدة..</p>
-                      </div>
-                      <a class="btn btn-link ps-3 pe-0 mb-0 me-auto w-25 w-md-auto" href="javascript:;">رد</a>
-                    </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/team-3.jpg" alt="نيك دانيال" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">نيك دانيال</h6>
-                        <p class="mb-0 text-xs">مرحبًا! أحتاج إلى مزيد من المعلومات..</p>
-                      </div>
-                      <a class="btn btn-link ps-3 pe-0 mb-0 me-auto w-25 w-md-auto" href="javascript:;">رد</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {{-- ................ --}}
           </div>
         </div>
         
@@ -278,9 +280,10 @@
         <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
           <div class="row justify-content-center">
             <div class="col-md-8 text-center py-5">
-              <i class="material-symbols-rounded text-6xl text-secondary">email</i>
+              {{-- <i class="material-symbols-rounded text-6xl text-secondary">email</i>
               <h4 class="mt-3">قسم الرسائل</h4>
-              <p class="text-muted">هنا يمكنك عرض وإدارة جميع رسائلك</p>
+              <p class="text-muted">هنا يمكنك عرض وإدارة جميع رسائلك</p> --}}
+              @include('student.tables')
             </div>
           </div>
         </div>
@@ -380,6 +383,20 @@
 {{-- نهاية اختر معلمك --}}
 
 
+{{-- هون اختيار جدول للحفظ  --}}
+@if ($needsMemorizationProgram)
+    <form action="{{ route('setMemorizationProgram') }}" method="POST">
+        @csrf
+        <label for="memorization_program">اختر برنامج الحفظ اليومي:</label>
+        <select name="memorization_program" id="memorization_program" class="form-select">
+            <option value="half_page">نصف صفحة</option>
+            <option value="one_page">صفحة</option>
+            <option value="two_pages">صفحتين</option>
+        </select>
+        <button type="submit" class="btn btn-primary mt-2">حفظ الاختيار</button>
+    </form>
+@endif
+{{-- نهياة اختيار جدول الحفظ  --}}
 
 
     </div>

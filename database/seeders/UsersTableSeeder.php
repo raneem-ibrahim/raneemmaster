@@ -22,11 +22,9 @@ class UsersTableSeeder extends Seeder
             'age'            => 35,
             'gender'         => 'male',
             'image'          => 'default.png',
-            'desired_study'  => null, // للطلاب فقط
             'role'           => 'teacher',
             'min_age'        => 7,
             'max_age'        => 12,
-            'teaching_type'  => 'hifz',
         ]);
 
         User::create([
@@ -37,11 +35,9 @@ class UsersTableSeeder extends Seeder
             'age'            => 42,
             'gender'         => 'female',
             'image'          => 'default.png',
-            'desired_study'  => null,
             'role'           => 'teacher',
             'min_age'        => 10,
             'max_age'        => 18,
-            'teaching_type'  => 'tajweed',
         ]);
 
         User::create([
@@ -52,11 +48,33 @@ class UsersTableSeeder extends Seeder
             'age'            => 30,
             'gender'         => 'male',
             'image'          => 'default.png',
-            'desired_study'  => null,
             'role'           => 'teacher',
             'min_age'        => 8,
             'max_age'        => 15,
-            'teaching_type'  => 'both',
+        ]);
+        User::create([
+            'first_name'     => 'تمارا',
+            'last_name'      => 'عمر',
+            'email'          => 'tamara_teacher@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 30,
+            'gender'         => 'female',
+            'image'          => 'default.png',
+            'role'           => 'teacher',
+            'min_age'        => 6,
+            'max_age'        => 15,
+        ]);
+        User::create([
+            'first_name'     => 'عائشة',
+            'last_name'      => 'محمد',
+            'email'          => 'aisha_teacher@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 30,
+            'gender'         => 'female',
+            'image'          => 'default.png',
+            'role'           => 'teacher',
+            'min_age'        => 15,
+            'max_age'        => 25,
         ]);
          // 🌟 Admin
          User::create([
@@ -67,11 +85,9 @@ class UsersTableSeeder extends Seeder
             'age'            => 40,
             'gender'         => 'male',
             'image'          => 'default.png',
-            'desired_study'  => null,
             'role'           => 'admin',
             'min_age'        => null,
             'max_age'        => null,
-            'teaching_type'  => null,
         ]);
 
         // 📚 طلاب
@@ -83,11 +99,10 @@ class UsersTableSeeder extends Seeder
             'age'            => 10,
             'gender'         => 'female',
             'image'          => 'default.png',
-            'desired_study'  => json_encode(['tajweed']),
             'role'           => 'student',
             'min_age'        => null,
             'max_age'        => null,
-            'teaching_type'  => null,
+            
         ]);
 
         User::create([
@@ -98,11 +113,21 @@ class UsersTableSeeder extends Seeder
             'age'            => 8,
             'gender'         => 'male',
             'image'          => 'default.png',
-            'desired_study'  => json_encode(['hifz', 'tajweed']),
             'role'           => 'student',
             'min_age'        => null,
             'max_age'        => null,
-            'teaching_type'  => null,
+        ]);
+        User::create([
+            'first_name'     => 'سامي',
+            'last_name'      => 'العربي',
+            'email'          => 'mohamad_student@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 8,
+            'gender'         => 'male',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
         ]);
     
     }

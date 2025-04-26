@@ -13,40 +13,40 @@ class ProfilController extends Controller
      * عرض صفحة ملف الطالب مع المعلم المختار أو قائمة المعلمين المتاحة.
      */
   
-    public function student()
-    {
-        $student = auth()->user();
-    
-        // التحقق مما إذا كان الطالب قد اختار معلمًا بالفعل
-        $hasTeacher = $student->teacher()->exists();
-    
-        // جلب المعلم المختار إذا وجد
-        $selectedTeacher = null;
-        if ($hasTeacher) {
-            $selectedTeacher = $student->teacher()->with('students')->first();
-        }
-    
-        // جلب قائمة المعلمين المتاحة إذا لم يتم اختيار معلم بعد
-        $teachers = null;
-        if (!$hasTeacher) {
-            $desiredStudies = json_decode($student->desired_study ?? '[]');
-    
-            $teachers = User::where('role', 'teacher')
-                ->where('gender', $student->gender)
-                ->where('min_age', '<=', $student->age)
-                ->where('max_age', '>=', $student->age)
-                ->where(function ($query) use ($desiredStudies) {
-                    foreach ($desiredStudies as $study) {
-                        $query->orWhere('teaching_type', $study)
-                              ->orWhere('teaching_type', 'both');
-                    }
-                })
-                ->get();
-        }
-    
-        return view('student.studentprofile', compact('student', 'teachers', 'selectedTeacher'));
+     public function student()
+{
+    $student = auth()->user();
+    if (!$student) {
+        abort(403, 'يجب أن تكون مسجلاً للدخول للوصول إلى هذه الصفحة.');
     }
     
+    // التحقق مما إذا كان الطالب بحاجة لاختيار برنامج الحفظ
+    $needsMemorizationProgram = !$student->memorizationProgram;
+    
+    $hasTeacher = $student->teacher()->exists();
+    $selectedTeacher = $hasTeacher
+        ? $student->teacher()->with('students')->first()
+        : null;
+    
+    $teachers = null;
+    if (!$hasTeacher) {
+        $teachers = User::where('role', 'teacher')
+            ->where('gender', $student->gender) // فقط المعلمون من نفس جنس الطالب
+            ->where('min_age', '<=', $student->age)
+            ->where('max_age', '>=', $student->age)
+            ->get();
+    }
+    
+    return view('student.studentprofile', compact(
+        'student',
+        'teachers',
+        'selectedTeacher',
+        'needsMemorizationProgram'
+    ));
+}
+     
+     
+     
 
 
     /**
@@ -106,5 +106,36 @@ class ProfilController extends Controller
      }
      
  // لحد هون 
+
+//  هاي دالة اختيار برنامج الحفظ من قبل الطالب 
+public function setMemorizationProgram(Request $request)
+{
+    $validated = $request->validate([
+        'memorization_program' => 'required|in:half_page,one_page,two_pages'
+    ]);
+
+    try {
+        $user = auth()->user();
+        
+        $program = $user->memorizationProgram()->firstOrNew();
+        $program->program = $validated['memorization_program']; // تغيير هنا
+        $program->save();
+
+        \Log::debug('Saved Data:', [
+            'user_id' => $user->id,
+            'program' => $program->program,
+            'exists_in_db' => $user->memorizationProgram()->exists()
+        ]);
+
+        return back()->with('success', 'تم حفظ البرنامج بنجاح');
+        
+    } catch (\Exception $e) {
+        \Log::error('Save Error:', ['error' => $e->getMessage()]);
+        return back()->with('error', 'حدث خطأ أثناء الحفظ: ' . $e->getMessage());
+    }
+
  
+
+ 
+}
 }

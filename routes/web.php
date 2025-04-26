@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\TeacherProgramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,24 +100,55 @@ Route::get('/bloge', function () {
 //     return view('dashboard.pages.profile')->name('profile');
 // });
 Route::view('/profile', 'dashboard.pages.profile')->name('profile');
+
+
+                                            // AdminController
+
 Route::get('/profile', [AdminController::class, 'show1'])->name('profile');// هاد الروت مشان يجيب معلومات المستخدم الي عمل تسجيل دخول
-// Route::get('/view', [ProfilController::class, 'view']);// هاد الروت مشان يجيب معلومات المستخدم الي عمل تسجيل دخول للطالب
-// Route::get('/logingo', [ProfilController::class, 'logingo']);
-Route::get('/student', [ProfilController::class, 'student']);
 // هاي لتحديث الصورة جوا  بروفايل المعلم
 Route::put('/photo', [AdminController::class, 'update']) ->name('profile.update') ->middleware('auth');
+Route::post('contact', [AdminController::class, 'storecontact']);
+// ->name('contact.store');
+Route::get('/showmessages/{id}', [AdminController::class, 'show2']);
+    // ->name('dasboard.show');
+
+// Route::get('/hifiz', [AdminController::class, 'hifiz']);
+
+
+
+
+
+
+                                               // ProfilController
+    
+// هاد راوت اختيار المعلم 
+Route::post('/select-teacher', [ProfilController::class, 'selectTeacher'])->name('select.teacher');
 // هاي لتحديث الصورة جوا  بروفايل الطالب
 Route::put('/photo', [ProfilController::class, 'update']) ->name('photostudent') ->middleware('auth');
+Route::post('/setMemorizationProgram', [ProfilController::class, 'setMemorizationProgram'])->name("setMemorizationProgram");
+Route::get('/student', [ProfilController::class, 'student']);
 
 
 
-    Route::post('contact', [AdminController::class, 'storecontact']);
-    // ->name('contact.store');
 
 
 
-    Route::get('/showmessages/{id}', [AdminController::class, 'show2']);
-    // ->name('dasboard.show');
-// هاد راوت اختيار المعلم 
-    Route::post('/select-teacher', [ProfilController::class, 'selectTeacher'])->name('select.teacher');
+
+                                                   // Teachercontroller
+
+  Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
+
+
+  Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
+Route::get('/weekly-program/create', [TeacherProgramController::class, 'create'])->name('weekly-program.create');
+Route::post('/weekly-program/store', [TeacherProgramController::class, 'store'])->name('weekly-program.store');
+ ;
+ Route::get('/weekly-program/create/single/{student}', 
+ [TeacherProgramController::class, 'createSingle'])
+ ->name('weekly-program.create.single');                                       
+
+
+
+
+
 

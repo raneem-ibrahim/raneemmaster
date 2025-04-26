@@ -249,6 +249,31 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
+
+
+
+{{-- الي موجود بالداش بورد هاي السيكربت لجدول الطلاب  --}}
+{{-- <script>
+  $(document).ready(function() {
+      var table = $('#studentsTable').DataTable({
+          language: {
+              search: "بحث:",
+              lengthMenu: "عرض _MENU_ طالب",
+              info: "عرض _START_ إلى _END_ من أصل _TOTAL_ طالب",
+              paginate: {
+                  next: "التالي",
+                  previous: "السابق"
+              },
+              zeroRecords: "لم يتم العثور على نتائج",
+          }
+      });
+
+      $('#selectAll').click(function() {
+          $('input[name="students[]"]').prop('checked', this.checked);
+      });
+  });
+</script> --}}
+
 </body>
 
 </html>

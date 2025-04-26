@@ -16,11 +16,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/tables.html">
-          <i class="material-symbols-rounded opacity-10">table_view</i>
-          <span class="nav-link-text me-1">الجداول</span>
+        <a class="nav-link text-dark" href="{{ route('viewstudent') }}">
+            <i class="material-symbols-rounded opacity-10">group</i>
+            <span class="nav-link-text me-1">الطلاب</span>
         </a>
-      </li>
+    </li>
+    </li>
       <li class="nav-item">
         <a class="nav-link text-dark" href="../pages/billing.html">
           <i class="material-symbols-rounded opacity-10">receipt_long</i>

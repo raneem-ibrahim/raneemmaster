@@ -24,24 +24,28 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
   
 
-// للمستخدم كطالب
-// إذا كان المستخدم طالبًا
+
 public function teacher()
 {
     return $this->belongsToMany(User::class, 'student_teacher', 'student_id', 'teacher_id');
 }
 
-// إذا كان المستخدم معلمًا
 public function students()
 {
     return $this->belongsToMany(User::class, 'student_teacher', 'teacher_id', 'student_id');
+}
+public function myStudents()
+{
+    return $this->hasMany(StudentTeacher::class, 'teacher_id');
 }
 
 
 
 
-
-
+public function memorizationProgram()
+{
+    return $this->hasOne(\App\Models\MemorizationProgram::class);
+}
 
 
 
