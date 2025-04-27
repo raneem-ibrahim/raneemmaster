@@ -16,7 +16,7 @@
 
 
 {{-- <div class="container" dir="rtl">
-    <h1 class="text-2xl font-bold mb-6">إنشاء برنامج حفظ ومراجعة للطالب: {{ $student->name }}</h1>
+    <h1 class="text-2xl font-bold mb-6">إنشاء برنامج حفظ ومراجعة للطالب: {{ $student->first_name }}</h1>
 
     @if (session('success'))
         <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -74,9 +74,9 @@
 
         <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white px-6 py-2 rounded">حفظ البرنامج</button>
     </form>
-</div> --}}
+</div> 
 
-{{-- 
+
 <div class="container">
     <h1>إنشاء برنامج أسبوعي</h1>
 
@@ -159,7 +159,31 @@
     </form>
 </div> --}}
 
-{{-- <div class="container py-4">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="container py-4">
   <div class="card shadow">
       <div class="card-header bg-primary text-white">
           <div class="d-flex justify-content-between align-items-center">
@@ -171,8 +195,7 @@
       </div>
 
       <div class="card-body">
-          {{-- قسم الطلاب المختارين --}}
-          {{-- <div class="selected-students mb-4 p-3 border rounded bg-light">
+          <div class="selected-students mb-4 p-3 border rounded bg-light">
               <h5 class="text-center mb-3">الطلاب المختارين</h5>
               <div class="d-flex flex-wrap gap-2 justify-content-center">
                   @foreach($students as $student)
@@ -197,10 +220,9 @@
                   </div>
                   @endforeach
               </div>
-          </div> --}}
+          </div>
 
-          {{-- فورم إنشاء البرنامج --}}
-          {{-- <form method="POST" action="{{ route('weekly-program.store') }}">
+         <form method="POST" action="{{ route('weekly-program.store') }}">
               @csrf
               
              
@@ -216,7 +238,7 @@
                           <tr>
                               <th width="15%">اليوم</th>
                               <th width="15%">نوع الحفظ</th>
-                              <th width="15%">نوع الجزء</th>
+                              <th width="15%">نوع البرنامج</th>
                               <th width="15%">السورة</th>
                               <th width="20%">الآيات</th>
                               <th width="20%">ملاحظات</th>
@@ -240,27 +262,56 @@
                                   </select>
                               </td>
                               <td>
-                                  <select name="program[{{ $day }}][portion_type]" class="form-select" required>
-                                      @if($students->count() === 1 && $students->first()->memorizationProgram)
-                                          @php
-                                              $program = $students->first()->memorizationProgram->program;
-                                              $selected = [
-                                                  'half_page' => 'نص صفحة',
-                                                  'one_page' => 'صفحة',
-                                                  'two_pages' => 'صفحتين'
-                                              ][$program];
-                                          @endphp
-                                          <option value="{{ $selected }}" selected>{{ $selected }}</option>
-                                      @else
-                                          <option value="نص صفحة" @if(session('students_program') == 'نص صفحة') selected @endif>نص صفحة</option>
-                                          <option value="صفحة" @if(session('students_program') == 'صفحة') selected @endif>صفحة</option>
-                                          <option value="صفحتين" @if(session('students_program') == 'صفحتين') selected @endif>صفحتين</option>
-                                      @endif
-                                  </select>
-                              </td>
-                              <td>
+                                <select name="program[{{ $day }}][portion_type]" class="form-select" required>
+                                    @if($students->count() > 0)
+                                        @php
+                                            // تحديد البرنامج الأكثر تكراراً بين الطلاب المختارين
+                                            $programsCount = [
+                                                'نص صفحة' => 0,
+                                                'صفحة' => 0,
+                                                'صفحتين' => 0
+                                            ];
+                                            
+                                            foreach($students as $student) {
+                                                if($student->memorizationProgram) {
+                                                    $program = [
+                                                        'half_page' => 'نص صفحة',
+                                                        'one_page' => 'صفحة',
+                                                        'two_pages' => 'صفحتين'
+                                                    ][$student->memorizationProgram->program] ?? null;
+                                                    
+                                                    if($program) {
+                                                        $programsCount[$program]++;
+                                                    }
+                                                }
+                                            }
+                                            
+                                            $selectedProgram = array_search(max($programsCount), $programsCount);
+                                        @endphp
+                                        
+                                        @foreach(['نص صفحة', 'صفحة', 'صفحتين'] as $program)
+                                            <option value="{{ $program }}" {{ $selectedProgram == $program ? 'selected' : '' }}>
+                                                {{ $program }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="نص صفحة">نص صفحة</option>
+                                        <option value="صفحة">صفحة</option>
+                                        <option value="صفحتين">صفحتين</option>
+                                    @endif
+                                </select>
+                            </td>
+                              {{-- <td>
                                   <input type="text" name="program[{{ $day }}][surah]" class="form-control" required>
-                              </td>
+                              </td> --}}
+                              <td>
+  <select name="program[{{ $day }}][surah]" class="form-control surah-select" required>
+    <option value="">اختر السورة</option>
+    @foreach($surahs as $surah)
+      <option value="{{ $surah->name }}" data-ayahs="{{ $surah->ayahs_count }}">{{ $surah->name }}</option>
+    @endforeach
+  </select>
+</td>
                               <td>
                                   <div class="d-flex align-items-center gap-2">
                                       <span>من</span>
@@ -270,7 +321,8 @@
                                   </div>
                               </td>
                               <td>
-                                  <textarea name="program[{{ $day }}][notes]" class="form-control" rows="1"></textarea>
+                                <textarea name="program[{{ $day }}][notes]" class="form-control notes-field" rows="1" maxlength="200"></textarea>
+                                <small class="text-muted notes-counter">0/200 حرف</small>
                               </td>
                           </tr>
                           @endforeach
@@ -286,9 +338,9 @@
           </form>
       </div>
   </div>
-</div> --}}
+</div>
 
-{{-- <style>
+<style>
   .student-badge {
       background-color: #f8f9fa;
       min-width: 180px;
@@ -299,7 +351,151 @@
   .verses-inputs {
       max-width: 150px;
   }
-</style> --}}
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // تطبيق نفس البرنامج على كل الأيام
+        document.getElementById('applyToAllBtn').addEventListener('click', function() {
+            const firstRow = document.querySelector('tbody tr');
+            const type = firstRow.querySelector('select[name*="[type]"]').value;
+            const portionType = firstRow.querySelector('select[name*="[portion_type]"]').value;
+            const surah = firstRow.querySelector('.surah-select').value;
+            const fromVerse = firstRow.querySelector('input[name*="[from_verse]"]').value;
+            const toVerse = firstRow.querySelector('input[name*="[to_verse]"]').value;
+            const notes = firstRow.querySelector('textarea[name*="[notes]"]').value;
+            
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.querySelector('select[name*="[type]"]').value = type;
+                row.querySelector('select[name*="[portion_type]"]').value = portionType;
+                
+                const surahSelect = row.querySelector('.surah-select');
+                surahSelect.value = surah;
+                // Trigger change event to update max values
+                surahSelect.dispatchEvent(new Event('change'));
+                
+                row.querySelector('input[name*="[from_verse]"]').value = fromVerse;
+                row.querySelector('input[name*="[to_verse]"]').value = toVerse;
+                row.querySelector('textarea[name*="[notes]"]').value = notes;
+            });
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'تم التطبيق',
+                text: 'تم تعيين نفس البرنامج لجميع الأيام',
+                timer: 1500
+            });
+        });
+    
+        // التحكم في اختيار السور والآيات
+        document.querySelectorAll('tbody tr').forEach(row => {
+            const surahSelect = row.querySelector('.surah-select');
+            const fromVerse = row.querySelector('input[name*="[from_verse]"]');
+            const toVerse = row.querySelector('input[name*="[to_verse]"]');
+            
+            surahSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const totalAyahs = selectedOption.getAttribute('data-ayahs');
+                
+                if (totalAyahs) {
+                    fromVerse.max = toVerse.max = totalAyahs;
+                    fromVerse.title = toVerse.title = `الحد الأقصى: ${totalAyahs}`;
+                    
+                    if (parseInt(fromVerse.value) > parseInt(totalAyahs)) {
+                        fromVerse.value = 1;
+                    }
+                    if (parseInt(toVerse.value) > parseInt(totalAyahs)) {
+                        toVerse.value = totalAyahs;
+                    }
+                }
+            });
+            
+            fromVerse.addEventListener('change', function() {
+                if (parseInt(this.value) > parseInt(toVerse.value)) {
+                    toVerse.value = this.value;
+                }
+                validateVerseInput(this);
+            });
+            
+            toVerse.addEventListener('change', function() {
+                if (parseInt(this.value) < parseInt(fromVerse.value)) {
+                    fromVerse.value = this.value;
+                }
+                validateVerseInput(this);
+            });
+            
+            function validateVerseInput(input) {
+                const surahSelect = input.closest('tr').querySelector('.surah-select');
+                const selectedOption = surahSelect.options[surahSelect.selectedIndex];
+                const totalAyahs = selectedOption?.getAttribute('data-ayahs');
+                
+                if (totalAyahs && parseInt(input.value) > parseInt(totalAyahs)) {
+                    input.value = totalAyahs;
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: `عدد الآيات لا يمكن أن يتجاوز ${totalAyahs} لهذه السورة`,
+                        timer: 2000
+                    });
+                }
+            }
+        });
+    
+        // التحقق من صحة النموذج قبل الإرسال
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let isValid = true;
+            const errors = [];
+    
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const surah = row.querySelector('.surah-select').value;
+                const fromVerse = row.querySelector('input[name*="[from_verse]"]');
+                const toVerse = row.querySelector('input[name*="[to_verse]"]');
+                const selectedOption = row.querySelector('.surah-select').options[row.querySelector('.surah-select').selectedIndex];
+                const totalAyahs = selectedOption?.getAttribute('data-ayahs');
+                
+                if (!surah) {
+                    isValid = false;
+                    errors.push(`يجب اختيار سورة لليوم ${row.querySelector('td:first-child').textContent}`);
+                }
+                
+                if (totalAyahs && parseInt(toVerse.value) > parseInt(totalAyahs)) {
+                    isValid = false;
+                    errors.push(`عدد الآيات يتجاوز الحد المسموح به لسورة ${surah}`);
+                }
+            });
+    
+            if (!isValid) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ في البيانات',
+                    html: errors.join('<br>'),
+                    confirmButtonText: 'حسناً'
+                });
+            }
+        });
+    });
+    // التحكم في عدد أحرف الملاحظات
+document.querySelectorAll('.notes-field').forEach(textarea => {
+    const counter = textarea.nextElementSibling;
+    
+    textarea.addEventListener('input', function() {
+        const remaining = 200 - this.value.length;
+        counter.textContent = `${this.value.length}/200 حرف`;
+        
+        if (remaining < 30) {
+            counter.classList.add('text-warning');
+            counter.classList.remove('text-success');
+        } else {
+            counter.classList.add('text-success');
+            counter.classList.remove('text-warning');
+        }
+        
+        if (remaining <= 0) {
+            this.value = this.value.substring(0, 200);
+        }
+    });
+});
+    </script>
 
 {{-- <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -331,6 +527,97 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>  --}}
 
+{{-- للسورة  --}}
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // لكل صف في الجدول
+        document.querySelectorAll('tbody tr').forEach(row => {
+            const surahSelect = row.querySelector('.surah-select');
+            const fromVerseInput = row.querySelector('input[name*="[from_verse]"]');
+            const toVerseInput = row.querySelector('input[name*="[to_verse]"]');
+            
+            // عند تغيير اختيار السورة
+            surahSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const totalAyahs = selectedOption.getAttribute('data-ayahs');
+                
+                if (totalAyahs) {
+                    // تحديث الحد الأقصى و title للإظهار
+                    fromVerseInput.max = totalAyahs;
+                    fromVerseInput.title = `الحد الأقصى: ${totalAyahs}`;
+                    toVerseInput.max = totalAyahs;
+                    toVerseInput.title = `الحد الأقصى: ${totalAyahs}`;
+                    
+                    // إعادة تعيين القيم إذا كانت غير صالحة
+                    if (parseInt(fromVerseInput.value) > parseInt(totalAyahs)) {
+                        fromVerseInput.value = 1;
+                    }
+                    if (parseInt(toVerseInput.value) > parseInt(totalAyahs)) {
+                        toVerseInput.value = totalAyahs;
+                    }
+                }
+            });
+            
+            // التحقق من أن "من" أصغر من أو يساوي "إلى"
+            fromVerseInput.addEventListener('change', function() {
+                if (parseInt(this.value) > parseInt(toVerseInput.value)) {
+                    toVerseInput.value = this.value;
+                }
+            });
+            
+            toVerseInput.addEventListener('change', function() {
+                if (parseInt(this.value) < parseInt(fromVerseInput.value)) {
+                    fromVerseInput.value = this.value;
+                }
+            });
+        });
+        
+        // زر تطبيق على الكل
+        document.getElementById('applyToAllBtn').addEventListener('click', function() {
+            const firstRow = document.querySelector('tbody tr');
+            const surahSelects = document.querySelectorAll('.surah-select');
+            const fromInputs = document.querySelectorAll('input[name*="[from_verse]"]');
+            const toInputs = document.querySelectorAll('input[name*="[to_verse]"]');
+            
+            const selectedSurah = firstRow.querySelector('.surah-select').value;
+            const fromValue = firstRow.querySelector('input[name*="[from_verse]"]').value;
+            const toValue = firstRow.querySelector('input[name*="[to_verse]"]').value;
+            
+            surahSelects.forEach(select => {
+                select.value = selectedSurah;
+                // Trigger change event to update max values
+                const event = new Event('change');
+                select.dispatchEvent(event);
+            });
+            
+            fromInputs.forEach(input => {
+                input.value = fromValue;
+            });
+            
+            toInputs.forEach(input => {
+                input.value = toValue;
+            });
+        });
+    });
+    </script> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -338,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {{-- من هون الخيار التاني  --}}
 
 
-
+{{-- 
 <div class="container py-4">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
@@ -351,7 +638,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <div class="card-body">
-            {{-- قسم الطلاب المختارين --}}
+    
             <div class="selected-students mb-4 p-3 border rounded bg-light">
                 <h5 class="text-center mb-3">الطلاب المختارين</h5>
                 <div class="d-flex flex-wrap gap-2 justify-content-center">
@@ -379,7 +666,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
 
-            {{-- فورم إنشاء البرنامج --}}
             <form method="POST" action="{{ route('weekly-program.store') }}" id="programForm">
                 @csrf
                 
@@ -391,7 +677,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fas fa-user"></i> برنامج الطالب: {{ $student->first_name }} {{ $student->last_name }}
                         </h5>
                         
-                        {{-- زر تعيين البرنامج من طالب آخر --}}
                         @if($index > 0)
                         <div class="text-end mb-3">
                             <button type="button" class="btn btn-sm btn-outline-secondary copy-program-btn" 
@@ -401,7 +686,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         @endif
 
-                        {{-- جدول البرنامج الأسبوعي --}}
                         <div class="table-responsive">
                             <table class="table table-bordered text-center">
                                 <thead class="table-light">
@@ -472,7 +756,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 @endforeach
 
-                {{-- زر الحفظ --}}
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-success btn-lg px-5">
                         <i class="fas fa-save"></i> حفظ البرنامج للطلاب المحددين
@@ -548,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script>
+</script> --}}
 
             
     

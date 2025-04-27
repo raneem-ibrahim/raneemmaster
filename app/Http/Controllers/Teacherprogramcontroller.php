@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\WeeklyProgram;
-// use App\Models\DailyProgram;
 use App\Models\User;
+use App\Models\Surah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-// use Carbon\Carbon;
 
 class TeacherProgramController extends Controller
 {
@@ -17,84 +15,110 @@ class TeacherProgramController extends Controller
         return view('teacher.viewstudent', compact('students'));
     }
 
-
-
-   // في TeacherProgramController.php
-public function selectStudents(Request $request)
-{
-    $studentIds = $request->input('students');
-    
-    if (!$studentIds || count($studentIds) == 0) {
-        return back()->with('error', 'يجب اختيار طالب واحد على الأقل');
-    }
-
-    // احصل على معلومات البرنامج المفلتر
-    $programFilter = $request->session()->get('current_program_filter');
-    
-    // احفظ الطلاب المحددين مع برنامجهم في السيشن
-    $selectedStudents = User::whereIn('id', $studentIds)
-        ->with('memorizationProgram')
-        ->when($programFilter, function($query) use ($programFilter) {
-            $query->whereHas('memorizationProgram', function($q) use ($programFilter) {
-                $q->where('program', $this->mapProgramToValue($programFilter));
-            });
-        })
-        ->get();
-
-    Session::put('selected_students', $selectedStudents->pluck('id')->toArray());
-    Session::put('students_program', $programFilter);
-
-    return redirect()->route('weekly-program.create');
-}
-
-private function mapProgramToValue($programName)
-{
-    $map = [
-        'نص صفحة' => 'half_page',
-        'صفحة' => 'one_page',
-        'صفحتين' => 'two_pages'
-    ];
-    return $map[$programName] ?? null;
-}
-public function create()
+    public function selectStudents(Request $request)
     {
-        // نجيب الطلاب المختارين من السيشن
+        $studentIds = $request->input('students');
+        
+        if (!$studentIds || count($studentIds) == 0) {
+            return back()->with('error', 'يجب اختيار طالب واحد على الأقل');
+        }
+
+        $programFilter = $request->session()->get('current_program_filter');
+        
+        $selectedStudents = User::whereIn('id', $studentIds)
+            ->with('memorizationProgram')
+            ->when($programFilter, function($query) use ($programFilter) {
+                $query->whereHas('memorizationProgram', function($q) use ($programFilter) {
+                    $q->where('program', $this->mapProgramToValue($programFilter));
+                });
+            })
+            ->get();
+
+        Session::put('selected_students', $selectedStudents->pluck('id')->toArray());
+        Session::put('students_program', $programFilter);
+
+        return redirect()->route('weekly-program.create');
+    }
+
+    private function mapProgramToValue($programName)
+    {
+        $map = [
+            'نص صفحة' => 'half_page',
+            'صفحة' => 'one_page',
+            'صفحتين' => 'two_pages'
+        ];
+        return $map[$programName] ?? null;
+    }
+
+    public function create()
+    {
         $studentIds = Session::get('selected_students', []);
-
-        // نرسلهم للواجهة
         $students = User::whereIn('id', $studentIds)->get();
+        $surahs = Surah::orderBy('id')->get();
 
-        return view('teacher.create_programe', compact('students'));
+        return view('teacher.create_programe', compact('students', 'surahs'));
     }
+
     public function createSingle(User $student)
-{
-    // تأكد أن المستخدم طالب
-    if ($student->role != 'student') {
-        abort(404);
+    {
+        if ($student->role != 'student') {
+            abort(404);
+        }
+
+        Session::put('selected_students', [$student->id]);
+        
+        if ($student->memorizationProgram) {
+            Session::put('students_programe', $this->mapProgramToName($student->memorizationProgram->program));
+        }
+
+        $surahs = Surah::orderBy('id')->get();
+
+        return view('teacher.create_programe', [
+            'students' => collect([$student]),
+            'surahs' => $surahs
+        ]);
     }
 
-    // احفظ الطالب المحدد في السيشن
-    Session::put('selected_students', [$student->id]);
-    
-    // احفظ برنامج الطالب إذا كان محدداً
-    if ($student->memorizationProgram) {
-        Session::put('students_programe', $this->mapProgramToName($student->memorizationProgram->program));
+    private function mapProgramToName($programValue)
+    {
+        $map = [
+            'half_page' => 'نص صفحة',
+            'one_page' => 'صفحة',
+            'two_pages' => 'صفحتين'
+        ];
+        return $map[$programValue] ?? null;
     }
 
-    return view('teacher.create_programe', [
-        'students' => collect([$student])
-    ]);
-}
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'program' => 'required|array',
+            'program.*.type' => 'required|in:حفظ,مراجعة,سرد',
+            'program.*.portion_type' => 'required|in:نص صفحة,صفحة,صفحتين',
+            'program.*.surah' => 'required|string',
+            'program.*.from_verse' => 'required|integer|min:1',
+            'program.*.to_verse' => 'required|integer|min:1|gte:program.*.from_verse',
+            'program.*.notes' => 'nullable|string',
+        ]);
+        
+        foreach ($request->program as $day => $program) {
+            $surah = Surah::where('name', $program['surah'])->first();
+            if ($surah) {
+                if ($program['to_verse'] > $surah->ayahs_count) {
+                    return back()->withErrors([
+                        'program.'.$day.'.to_verse' => 'عدد الآيات يتجاوز عدد آيات السورة'
+                    ]);
+                }
+            }
+        }
+        
+        // هنا يمكنك إضافة عملية حفظ البرنامج الأسبوعي
+        // مثال:
+        // $weeklyProgram = WeeklyProgram::create([...]);
+        // foreach ($request->program as $day => $programData) {
+        //     DailyProgram::create([...]);
+        // }
 
-private function mapProgramToName($programValue)
-{
-    $map = [
-        'half_page' => 'نص صفحة',
-        'one_page' => 'صفحة',
-        'two_pages' => 'صفحتين'
-    ];
-    return $map[$programValue] ?? null;
-}
-
-
+        return redirect()->route('teacher.program.index')->with('success', 'تم إنشاء البرنامج بنجاح');
+    }
 }

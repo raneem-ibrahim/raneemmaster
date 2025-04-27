@@ -80,7 +80,9 @@
             <table id="studentsTable" class="table table-hover table-striped align-middle text-center" dir="rtl" style="width:100%;">
                 <thead class="table-dark text-end" dir="rtl">
                     <tr>
-                        <th style="text-align: right;"><input type="checkbox" id="selectAll"></th>
+                      <th style="text-align: right;">
+                        <input type="checkbox" id="selectAll" title="تحديد جميع الطلاب المرئيين">
+                    </th>
                         <th style="text-align: right;">اسم الطالب</th>
                         <th style="text-align: right;">البرنامج المختار</th>
                         <th style="text-align: right;">الإجراءات</th>
@@ -124,9 +126,159 @@
             </div>
         </form>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // 1. عناصر DOM التي سنتعامل معها
+          const searchInput = document.getElementById('searchInput');
+          const programFilter = document.getElementById('programFilter');
+          const table = document.getElementById('studentsTable');
+          const selectAll = document.getElementById('selectAll');
+          const form = document.querySelector('form');
+          
+          // 2. دالة الفلترة الرئيسية
+          function filterTable() {
+              const searchValue = searchInput.value.toLowerCase();
+              const programValue = programFilter.value;
+              let anyVisible = false;
+      
+              document.querySelectorAll('#studentsTable tbody tr').forEach(row => {
+                  const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                  const program = row.querySelector('td:nth-child(3)').textContent.trim();
+                  
+                  const matchesSearch = name.includes(searchValue);
+                  const matchesProgram = !programValue || 
+                                       (programValue === 'لم يحدد برنامج' ? program === 'لم يحدد برنامج' : program === programValue);
+                  
+                  if (matchesSearch && matchesProgram) {
+                      row.style.display = '';
+                      anyVisible = true;
+                  } else {
+                      row.style.display = 'none';
+                      // إلغاء تحديد الصفوف المخفية
+                      row.querySelector('input[type="checkbox"]').checked = false;
+                  }
+              });
+              
+              // تحديث حالة زر "تحديد الكل"
+              updateSelectAllCheckbox();
+              
+              // إظهار رسالة إذا لم توجد نتائج
+              if (!anyVisible) {
+                  const noResults = document.getElementById('noResults');
+                  if (!noResults) {
+                      const tr = document.createElement('tr');
+                      tr.id = 'noResults';
+                      tr.innerHTML = `<td colspan="4" class="text-center py-4">لا توجد نتائج مطابقة</td>`;
+                      table.querySelector('tbody').appendChild(tr);
+                  }
+              } else {
+                  const noResults = document.getElementById('noResults');
+                  if (noResults) noResults.remove();
+              }
+          }
+      
+          // 3. تحديث حالة زر "تحديد الكل"
+          function updateSelectAllCheckbox() {
+              const visibleCheckboxes = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:not(:disabled)'
+              );
+              const checkedVisible = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
+              );
+              
+              if (visibleCheckboxes.length === 0) {
+                  selectAll.checked = false;
+                  selectAll.indeterminate = false;
+                  selectAll.disabled = true;
+              } else {
+                  selectAll.disabled = false;
+                  if (checkedVisible.length === visibleCheckboxes.length) {
+                      selectAll.checked = true;
+                      selectAll.indeterminate = false;
+                  } else if (checkedVisible.length > 0) {
+                      selectAll.checked = false;
+                      selectAll.indeterminate = true;
+                  } else {
+                      selectAll.checked = false;
+                      selectAll.indeterminate = false;
+                  }
+              }
+          }
+      
+          // 4. أحداث الاستماع
+          searchInput.addEventListener('input', filterTable);
+          programFilter.addEventListener('change', filterTable);
+          
+          selectAll.addEventListener('click', function() {
+              const isChecked = this.checked;
+              document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:not(:disabled)'
+              ).forEach(checkbox => {
+                  checkbox.checked = isChecked;
+              });
+          });
+          
+          // تحديث عند تغيير أي checkbox
+          table.addEventListener('change', function(e) {
+              if (e.target.matches('input[name="students[]"]')) {
+                  updateSelectAllCheckbox();
+              }
+          });
+      
+          // 5. التحقق عند الإرسال
+          form.addEventListener('submit', function(e) {
+              const selectedStudents = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
+              );
+              
+              if (selectedStudents.length === 0) {
+                  e.preventDefault();
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'خطأ',
+                      text: 'الرجاء تحديد طالب واحد على الأقل من القائمة المرئية',
+                      confirmButtonText: 'حسناً'
+                  });
+                  return false;
+              }
+              
+              // تحقق من تناسق البرامج
+              const programs = new Set();
+              selectedStudents.forEach(checkbox => {
+                  const program = checkbox.closest('tr').querySelector('td:nth-child(3)').textContent.trim();
+                  programs.add(program);
+              });
+      
+              if (programs.size > 1) {
+                  e.preventDefault();
+                  Swal.fire({
+                      icon: 'warning',
+                      title: 'تنبيه',
+                      html: 'الطلاب المحددون لديهم برامج مختلفة.<br>هل تريد المتابعة؟',
+                      showCancelButton: true,
+                      confirmButtonText: 'نعم، المتابعة',
+                      cancelButtonText: 'إلغاء'
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          form.submit();
+                      }
+                  });
+                  return false;
+              }
+          });
+      
+          // التهيئة الأولية
+          filterTable();
+      });
+      
+      // إزالة دالة DataTable القديمة إذا كانت تسبب تعارضاً
+      if (typeof $.fn.DataTable === 'function') {
+          $('#studentsTable').DataTable().destroy();
+      }
+      </script>
     
     {{-- سكريبت البحث والفلترة واختيار الكل --}}
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
             const programFilter = document.getElementById('programFilter');
@@ -160,10 +312,10 @@
                 checkboxes.forEach(checkbox => checkbox.checked = selectAll.checked);
             });
         });
-    </script>
+    </script> --}}
     
     {{-- سكريبت DataTable بدون تكرار بحث --}}
-    <script>
+    {{-- <script>
       $(document).ready(function() {
           $('#studentsTable').DataTable({
               dom: '<"top"lf>rt<"bottom"ip>',
@@ -272,7 +424,7 @@ document.getElementById('programForm').addEventListener('submit', function(e) {
   }
 });
     
-</script>  
+</script>   --}}
     
     
             

@@ -129,6 +129,82 @@ class UsersTableSeeder extends Seeder
             'min_age'        => null,
             'max_age'        => null,
         ]);
+        User::create([
+            'first_name'     => 'رنيم',
+            'last_name'      => 'ابراهيم', 
+            'email'          => 'raneem_student@example.com ',
+            'password'       => Hash::make('12345678'),
+            'age'            => 10,
+            'gender'         => 'female',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+            
+        ]);
+
+        User::create([
+            'first_name'     => 'روان',
+            'last_name'      => 'ابوحماد',
+            'email'          => 'rawan_student@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 8,
+            'gender'         => 'male',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+        ]);
+        User::create([
+            'first_name'     => 'ياقوت ',
+            'last_name'      => 'غرايبة',
+            'email'          => 'yaqoot_student@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 8,
+            'gender'         => 'male',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+        ]);
+        User::create([
+            'first_name'     => 'حامد',
+            'last_name'      => 'كريشان', 
+            'email'          => 'Hamed_student@example.com ',
+            'password'       => Hash::make('12345678'),
+            'age'            => 10,
+            'gender'         => 'female',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+            
+        ]);
+
+        User::create([
+            'first_name'     => 'احمد',
+            'last_name'      => 'شمايلة',
+            'email'          => 'sami_student@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 8,
+            'gender'         => 'male',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+        ]);
+        User::create([
+            'first_name'     => 'محمد',
+            'last_name'      => 'العمري',
+            'email'          => 'Ahmad_student@example.com',
+            'password'       => Hash::make('12345678'),
+            'age'            => 8,
+            'gender'         => 'male',
+            'image'          => 'default.png',
+            'role'           => 'student',
+            'min_age'        => null,
+            'max_age'        => null,
+        ]);
     
     }
 }
