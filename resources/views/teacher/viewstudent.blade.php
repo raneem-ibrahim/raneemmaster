@@ -14,7 +14,7 @@
 
   <!-- End Navbar -->
   <div class="container-fluid py-2  cards">
-    <style>
+    {{-- <style>
       #studentsTable th {
           white-space: nowrap;
       }
@@ -48,13 +48,13 @@
     }
   </style>
 
-    <div class="container py-4">
+    <div class="container py-4">    
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-            <h2 class="text-primary">قائمة الطلاب</h2>
+            <h2 class="text-primary" style="color:#c37044 !important; font-family: 'Marhey', sans-serif !important;">قائمة الطلاب</h2>
             <div class="d-flex flex-wrap gap-2 align-items-center">
                 <div style="max-width: 300px;">
                     <select id="programFilter" class="form-select">
-                        <option value="">🔻اختر البرنامج</option>
+                        <option value="">اختر البرنامج</option>
                         <option value="نص صفحة">نص صفحة</option>
                         <option value="صفحة">صفحة</option>
                         <option value="صفحتين">صفحتين</option>
@@ -65,15 +65,10 @@
                 <div class="input-group" style="max-width: 300px;">
                     <span class="input-group-text">🔎</span>
                     <input type="text" id="searchInput" class="form-control" placeholder="ابحث عن طالب...">
-
-
-                
-
                 </div>
             </div>
         </div>
     
-        {{-- فورم إنشاء برنامج جماعي --}}
         <form method="POST" action="{{ route('weekly-program.selectStudents') }}">
             @csrf
     
@@ -107,35 +102,213 @@
                                     صفحتين
                                 @endif
                             @else
-                                <span class="badge bg-warning">لم يحدد برنامج</span>
+                                <span class="badge text-warning">لم يحدد برنامج</span>
                             @endif
                         </td>
                         <td class="d-flex justify-content-center gap-2">
-                            {{-- <a href="#" class="btn btn-info btn-sm">عرض الطالب</a> --}}
-                            <a href="{{ route('weekly-program.create.single', $student->id) }}" 
-                              class="btn btn-success btn-sm">إنشاء برنامج حفظ</a>
+                         
+                        <a href="{{ route('weekly-program.create.single', $student->id) }}" class="btn btn-sm btn-success" title="إنشاء برنامج حفظ">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+    
+            <div class="my-3">
+                <button type="submit" class="btn btn-primary" style="background:#c37044!important; ">إنشاء برنامج للطلاب المحددين</button>
+            </div>
+        </form>
+    </div> --}}
+    <style>
+        body {
+            background-color: #f5f0e6; /* بيج خفيف */
+            color: #000; /* أسود للنصوص */
+            font-family: 'Cairo', sans-serif; /* خط عربي جميل */
+        }
+    
+        #studentsTable th, #studentsTable td {
+            white-space: nowrap;
+            vertical-align: middle;
+            text-align: center;
+        }
+    
+        #studentsTable thead {
+            background-color: #000000; /* ذهبي */
+            color: #fff;
+        }
+    
+        #studentsTable tbody tr {
+            transition: background 0.3s ease;
+        }
+    
+        #studentsTable tbody tr:hover {
+            background-color: #f1e1d2; /* بيج أفتح عند المرور */
+        }
+    
+        .badge.text-warning {
+            color: #c37044 !important;
+            background-color: transparent;
+            font-weight: bold;
+        }
+    
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85rem;
+        }
+    
+        .btn-success {
+            background-color: #c37044 !important;
+            border: none;
+        }
+    
+        .btn-success:hover {
+            background-color: #a15830 !important;
+        }
+    
+        .btn-primary {
+            background-color: #c37044 !important;
+            border: none;
+        }
+    
+        .btn-primary:hover {
+            background-color: #a15830 !important;
+        }
+    
+        select.form-select, input.form-control {
+            background-color: #fff;
+            border: 1px solid #c37044;
+            color: #000;
+        }
+    
+        .input-group-text {
+            background-color: #c37044;
+            color: #fff;
+            border: 1px solid #c37044;
+        }
+    
+        input[type="checkbox"]:disabled + label {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    
+        [title] {
+            position: relative;
+        }
+    
+        [title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+    
+        h2.text-primary {
+            color: #c37044 !important;
+            font-family: 'Marhey', sans-serif !important;
+        }
+    
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    
+    </style>
+    
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <h2 class="text-primary">قائمة الطلاب</h2>
+    
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <div style="max-width: 300px;">
+                    <select id="programFilter" class="form-select">
+                        <option value="">اختر البرنامج</option>
+                        <option value="نص صفحة">نص صفحة</option>
+                        <option value="صفحة">صفحة</option>
+                        <option value="صفحتين">صفحتين</option>
+                        <option value="لم يحدد برنامج">لم يحدد برنامج</option>
+                    </select>
+                </div>
+    
+                 <div class="input-group" style="max-width: 300px;">
+                    {{-- <span class="input-group-text">🔎</span> --}}
+                    <input type="text" id="searchInput" class="form-control" placeholder="ابحث عن طالب...">
+                 </div>
+             </div>
+         </div>
+    
+        <form method="POST" action="{{ route('weekly-program.selectStudents') }}">
+            @csrf
+    
+            <table id="studentsTable" class="table table-hover table-striped align-middle text-center" dir="rtl" style="width:100%;">
+                <thead dir="rtl">
+                    <tr>
+                        <th style="text-align: right;">
+                            <input type="checkbox" id="selectAll" title="تحديد جميع الطلاب المرئيين">
+                        </th>
+                        <th style="text-align: right;">اسم الطالب</th>
+                        <th style="text-align: right;">البرنامج المختار</th>
+                        <th style="text-align: right;">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($students as $student)
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="students[]" value="{{ $student->id }}"
+                            @if(!$student->memorizationProgram) disabled title="هذا الطالب لم يحدد برنامج حفظ" @endif>
+                        </td>
+                        <td>{{ $student->first_name }} {{ $student->last_name }}</td>
+                        <td>
+                            @if($student->memorizationProgram)
+                                @if($student->memorizationProgram->program == 'half_page')
+                                    نص صفحة
+                                @elseif($student->memorizationProgram->program == 'one_page')
+                                    صفحة
+                                @elseif($student->memorizationProgram->program == 'two_pages')
+                                    صفحتين
+                                @endif
+                            @else
+                                <span class="badge text-warning">لم يحدد برنامج</span>
+                            @endif
+                        </td>
+                        <td class="d-flex justify-content-center gap-2">
+                            <a href="{{ route('weekly-program.create.single', $student->id) }}" class="btn btn-sm btn-success" title="إنشاء برنامج حفظ">
+                                <i class="fas fa-plus"></i>
+                            </a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
     
-            {{-- زر إنشاء برنامج --}}
-            <div class="my-3">
-                <button type="submit" class="btn btn-primary">إنشاء برنامج للطلاب المحددين</button>
+            <div class="my-3 text-center">
+                <button type="submit" class="btn btn-primary">
+                    إنشاء برنامج للطلاب المحددين
+                </button>
             </div>
         </form>
     </div>
+    
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-          // 1. عناصر DOM التي سنتعامل معها
           const searchInput = document.getElementById('searchInput');
           const programFilter = document.getElementById('programFilter');
           const table = document.getElementById('studentsTable');
           const selectAll = document.getElementById('selectAll');
           const form = document.querySelector('form');
           
-          // 2. دالة الفلترة الرئيسية
           function filterTable() {
               const searchValue = searchInput.value.toLowerCase();
               const programValue = programFilter.value;
@@ -154,15 +327,12 @@
                       anyVisible = true;
                   } else {
                       row.style.display = 'none';
-                      // إلغاء تحديد الصفوف المخفية
                       row.querySelector('input[type="checkbox"]').checked = false;
                   }
               });
               
-              // تحديث حالة زر "تحديد الكل"
               updateSelectAllCheckbox();
               
-              // إظهار رسالة إذا لم توجد نتائج
               if (!anyVisible) {
                   const noResults = document.getElementById('noResults');
                   if (!noResults) {
@@ -177,7 +347,6 @@
               }
           }
       
-          // 3. تحديث حالة زر "تحديد الكل"
           function updateSelectAllCheckbox() {
               const visibleCheckboxes = document.querySelectorAll(
                   '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:not(:disabled)'
@@ -205,7 +374,6 @@
               }
           }
       
-          // 4. أحداث الاستماع
           searchInput.addEventListener('input', filterTable);
           programFilter.addEventListener('change', filterTable);
           
@@ -218,14 +386,12 @@
               });
           });
           
-          // تحديث عند تغيير أي checkbox
           table.addEventListener('change', function(e) {
               if (e.target.matches('input[name="students[]"]')) {
                   updateSelectAllCheckbox();
               }
           });
       
-          // 5. التحقق عند الإرسال
           form.addEventListener('submit', function(e) {
               const selectedStudents = document.querySelectorAll(
                   '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
@@ -242,7 +408,6 @@
                   return false;
               }
               
-              // تحقق من تناسق البرامج
               const programs = new Set();
               selectedStudents.forEach(checkbox => {
                   const program = checkbox.closest('tr').querySelector('td:nth-child(3)').textContent.trim();
@@ -267,11 +432,9 @@
               }
           });
       
-          // التهيئة الأولية
           filterTable();
       });
       
-      // إزالة دالة DataTable القديمة إذا كانت تسبب تعارضاً
       if (typeof $.fn.DataTable === 'function') {
           $('#studentsTable').DataTable().destroy();
       }

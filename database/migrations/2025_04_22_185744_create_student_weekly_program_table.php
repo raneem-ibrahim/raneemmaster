@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student_programs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('memorization_program_id')->constrained()->onDelete('cascade');
+        // 3. جدول لربط الطلاب بالبرنامج الأسبوعي 
+        Schema::create('student_weekly_program', function (Blueprint $table) {
+            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade');
+            $table->primary(['student_id', 'weekly_program_id']);
             $table->timestamps();
         });
     }

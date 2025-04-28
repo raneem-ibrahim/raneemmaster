@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->integer('age');
-            $table->enum('gender', ['male', 'female']);
-            $table->enum('desired_study', ['hifz', 'ahkam']); // حفظ أو أحكام
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->date('birth_date')->nullable();
+            $table->string('parent_phone')->nullable();
+            // أي حقول إضافية خاصة بالطلاب فقط
             $table->timestamps();
         });
     }

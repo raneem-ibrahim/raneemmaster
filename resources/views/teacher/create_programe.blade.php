@@ -182,18 +182,180 @@
 
 
 
-
- <div class="container py-4">
+<div class="container py-4">
+    <div class="card shadow" style="border: 1px solid #c37044; background-color: #fdf6f0;">
+        <div class="card-header text-white" style="background-color: #c37044;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0" style="color: white; font-family: 'Marhey', sans-serif;">إنشاء برنامج أسبوعي جديد</h3>
+                <a href="{{ route('viewstudent') }}" class="btn btn-light btn-sm" style="border: 1px solid #c37044;">
+                    <i class="fas fa-arrow-left"></i> رجوع
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="selected-students mb-4 p-3 border rounded bg-light" style="background-color: #fff9f4;">
+                <h5 class="text-center mb-3" style="color: #c37044;">الطلاب المختارين</h5>
+                <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    @foreach($students as $student)
+                    <div class="student-badge p-2 border rounded d-flex align-items-center" style="background-color: #f5e9dd; border-color: #c37044;">
+                        <div class="me-2">
+                            <i class="fas fa-user-circle fa-lg" style="color: #c37044;"></i>
+                        </div>
+                        <div>
+                            <strong style="color: #000;">{{ $student->first_name }} {{ $student->last_name }}</strong>
+                            <div class="text-muted small">
+                                @if($student->memorizationProgram)
+                                    @switch($student->memorizationProgram->program)
+                                        @case('half_page') نص صفحة يومياً @break
+                                        @case('one_page') صفحة يومياً @break
+                                        @case('two_pages') صفحتين يومياً @break
+                                    @endswitch
+                                @else
+                                    <span class="text-warning">لم يحدد برنامج</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+  
+           <form method="POST" action="{{ route('weekly-program.store') }}">
+                @csrf
+                
+                <div class="text-center mb-4">
+                    <button type="button" id="applyToAllBtn" class="btn btn-outline-secondary" style="font-family: 'Marhey', sans-serif; border-color: #c37044; color: #c37044;">
+                        <i class="fas fa-copy"></i> تعيين نفس البرنامج للجميع
+                    </button>
+                </div>
+  
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" style="background-color: #fff9f4;">
+                        <thead style="background-color: #f5e9dd; color: #000;">
+                            <tr>
+                                <th>اليوم</th>
+                                <th>نوع الحفظ</th>
+                                <th>نوع البرنامج</th>
+                                <th>السورة</th>
+                                <th>الآيات</th>
+                                <th>ملاحظات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'السبت'];
+                            @endphp
+  
+                            @foreach($days as $day)
+                            <tr>
+                                <td class="align-middle" style="color: #000;">{{ $day }}</td>
+                                <td>
+                                    <select name="program[{{ $day }}][type]" class="form-select" required style="border-color: #c37044; background-color: #fff;">
+                                        <option value="حفظ">حفظ جديد</option>
+                                        <option value="مراجعة">مراجعة</option>
+                                        @if($day == 'السبت')
+                                            <option value="سرد">سرد</option>
+                                        @endif
+                                    </select>
+                                </td>
+                                <td>
+                                  <select name="program[{{ $day }}][portion_type]" class="form-select" required style="border-color: #c37044; background-color: #fff;">
+                                      @if($students->count() > 0)
+                                          @php
+                                              $programsCount = ['نص صفحة' => 0, 'صفحة' => 0, 'صفحتين' => 0];
+                                              foreach($students as $student) {
+                                                  if($student->memorizationProgram) {
+                                                      $program = [
+                                                          'half_page' => 'نص صفحة',
+                                                          'one_page' => 'صفحة',
+                                                          'two_pages' => 'صفحتين'
+                                                      ][$student->memorizationProgram->program] ?? null;
+                                                      if($program) {
+                                                          $programsCount[$program]++;
+                                                      }
+                                                  }
+                                              }
+                                              $selectedProgram = array_search(max($programsCount), $programsCount);
+                                          @endphp
+                                          @foreach(['نص صفحة', 'صفحة', 'صفحتين'] as $program)
+                                              <option value="{{ $program }}" {{ $selectedProgram == $program ? 'selected' : '' }}>
+                                                  {{ $program }}
+                                              </option>
+                                          @endforeach
+                                      @else
+                                          <option value="نص صفحة">نص صفحة</option>
+                                          <option value="صفحة">صفحة</option>
+                                          <option value="صفحتين">صفحتين</option>
+                                      @endif
+                                  </select>
+                                </td>
+                                <td>
+                                  <select name="program[{{ $day }}][surah]" class="form-control surah-select" required style="border-color: #c37044; background-color: #fff;">
+                                      <option value="">اختر السورة</option>
+                                      @foreach($surahs as $surah)
+                                          <option value="{{ $surah->name }}" data-ayahs="{{ $surah->ayahs_count }}">{{ $surah->name }}</option>
+                                      @endforeach
+                                  </select>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span>من</span>
+                                        <input type="number" name="program[{{ $day }}][from_verse]" class="form-control" min="1" required style="border-color: #c37044; background-color: #fff;">
+                                        <span>إلى</span>
+                                        <input type="number" name="program[{{ $day }}][to_verse]" class="form-control" min="1" required style="border-color: #c37044; background-color: #fff;">
+                                    </div>
+                                </td>
+                                <td>
+                                  <textarea name="program[{{ $day }}][notes]" class="form-control notes-field" rows="1" maxlength="200" style="border-color: #c37044; background-color: #fff;"></textarea>
+                                  <small class="text-muted notes-counter">0/200 حرف</small>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+  
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-5" style="background-color: #c37044; border: none;">
+                        <i class="fas fa-save"></i> حفظ البرنامج
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  
+  <style>
+    .student-badge {
+        min-width: 180px;
+    }
+    .table th {
+        white-space: nowrap;
+        font-weight: bold;
+    }
+    .verses-inputs {
+        max-width: 150px;
+    }
+    select.form-select, input.form-control, textarea.form-control {
+        border-radius: 10px;
+    }
+    .btn-outline-secondary:hover {
+        background-color: #c37044;
+        color: white;
+        border-color: #c37044;
+    }
+  </style>
+  
+ {{-- <div class="container py-4">
   <div class="card shadow">
-      <div class="card-header bg-primary text-white">
+      <div class="card-header bg-primary text-white"  style="background-color: #c37044!important;">
           <div class="d-flex justify-content-between align-items-center">
-              <h3 class="mb-0">إنشاء برنامج أسبوعي جديد</h3>
+              <h3 class="mb-0"style="color:white!important;font-family: 'Marhey', sans-serif !important" >إنشاء برنامج أسبوعي جديد</h3>
               <a href="{{ route('viewstudent') }}" class="btn btn-light btn-sm">
                   <i class="fas fa-arrow-left"></i> رجوع
               </a>
           </div>
       </div>
-
       <div class="card-body">
           <div class="selected-students mb-4 p-3 border rounded bg-light">
               <h5 class="text-center mb-3">الطلاب المختارين</h5>
@@ -226,8 +388,8 @@
               @csrf
               
              
-              <div class="text-center mb-4">
-                  <button type="button" id="applyToAllBtn" class="btn btn-outline-secondary">
+              <div class="text-center mb-4" >
+                  <button type="button" id="applyToAllBtn" class="btn btn-outline-secondary" style=" font-family: 'Marhey', sans-serif !important;">
                       <i class="fas fa-copy"></i> تعيين نفس البرنامج للجميع
                   </button>
               </div>
@@ -265,7 +427,6 @@
                                 <select name="program[{{ $day }}][portion_type]" class="form-select" required>
                                     @if($students->count() > 0)
                                         @php
-                                            // تحديد البرنامج الأكثر تكراراً بين الطلاب المختارين
                                             $programsCount = [
                                                 'نص صفحة' => 0,
                                                 'صفحة' => 0,
@@ -301,9 +462,7 @@
                                     @endif
                                 </select>
                             </td>
-                              {{-- <td>
-                                  <input type="text" name="program[{{ $day }}][surah]" class="form-control" required>
-                              </td> --}}
+                             
                               <td>
   <select name="program[{{ $day }}][surah]" class="form-control surah-select" required>
     <option value="">اختر السورة</option>
@@ -351,7 +510,7 @@
   .verses-inputs {
       max-width: 150px;
   }
-</style>
+</style> --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // تطبيق نفس البرنامج على كل الأيام
@@ -495,7 +654,22 @@ document.querySelectorAll('.notes-field').forEach(textarea => {
         }
     });
 });
-    </script>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {{-- <script>
 document.addEventListener('DOMContentLoaded', function() {

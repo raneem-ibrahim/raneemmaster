@@ -13,7 +13,7 @@
   <!-- End Navbar -->
   <div class="container-fluid py-2  cards">
 
-    <!DOCTYPE html>
+    {{-- <!DOCTYPE html>
     <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
@@ -136,7 +136,7 @@
     </head>
     <body>
         <div class="profile-container">
-          <form id="avatarForm" action="{{ route('profile.update-image') }}" method="POST" enctype="multipart/form-data">
+          <form id="avatarForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
     
@@ -224,7 +224,256 @@
 });
         </script>
     </body>
-    </html>
+    </html> --}}
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي للمعلم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #fdf8f3;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .profile-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+        }
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0e6db;
+            padding-bottom: 20px;
+        }
+        .avatar-upload {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-left: 25px;
+        }
+        .avatar-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #c37044;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .avatar-edit {
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+        }
+        .avatar-edit input {
+            display: none;
+        }
+        .avatar-edit label {
+            width: 36px;
+            height: 36px;
+            background: #c37044;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .teacher-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .teacher-info h2 {
+            margin: 0;
+            font-size: 26px;
+            color: #333;
+        }
+        .teacher-info p {
+            margin: 5px 0 0;
+            color: #7b6e5e;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .info-section {
+            margin-top: 30px;
+        }
+        .info-section h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .info-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: #c37044;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .info-item i {
+            width: 28px;
+            font-size: 18px;
+            color: #c37044;
+            margin-left: 10px;
+        }
+        .info-content {
+            flex: 1;
+        }
+        .info-content strong {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #333;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: #f9f3ec;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+            margin: 10px;
+        }
+        .stat-item h4 {
+            font-size: 24px;
+            color: #c37044;
+            margin: 0;
+        }
+        .stat-item p {
+            font-size: 15px;
+            color: #555;
+            margin-top: 5px;
+        }
+        @media (max-width: 600px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .avatar-upload {
+                margin: 0 0 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <form id="avatarForm" action="" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="profile-header">
+                <div class="avatar-upload">
+                    <div class="avatar-preview" id="imagePreview" 
+                         style="background-image: url('{{ auth()->user()->image ? asset('storage/'.auth()->user()->image) : '/image/default-teacher.png' }}');">
+                    </div>
+                    <div class="avatar-edit">
+                        <input type="file" id="imageUpload" name="image" accept=".png, .jpg, .jpeg" />
+                        <label for="imageUpload"><i class="fas fa-pen"></i></label>
+                    </div>
+                </div>
+                <div class="teacher-info">
+                    <h2>{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h2>
+                    <p><i class="fas fa-user-tie"></i> معلم قرآن كريم</p>
+                </div>
+            </div>
+        </form>
+
+        <div class="info-section">
+            <h3><i class="fas fa-info-circle"></i> المعلومات الشخصية</h3>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <div class="info-content">
+                    <strong>البريد الإلكتروني</strong>
+                    <span>{{ auth()->user()->email }}</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone"></i>
+                <div class="info-content">
+                    <strong>رقم الهاتف</strong>
+                    <span>{{ auth()->user()->phone ?? 'غير محدد' }}</span>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="info-content">
+                    <strong>تاريخ الانضمام</strong>
+                    <span>{{ auth()->user()->created_at->format('Y/m/d') }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <h4>24</h4>
+                <p>الطلاب النشطين</p>
+            </div>
+            <div class="stat-item">
+                <h4>156</h4>
+                <p>الصفحات المحفوظة</p>
+            </div>
+            <div class="stat-item">
+                <h4>98%</h4>
+                <p>معدل الحضور</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const formData = new FormData(document.getElementById('avatarForm'));
+
+                fetch(this.form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-HTTP-Method-Override': 'PUT',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('تم!', 'تم تحديث الصورة بنجاح', 'success');
+                        document.getElementById('imagePreview').style.backgroundImage = `url('${data.image_url}')`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+</body>
+</html>
+
     
 
     {{-- start footer  --}}

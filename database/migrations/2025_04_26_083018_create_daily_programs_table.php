@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('daily_programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade');
-            $table->string('day_name'); // الأحد، الاثنين، ...
-            $table->enum('type', ['حفظ', 'مراجعة', 'سرد']);
-            $table->enum('portion_type', ['نصف صفحة', 'صفحة', 'صفحتين'])->nullable();
-            $table->integer('from_verse')->nullable();
-            $table->integer('to_verse')->nullable();
-            $table->string('surah_name')->nullable();
-            $table->text('notes')->nullable();
-            $table->date('date');
-            $table->timestamps();
+    $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade');
+    $table->foreignId('surah_id')->constrained()->nullable();
+    $table->string('day_name'); // الأحد، الاثنين...
+    $table->enum('type', ['حفظ', 'مراجعة', 'سرد']);
+    $table->enum('portion_type', ['نصف صفحة', 'صفحة', 'صفحتين'])->nullable();
+    $table->integer('from_verse')->nullable();
+    $table->integer('to_verse')->nullable();
+    $table->text('notes')->nullable();
+    $table->date('date');
+    $table->timestamps();
         });
         
     }
