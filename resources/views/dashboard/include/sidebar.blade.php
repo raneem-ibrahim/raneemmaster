@@ -22,12 +22,29 @@
         </a>
     </li>
     </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/billing.html">
-          <i class="material-symbols-rounded opacity-10">receipt_long</i>
-          <span class="nav-link-text me-1">الفواتير</span>
-        </a>
-      </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link text-dark dropdown-toggle" href="#" id="teachersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="material-symbols-rounded opacity-10">groups</i>
+          <span class="nav-link-text me-1">معلمين</span>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="teachersDropdown">
+          
+        <li>
+            <a class="dropdown-item" href="{{route('addteacher')}}">
+                <i class="material-symbols-rounded opacity-10 me-2">person_add</i>
+                إضافة معلم جديد
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{route('teachers.index')}}">
+                <i class="material-symbols-rounded opacity-10 me-2">list</i>
+                قائمة المعلمين
+            </a>
+        </li>
+    
+    </ul>
+    
+  </li>
       <li class="nav-item">
         <a class="nav-link text-dark" href="../pages/virtual-reality.html">
           <i class="material-symbols-rounded opacity-10">view_in_ar</i>

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('weekly_programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
-            $table->date('week_start_date'); // تاريخ بداية الأسبوع
-            $table->timestamps();
-        });
-        
+$table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
+$table->date('week_start');
+$table->enum('program_type', ['حفظ', 'مراجعة']);
+$table->timestamps();
+
+        });     
     }
 
     /**

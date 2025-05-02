@@ -645,7 +645,7 @@
 
 
 {{-- start footer  --}}
- @include('dashboard.include.footer')
+ {{-- @include('dashboard.include.footer') --}}
 {{-- end footer  --}}
 </div>
 

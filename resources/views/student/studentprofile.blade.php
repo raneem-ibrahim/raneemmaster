@@ -286,7 +286,7 @@
               @include('student.tables')
             </div>
           </div>
-        </div>
+        </div>    
         {{-- نهاية صفحة الرسائل --}}
 
 

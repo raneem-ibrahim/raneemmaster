@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TeacherProgramController;
+use App\Http\Controllers\WeeklyProgramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,7 @@ require __DIR__.'/auth.php';
 // لوحة تحكم المدير
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        return view('dashboard.dash');
     })->name('admin.dashboard');
 });
 
@@ -111,8 +112,16 @@ Route::post('contact', [AdminController::class, 'storecontact']);
 // ->name('contact.store');
 Route::get('/showmessages/{id}', [AdminController::class, 'show2']);
     // ->name('dasboard.show');
+    Route::get('/addteacher', [AdminController::class, 'addteacher'])->name('addteacher');
 
-// Route::get('/hifiz', [AdminController::class, 'hifiz']);
+    // إرسال رسالة من الأدمن إلى المعلم
+Route::post('/teachers/{teacherId}/send-message', [AdminController::class, 'sendMessage'])->name('teachers.sendMessage');
+// Route for deleting teacher
+Route::delete('/teachers/{teacher}', [AdminController::class, 'destroy'])->name('teachers.destroy');
+Route::get('/teachers/{id}/edit', [AdminController::class, 'edit'])->name('teachers.edit');
+Route::put('/teachers/{id}', [AdminController::class, 'update'])->name('teachers.update');
+
+
 
 
 
@@ -136,19 +145,21 @@ Route::get('/student', [ProfilController::class, 'student']);
 
                                                    // Teachercontroller
 
-  Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
+Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
 
 
-  Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
+Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
 Route::get('/weekly-program/create', [TeacherProgramController::class, 'create'])->name('weekly-program.create');
-Route::post('/weekly-program/store', [TeacherProgramController::class, 'store'])->name('weekly-program.store');
- ;
- Route::get('/weekly-program/create/single/{student}', 
- [TeacherProgramController::class, 'createSingle'])
- ->name('weekly-program.create.single');                                       
+// Route::post('/weekly-program/store', [TeacherProgramController::class, 'store'])->name('weekly-program.store');;
+ Route::get('/weekly-program/create/single/{student}', [TeacherProgramController::class, 'createSingle'])->name('weekly-program.create.single');                                       
+ Route::post('/teachers/store', [TeacherProgramController::class, 'storeteacher'])->name('teachers.store');
+ Route::get('/teachers', [TeacherProgramController::class, 'viewteacher'])->name('teachers.index');
 
 
 
 
 
+                                                        //  WeeklyProgramController
 
+ Route::post('/weekly-program/store', [WeeklyProgramController::class, 'store'])->name('weekly-program.store');
+ 

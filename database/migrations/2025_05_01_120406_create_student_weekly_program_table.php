@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 3. جدول لربط الطلاب بالبرنامج الأسبوعي 
         Schema::create('student_weekly_program', function (Blueprint $table) {
-            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade');
-            $table->primary(['student_id', 'weekly_program_id']);
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // الطالب
+            $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade'); // البرنامج
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student_programs');
+        Schema::dropIfExists('student_weekly_program');
     }
 };

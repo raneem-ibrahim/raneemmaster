@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+// use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\contact;
@@ -119,9 +119,7 @@ public function show2($id)
     return view('dashboard.show', compact('message'));
 }
 
-public function hifiz(){
-    return view('dashboard.formhifiz');
-}
+
 
 
 public function createProgram($studentId)
@@ -175,6 +173,59 @@ public function store(Request $request, $studentId)
         return redirect()->back()->with('success', 'تم إنشاء البرنامج الأسبوعي بنجاح ✅');
     }
 
+    public function addteacher(){
+        return view('teacher.addteacher');
+        }
+
+
+
+public function destroy($id)
+{
+    // العثور على المعلم بواسطة المعرف
+    $teacher = User::findOrFail($id);
+
+    // التأكد من أن المستخدم هو "أدمن" (اختياري)
+    if(auth()->user()->role != 'admin') {
+        return redirect()->route('teachers.index')->with('error', 'ليس لديك صلاحية لحذف هذا المعلم.');
+    }
+
+    // حذف المعلم
+    $teacher->delete();
+
+    // إعادة توجيه مع رسالة تأكيد
+    return redirect()->route('teachers.index')->with('success', 'تم حذف المعلم بنجاح.');
+}
+// function edite
+public function edit($id)
+{
+    $teacher = User::where('role', 'teacher')->findOrFail($id);
+    return view('teacher.edit_teacher', compact('teacher'));
+}
+// function update teacher
+public function update(Request $request, $id)
+{
+    $teacher = User::where('role', 'teacher')->findOrFail($id);
+
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $teacher->id,
+        'age' => 'required|integer',
+        'gender' => 'required|in:male,female',
+        'min_age' => 'nullable|integer',
+        'max_age' => 'nullable|integer',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('teachers', 'public');
+        $validated['image'] = $path;
+    }
+
+    $teacher->update($validated);
+
+    return redirect()->route('teachers.index')->with('success', 'تم تحديث بيانات المعلم بنجاح');
+}
 
 
 

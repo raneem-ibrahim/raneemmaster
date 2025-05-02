@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Surah;
+use App\Models\DailyProgram;
+use App\Models\WeeklyProgram;
+// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+
 
 class TeacherProgramController extends Controller
 {
     public function studentsList()
     {
-        $students = User::where('role', 'student')->with('memorizationProgram')->get();
-        return view('teacher.viewstudent', compact('students'));
+        $students = auth()->user()->students()->with('memorizationProgram')->get();
+    return view('teacher.viewstudent', compact('students'));
     }
 
     public function selectStudents(Request $request)
@@ -88,37 +95,56 @@ class TeacherProgramController extends Controller
         ];
         return $map[$programValue] ?? null;
     }
+  
+   
+    
 
-    public function store(Request $request)
+
+    public function storeteacher(Request $request)
     {
-        $validated = $request->validate([
-            'program' => 'required|array',
-            'program.*.type' => 'required|in:حفظ,مراجعة,سرد',
-            'program.*.portion_type' => 'required|in:نص صفحة,صفحة,صفحتين',
-            'program.*.surah' => 'required|string',
-            'program.*.from_verse' => 'required|integer|min:1',
-            'program.*.to_verse' => 'required|integer|min:1|gte:program.*.from_verse',
-            'program.*.notes' => 'nullable|string',
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'age' => 'required|integer|min:18|max:80',
+            'gender' => 'required|in:ذكر,أنثى',
+            'teaching_from_age' => 'required|integer|min:3|max:80',
+            'teaching_to_age' => 'required|integer|min:3|max:80',
+            'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
-        
-        foreach ($request->program as $day => $program) {
-            $surah = Surah::where('name', $program['surah'])->first();
-            if ($surah) {
-                if ($program['to_verse'] > $surah->ayahs_count) {
-                    return back()->withErrors([
-                        'program.'.$day.'.to_verse' => 'عدد الآيات يتجاوز عدد آيات السورة'
-                    ]);
-                }
-            }
+    
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->age = $request->age;
+        $user->gender = $request->gender === 'ذكر' ? 'male' : 'female';
+        $user->role = 'teacher';
+        $user->min_age = $request->teaching_from_age;
+        $user->max_age = $request->teaching_to_age;
+    
+        // معالجة الصورة إن وُجدت
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('teacher_images', 'public');
+            $user->image = $path;
         }
-        
-        // هنا يمكنك إضافة عملية حفظ البرنامج الأسبوعي
-        // مثال:
-        // $weeklyProgram = WeeklyProgram::create([...]);
-        // foreach ($request->program as $day => $programData) {
-        //     DailyProgram::create([...]);
-        // }
-
-        return redirect()->route('teacher.program.index')->with('success', 'تم إنشاء البرنامج بنجاح');
+    
+        $user->save();
+    
+        return redirect()->back()->with('success', 'تم حفظ بيانات المعلم بنجاح');
     }
+    // function view teachers
+    public function viewteacher()
+{
+   
+
+    $teachers = User::where('role', 'teacher')
+    ->withCount('students') // نحسب عدد الطلاب لكل معلم
+    ->get();
+
+return view('teacher.viewteacher', compact('teachers'));
+}
+
 }

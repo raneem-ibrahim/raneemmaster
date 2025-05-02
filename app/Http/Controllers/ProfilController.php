@@ -20,6 +20,11 @@ class ProfilController extends Controller
         abort(403, 'يجب أن تكون مسجلاً للدخول للوصول إلى هذه الصفحة.');
     }
     
+    
+    // جلب البرنامج الأسبوعي المرتبط بالطالب
+    $weeklyProgram = $student->studentWeeklyPrograms()->with('weeklyProgram.dailyPrograms')->first();
+
+
     // التحقق مما إذا كان الطالب بحاجة لاختيار برنامج الحفظ
     $needsMemorizationProgram = !$student->memorizationProgram;
     
@@ -36,13 +41,20 @@ class ProfilController extends Controller
             ->where('max_age', '>=', $student->age)
             ->get();
     }
-    
+
+
+
     return view('student.studentprofile', compact(
         'student',
         'teachers',
         'selectedTeacher',
-        'needsMemorizationProgram'
+        'needsMemorizationProgram',
+                'weeklyProgram' // تمرير بيانات البرنامج الأسبوعي
     ));
+   
+
+
+    
 }
      
      
@@ -134,8 +146,9 @@ public function setMemorizationProgram(Request $request)
         return back()->with('error', 'حدث خطأ أثناء الحفظ: ' . $e->getMessage());
     }
 
- 
-
- 
 }
+
+
+
+
 }

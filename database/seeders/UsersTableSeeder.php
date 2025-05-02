@@ -118,8 +118,8 @@ class UsersTableSeeder extends Seeder
             'max_age'        => null,
         ]);
         User::create([
-            'first_name'     => 'سامي',
-            'last_name'      => 'العربي',
+            'first_name'     => 'محمد',
+            'last_name'      => 'محمود',
             'email'          => 'mohamad_student@example.com',
             'password'       => Hash::make('12345678'),
             'age'            => 8,
