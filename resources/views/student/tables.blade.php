@@ -203,42 +203,102 @@
 
 
   
-  
-  @foreach($student->studentWeeklyPrograms as $studentProgram)
-  <div class="card mb-4" style="border: 1px solid #c37044;">
-      <div class="card-header" style="background-color: #c37044; color: white;">
-          <strong>برنامج أسبوعي يبدأ من {{ \Carbon\Carbon::parse($studentProgram->weeklyProgram->week_start)->format('Y-m-d') }}</strong>
-      </div>
-      <div class="card-body p-0">
-          <table class="table table-bordered m-0 text-center">
-              <thead style="background-color: #f5e9dd;">
-                  <tr>
-                      <th>اليوم</th>
-                      <th>النوع</th>
-                      <th>الكمية</th>
-                      <th>السورة</th>
-                      <th>من آية</th>
-                      <th>إلى آية</th>
-                      <th>ملاحظات</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach($studentProgram->weeklyProgram->dailyPrograms as $day)
-                      <tr>
-                          <td>{{ $day->day }}</td>
-                          <td>{{ $day->type }}</td>
-                          <td>{{ $day->portion_type }}</td>
-                          <td>{{ $day->surah }}</td>
-                          <td>{{ $day->from_verse }}</td>
-                          <td>{{ $day->to_verse }}</td>
-                          <td>{{ $day->notes ?? '-' }}</td>
-                      </tr>
-                  @endforeach
-              </tbody>
-          </table>
-      </div>
-  </div>
-@endforeach
+
+  {{-- <p>Current URL: {{ url()->current() }}</p>
+  <p>Form will submit to: {{ route('profile.saveAchievements') }}</p>
+   --}}
+
+
+   @foreach($student->studentWeeklyPrograms as $studentProgram)
+   <div class="card my-4">
+     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+       <div class="shadow" style="background-color: #020202; border-radius: .5rem .5rem 0 0;">
+         @php
+         $programType = $studentProgram->weeklyProgram->dailyPrograms->first()?->type;
+         $typeLabel = $programType === 'حفظ' ? 'جدول حفظ' : 'جدول مراجعة';
+         @endphp
+         
+         <h6 class="text-white text-capitalize ps-3 py-3">
+           {{ $typeLabel }} يبدأ من {{ \Carbon\Carbon::parse($studentProgram->weeklyProgram->week_start)->format('Y-m-d') }}
+         </h6>
+         
+       </div>
+     </div>
+     <div class="card-body px-0 pb-2">
+       <div class="table-responsive p-0">
+         
+         <form method="POST" action="{{ route('profile.saveAchievements') }}">
+ 
+           @csrf
+           <input type="hidden" name="weekly_program_id" value="{{ $studentProgram->weeklyProgram->id }}">
+           <table class="table align-items-center mb-0 text-center" dir="rtl">
+             <thead style="background-color: #f5e9dd;">
+               <tr>
+                 <th>اليوم</th>
+                 <th>النوع</th>
+                 <th>الكمية</th>
+                 <th>السورة</th>
+                 <th>من آية</th>
+                 <th>إلى آية</th>
+                 <th>ملاحظات</th>
+                 @php
+                   $isHifz = $studentProgram->weeklyProgram->dailyPrograms->first()?->type === 'حفظ';
+                   $isReview = $studentProgram->weeklyProgram->dailyPrograms->first()?->type === 'مراجعة';
+                 @endphp
+                 @if($isHifz)
+                   <th>إنجاز الحفظ</th>
+                 @elseif($isReview)
+                   <th>إنجاز المراجعة</th>
+                 @endif
+               </tr>
+             </thead>
+             <tbody>
+              @foreach($studentProgram->weeklyProgram->dailyPrograms as $day)
+                @php
+                  $today = \Carbon\Carbon::today();
+                  $dayDate = \Carbon\Carbon::parse($day->date); // تأكد من أن لديك عمود "date" في جدول daily_programs
+                  $isPast = $dayDate->lt($today);
+                  $isTodayOrFuture = $dayDate->gte($today);
+                @endphp
+            
+                <tr>
+                  <td>{{ $day->day }}</td>
+                  <td>{{ $day->type }}</td>
+                  <td>{{ $day->portion_type }}</td>
+                  <td>{{ $day->surah }}</td>
+                  <td>{{ $day->from_verse }}</td>
+                  <td>{{ $day->to_verse }}</td>
+                  <td>{{ $day->notes ?? '-' }}</td>
+            
+                  @if($isHifz || $isReview)  <!-- تعديل هنا لعرض الـ checkbox في الحالتين -->
+                    <td>
+                      @if($day->achievement?->status)
+                        <span class="text-success fw-bold">منجز</span>
+                      @elseif($isPast)
+                        <span class="text-danger fw-bold">غير منجز</span>
+                      @else
+                        <input type="checkbox" name="achievements[{{ $day->id }}][status]" value="1">
+                        <input type="hidden" name="achievements[{{ $day->id }}][type]" value="{{ $day->type }}">
+                      @endif
+                    </td>
+                  @endif
+                </tr>
+              @endforeach
+            </tbody>
+            
+             
+           </table>
+           <div class="text-end px-4 py-2">
+             <button type="submit" class="btn text-white" style="background-color: #c37044;">
+               حفظ الإنجاز
+             </button>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+ @endforeach
+ 
 
 
 

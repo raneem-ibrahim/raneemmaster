@@ -184,7 +184,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'first_name'     => 'احمد',
             'last_name'      => 'شمايلة',
-            'email'          => 'sami_student@example.com',
+            'email'          => 'Ahmad_student@example.com',
             'password'       => Hash::make('12345678'),
             'age'            => 8,
             'gender'         => 'male',

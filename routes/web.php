@@ -136,6 +136,7 @@ Route::post('/select-teacher', [ProfilController::class, 'selectTeacher'])->name
 Route::put('/photo', [ProfilController::class, 'update']) ->name('photostudent') ->middleware('auth');
 Route::post('/setMemorizationProgram', [ProfilController::class, 'setMemorizationProgram'])->name("setMemorizationProgram");
 Route::get('/student', [ProfilController::class, 'student']);
+Route::post('/profile/achievements', [ProfilController::class, 'saveAchievements'])->name('profile.saveAchievements');
 
 
 

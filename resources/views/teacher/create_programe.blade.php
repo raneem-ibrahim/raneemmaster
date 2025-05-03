@@ -150,7 +150,7 @@
                     </div>
                     <div class="mb-4 text-center">
                         <label for="week_start" class="form-label" style="color: #c37044;">تاريخ بداية الأسبوع</label>
-                        <input type="date" name="week_start" class="form-control w-25 mx-auto" required style="border-color: #c37044; background-color: #fff;">
+                        <input type="date" name="week_start" class="form-control w-25 mx-auto" required style="border-color: #c37044; background-color: #fff;"   min="{{ now()->format('Y-m-d') }}">
                     </div>
                     
                     <div class="text-center mt-4">
@@ -187,7 +187,21 @@
     }
   </style>
   
-
+  <script>
+    // JavaScript كإضافة للتأكيد
+    document.getElementById('week_start').addEventListener('change', function() {
+        const today = new Date().toISOString().split('T')[0];
+        if(this.value < today) {
+            Swal.fire({
+                icon: 'error',
+                title: 'تاريخ غير صحيح',
+                text: 'يجب اختيار تاريخ اليوم أو ما بعده',
+                confirmButtonText: 'حسناً'
+            });
+            this.value = '';
+        }
+    });
+    </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // تطبيق نفس البرنامج على كل الأيام

@@ -147,6 +147,27 @@ public function setMemorizationProgram(Request $request)
     }
 
 }
+// هاي دالة لحفظ انجاز الطالب 
+public function saveAchievements(Request $request)
+{
+    $user = auth()->user();
+
+    foreach ($request->input('achievements', []) as $dailyProgramId => $data) {
+        \App\Models\DailyAchievement::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'daily_program_id' => $dailyProgramId,
+            ],
+            [
+                'type' => $data['type'],
+                'status' => isset($data['status']) ? true : false,
+            ]
+        );
+    }
+
+    return redirect()->back()->with('success', 'تم حفظ الإنجاز بنجاح.');
+}
+
 
 
 

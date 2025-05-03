@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('weekly_program_id')->constrained()->onDelete('cascade');
             $table->string('day'); // الأحد - الاثنين ...
+            $table->date('date')->nullable(); // <-- تم التعديل هنا
             $table->enum('type', ['حفظ', 'مراجعة', 'سرد']);
             $table->enum('portion_type', ['نصف صفحة', 'صفحة', 'صفحتين']);
             $table->string('surah');
@@ -31,5 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('daily_programs');
+       
     }
 };

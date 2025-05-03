@@ -8,55 +8,67 @@ use App\Models\StudentWeeklyProgram;
 // use Carbon\Carbon;
 
 
+use Carbon\Carbon;
+
 class WeeklyprogramController extends Controller
 {
     public function store(Request $request)
-    {
-        // dd($request->all()); // هذا يعرض كل ما أُرسل من الفورم
-        // التحقق من البيانات الواردة
-        $request->validate([
-            'week_start' => 'required|date',
-            'program' => 'required|array',
-            'student_ids' => 'required|array|min:1', // التحقق من وجود طلاب
-        ]);
+{
+    $request->validate([
+        'week_start' => 'required|date',
+        'program' => 'required|array',
+        'student_ids' => 'required|array|min:1',
+    ]);
 
-        // تخزين البرنامج الأسبوعي
-        $weeklyProgram = WeeklyProgram::create([
-            'teacher_id' => auth()->id(), // المعلم الحالي
-            'week_start' => $request->week_start, // بداية الأسبوع
-        ]);
+    $weeklyProgram = WeeklyProgram::create([
+        'teacher_id' => auth()->id(),
+        'week_start' => $request->week_start,
+    ]);
 
-        // تخزين البرامج اليومية لكل يوم
-        foreach ($request->program as $day => $data) {
-            DailyProgram::create([
-                'weekly_program_id' => $weeklyProgram->id, // ربط بالبرنامج الأسبوعي
-                'day' => $day,
-                'type' => $data['type'], // نوع الحفظ
-                'portion_type' => $data['portion_type'], // نوع البرنامج (نصف صفحة، صفحة...)
-                'surah' => $data['surah'], // السورة
-                'from_verse' => $data['from_verse'], // الآية من
-                'to_verse' => $data['to_verse'], // الآية إلى
-                'notes' => $data['notes'] ?? null, // الملاحظات
-            ]);
+    // خريطة لتحويل اسم اليوم إلى رقم اليوم بدءًا من الأحد
+    $daysMap = [
+        'الأحد'     => 0,
+        'الإثنين'   => 1,
+        'الثلاثاء'  => 2,
+        'الأربعاء'  => 3,
+        'الخميس'    => 4,
+        'الجمعة'    => 5,
+        'السبت'     => 6,
+    ];
+
+    // تحويل week_start إلى كائن Carbon
+    $weekStart = Carbon::parse($request->week_start)->startOfDay();
+
+    foreach ($request->program as $day => $data) {
+        // التأكد من اليوم موجود في الخريطة
+        if (!array_key_exists($day, $daysMap)) {
+            continue;
         }
 
-        // ربط الطلاب بالبرنامج الأسبوعي
-        // foreach ($request->student_ids as $studentId) {
-        //     StudentWeeklyProgram::create([
-        //         'user_id' => $studentId, // الطالب
-        //         'weekly_program_id' => $weeklyProgram->id, // البرنامج الأسبوعي
-        //     ]);
-        // }
+        // استخدم نسخة مستقلة من weekStart
+        $date = $weekStart->copy()->addDays($daysMap[$day]);
 
-        foreach (array_unique($request->student_ids) as $studentId) {
-            StudentWeeklyProgram::create([
-                'user_id' => $studentId,
-                'weekly_program_id' => $weeklyProgram->id,
-            ]);
-        }
-        
+        DailyProgram::create([
+            'weekly_program_id' => $weeklyProgram->id,
+            'day'               => $day,
+            'type'              => $data['type'],
+            'portion_type'      => $data['portion_type'],
+            'surah'             => $data['surah'],
+            'from_verse'        => $data['from_verse'],
+            'to_verse'          => $data['to_verse'],
+            'notes'             => $data['notes'] ?? null,
+            'date'              => $date->toDateString(), // التاريخ بدون وقت
+        ]);
+    }
 
-        // الرد بتوجيه المستخدم إلى صفحة أخرى أو إعادة توجيه
-        return redirect()->route('viewstudent')->with('success', 'تم إنشاء البرنامج الأسبوعي بنجاح');
-    }   
+    foreach (array_unique($request->student_ids) as $studentId) {
+        StudentWeeklyProgram::create([
+            'user_id' => $studentId,
+            'weekly_program_id' => $weeklyProgram->id,
+        ]);
+    }
+
+    return redirect()->route('viewstudent')->with('success', 'تم إنشاء البرنامج الأسبوعي بنجاح');
 }
+}
+

@@ -119,6 +119,20 @@
         }
     
     </style>
+
+
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'نجاح',
+                text: '{{ session('success') }}',
+                confirmButtonText: 'حسناً'
+            });
+        });
+    </script>
+@endif
     
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -142,7 +156,7 @@
              </div>
          </div>
     
-        <form method="POST" action="{{ route('weekly-program.selectStudents') }}">
+        <form method="POST" action="{{ route('weekly-program.selectStudents') }}" id="studentsForm">
             @csrf
     
             <table id="studentsTable" class="table table-hover table-striped align-middle text-center" dir="rtl" style="width:100%;">
@@ -195,7 +209,7 @@
         </form>
     </div>
     
-    <script>
+    {{-- <script>
       document.addEventListener('DOMContentLoaded', function() {
           const searchInput = document.getElementById('searchInput');
           const programFilter = document.getElementById('programFilter');
@@ -291,16 +305,16 @@
                   '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
               );
               
-              if (selectedStudents.length === 0) {
-                  e.preventDefault();
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'خطأ',
-                      text: 'الرجاء تحديد طالب واحد على الأقل من القائمة المرئية',
-                      confirmButtonText: 'حسناً'
-                  });
-                  return false;
-              }
+              if (selectedStudents.length === 0 && e.target.closest('#submitStudentsForm')) {
+    e.preventDefault();
+    Swal.fire({
+        icon: 'error',
+        title: 'خطأ',
+        text: 'الرجاء تحديد طالب واحد على الأقل من القائمة المرئية',
+        confirmButtonText: 'حسناً'
+    });
+    return false;
+}
               
               const programs = new Set();
               selectedStudents.forEach(checkbox => {
@@ -332,8 +346,148 @@
       if (typeof $.fn.DataTable === 'function') {
           $('#studentsTable').DataTable().destroy();
       }
+      </script> --}}
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const searchInput = document.getElementById('searchInput');
+          const programFilter = document.getElementById('programFilter');
+          const table = document.getElementById('studentsTable');
+          const selectAll = document.getElementById('selectAll');
+          const form = document.getElementById('studentsForm');
+          
+          function filterTable() {
+              const searchValue = searchInput.value.toLowerCase();
+              const programValue = programFilter.value;
+              let anyVisible = false;
+      
+              document.querySelectorAll('#studentsTable tbody tr').forEach(row => {
+                  const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                  const program = row.querySelector('td:nth-child(3)').textContent.trim();
+                  
+                  const matchesSearch = name.includes(searchValue);
+                  const matchesProgram = !programValue || 
+                                       (programValue === 'لم يحدد برنامج' ? program === 'لم يحدد برنامج' : program === programValue);
+                  
+                  if (matchesSearch && matchesProgram) {
+                      row.style.display = '';
+                      anyVisible = true;
+                  } else {
+                      row.style.display = 'none';
+                      row.querySelector('input[type="checkbox"]').checked = false;
+                  }
+              });
+              
+              updateSelectAllCheckbox();
+              
+              if (!anyVisible) {
+                  const noResults = document.getElementById('noResults');
+                  if (!noResults) {
+                      const tr = document.createElement('tr');
+                      tr.id = 'noResults';
+                      tr.innerHTML = `<td colspan="4" class="text-center py-4">لا توجد نتائج مطابقة</td>`;
+                      table.querySelector('tbody').appendChild(tr);
+                  }
+              } else {
+                  const noResults = document.getElementById('noResults');
+                  if (noResults) noResults.remove();
+              }
+          }
+      
+          function updateSelectAllCheckbox() {
+              const visibleCheckboxes = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:not(:disabled)'
+              );
+              const checkedVisible = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
+              );
+              
+              if (visibleCheckboxes.length === 0) {
+                  selectAll.checked = false;
+                  selectAll.indeterminate = false;
+                  selectAll.disabled = true;
+              } else {
+                  selectAll.disabled = false;
+                  if (checkedVisible.length === visibleCheckboxes.length) {
+                      selectAll.checked = true;
+                      selectAll.indeterminate = false;
+                  } else if (checkedVisible.length > 0) {
+                      selectAll.checked = false;
+                      selectAll.indeterminate = true;
+                  } else {
+                      selectAll.checked = false;
+                      selectAll.indeterminate = false;
+                  }
+              }
+          }
+      
+          searchInput.addEventListener('input', filterTable);
+          programFilter.addEventListener('change', filterTable);
+          
+          selectAll.addEventListener('click', function() {
+              const isChecked = this.checked;
+              document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:not(:disabled)'
+              ).forEach(checkbox => {
+                  checkbox.checked = isChecked;
+              });
+          });
+          
+          table.addEventListener('change', function(e) {
+              if (e.target.matches('input[name="students[]"]')) {
+                  updateSelectAllCheckbox();
+              }
+          });
+      
+          form.addEventListener('submit', function(e) {
+              const selectedStudents = document.querySelectorAll(
+                  '#studentsTable tbody tr:not([style*="display: none"]) input[name="students[]"]:checked:not(:disabled)'
+              );
+              
+              // التحقق من وجود طلاب محددين
+              if (selectedStudents.length === 0) {
+                  e.preventDefault();
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'خطأ',
+                      text: 'الرجاء تحديد طالب واحد على الأقل من القائمة المرئية',
+                      confirmButtonText: 'حسناً'
+                  });
+                  return false;
+              }
+              
+              // التحقق من اختلاف البرامج
+              const programs = new Set();
+              selectedStudents.forEach(checkbox => {
+                  const program = checkbox.closest('tr').querySelector('td:nth-child(3)').textContent.trim();
+                  programs.add(program);
+              });
+      
+              if (programs.size > 1) {
+                  e.preventDefault();
+                  Swal.fire({
+                      icon: 'warning',
+                      title: 'تنبيه',
+                      html: 'الطلاب المحددون لديهم برامج مختلفة.<br>هل تريد المتابعة؟',
+                      showCancelButton: true,
+                      confirmButtonText: 'نعم، المتابعة',
+                      cancelButtonText: 'إلغاء'
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          form.submit();
+                      }
+                  });
+                  return false;
+              }
+          });
+      
+          filterTable();
+      });
+      
+      if (typeof $.fn.DataTable === 'function') {
+          $('#studentsTable').DataTable().destroy();
+      }
       </script>
-    
     
     
     
