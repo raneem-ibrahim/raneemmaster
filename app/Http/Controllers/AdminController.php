@@ -9,6 +9,7 @@ use App\Models\WeeklyProgram;
 use App\Models\DailyProgram;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Course;
 // use App\Notifications\NewContactMessage;
 // use App\Models\User;
 
@@ -18,7 +19,9 @@ class AdminController extends Controller
     public function show1( )
     {
         $user = auth()->user(); // أو Auth::user()
-        return view('dashboard.pages.profile', compact('user'));
+            // جلب جميع الكورسات التي أنشأها الأدمن
+    $courses = Course::all();
+        return view('dashboard.pages.profile', compact('user','courses'));
     }
     public function dash( )
     {

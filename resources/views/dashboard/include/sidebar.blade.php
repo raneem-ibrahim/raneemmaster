@@ -45,24 +45,73 @@
     </ul>
     
   </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/virtual-reality.html">
-          <i class="material-symbols-rounded opacity-10">view_in_ar</i>
-          <span class="nav-link-text me-1">الواقع الافتراضي</span>
-        </a>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle text-dark" href="javascript:;" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="material-symbols-rounded opacity-10">library_add</i>
+        <span class="nav-link-text me-1">إدارة الكورس</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="coursesDropdown">
+        <li>
+        
+          <a class="dropdown-item" href="{{url('createcourse')}}">
+              <i class="material-symbols-rounded opacity-10">add</i>
+              <span class="me-2">إنشاءكورس</span>
+          </a>
+
+      
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{route('courses.index')}}">
+                <i class="material-symbols-rounded opacity-10">video_library</i>
+                <span class="me-2">  الكورسات</span>
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+       
+    </ul>
+</li>
+     
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle text-dark" href="javascript:;" id="lessonsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="material-symbols-rounded opacity-10">menu_book</i>
+      <span class="nav-link-text me-1">إدارة الدروس</span>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="lessonsDropdown">
+      <!-- إضافة درس جديد -->
+      <li>
+          <a class="dropdown-item" href="{{route('lessons.create')}}">
+              <i class="material-symbols-rounded opacity-10 me-2">add_circle</i>
+              <span>إضافة درس جديد</span>
+          </a>
       </li>
-      {{-- <li class="nav-item">
-        <a class="nav-link active bg-gradient-dark text-white" href="../pages/rtl.html">
-          <i class="material-symbols-rounded opacity-10">format_textdirection_r_to_l</i>
-          <span class="nav-link-text me-1">RTL</span>
-        </a>
-      </li> --}}
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/notifications.html">
-          <i class="material-symbols-rounded opacity-10">notifications</i>
-          <span class="nav-link-text me-1">إشعارات</span>
-        </a>
+      
+      <!-- عرض جميع الدروس -->
+      <li>
+          <a class="dropdown-item" href="">
+              <i class="material-symbols-rounded opacity-10 me-2">list_alt</i>
+              <span>عرض جميع الدروس</span>
+          </a>
       </li>
+      
+      <!-- تصنيف الدروس -->
+      <li>
+          <a class="dropdown-item" href="">
+              <i class="material-symbols-rounded opacity-10 me-2">category</i>
+              <span>تصنيف الدروس</span>
+          </a>
+      </li>
+      
+      <li><hr class="dropdown-divider"></li>
+      
+      <!-- الدروس الأكثر مشاهدة -->
+      <li>
+          <a class="dropdown-item" href="">
+              <i class="material-symbols-rounded opacity-10 me-2">trending_up</i>
+              <span>الدروس الأكثر مشاهدة</span>
+          </a>
+      </li>
+  </ul>
+</li>
       <li class="nav-item">
         <a class="nav-link text-dark" href="{{route('profile')}}">
           <i class="material-symbols-rounded opacity-10">person</i>
@@ -102,12 +151,12 @@
       </li>
     </ul>
   </div>
-  <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+  {{-- <div class="sidenav-footer position-absolute w-100 bottom-0 ">
     <div class="mx-3">
       <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
       <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div>
-  </div>
+  </div> --}}
 </aside>
 {{-- <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-end me-2 rotate-caret bg-white my-2 back_side" id="sidenav-main ">
   <div class="sidenav-header">

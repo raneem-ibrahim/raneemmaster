@@ -9,10 +9,13 @@ use App\Models\WeeklyProgram;
 // use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+// use Carbon\Carbon;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\Level;
+use App\Models\Lesson;
 
 class TeacherProgramController extends Controller
 {
@@ -146,5 +149,106 @@ class TeacherProgramController extends Controller
 
 return view('teacher.viewteacher', compact('teachers'));
 }
+
+
+
+// هاي دالة حفظ انشاء الكورس 
+public function createcourse(){
+     
+     // إنشاء الكورس من قبل الأدمن (أو المعلم حسب الحالة)
+     $courses = Course::all(); // جلب جميع الكورسات
+
+    return view('courses.create');
+}
+public function storeCourse(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+    ]);
+
+    Course::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'created_by' => auth()->id(),
+    ]);
+
+    return redirect()->back()->with('success', 'تم إنشاء الكورس بنجاح');
+}
+// هاي دالة عرض صفحة انشاء المستويات 
+public function createLevelPage($courseId)
+{
+    // جلب الكورس من قاعدة البيانات
+    $course = Course::findOrFail($courseId);
+
+    return view('levels.create', compact('course'));
+}
+public function listCourses()
+{
+    $courses = Course::all(); // أو ممكن تعمل paginate إذا كانت كثيرة
+
+    return view('courses.index', compact('courses'));
+}
+// This function  store levle
+public function storeLevel(Request $request, $courseId)
+{
+    // تحقق من صحة البيانات
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'level_number' => 'required|integer|min:1',
+    ]);
+
+    // جلب الكورس المطلوب
+    $course = Course::findOrFail($courseId);
+
+    // إنشاء المستوى وربطه بالكورس
+    $course->levels()->create([
+        'title' => $request->title,
+        'level_number' => $request->level_number,
+    ]);
+
+    // إعادة التوجيه مع رسالة نجاح
+    return redirect()->back()->with('success', 'تم إضافة المستوى بنجاح.');
+}
+
+
+
+
+
+
+
+
+public function createlesson()
+{
+    $courses = Course::with('levels')->get(); // جلب كل الكورسات ومستوياتها
+    return view('courses.addlesson', compact('courses'));
+}
+
+
+
+
+
+public function storelesson(Request $request)
+{
+    $request->validate([
+        'course_id' => 'required|exists:courses,id',
+        'level_id' => 'required|exists:levels,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'video_file' => 'required|file|mimetypes:video/mp4,video/x-msvideo,video/quicktime|max:50000', // 50MB حد أقصى
+    ]);
+
+    $videoPath = $request->file('video_file')->store('videos', 'public'); // تخزين في storage/app/public/videos
+
+    Lesson::create([
+        'level_id' => $request->level_id,
+        'title' => $request->title,
+        'description' => $request->description,
+        'video_url' => $videoPath, // هذا الحقل نفسه الموجود عندك
+    ]);
+
+    return redirect()->back()->with('success', 'تمت إضافة الدرس بنجاح!');
+}
+
 
 }

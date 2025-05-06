@@ -155,7 +155,16 @@ Route::get('/weekly-program/create', [TeacherProgramController::class, 'create']
  Route::get('/weekly-program/create/single/{student}', [TeacherProgramController::class, 'createSingle'])->name('weekly-program.create.single');                                       
  Route::post('/teachers/store', [TeacherProgramController::class, 'storeteacher'])->name('teachers.store');
  Route::get('/teachers', [TeacherProgramController::class, 'viewteacher'])->name('teachers.index');
+ Route::get('/createcourse', [TeacherProgramController::class, 'createcourse'])->middleware('auth');;
+ Route::post('/teacher/courses', [TeacherProgramController::class, 'storeCourse'])->name('teacher.courses.store');
+// صفحة إنشاء المستويات
+Route::get('/courses', [TeacherProgramController::class, 'listCourses'])->name('courses.index');
+Route::post('/course/{courseId}/levels/store', [TeacherProgramController::class, 'storeLevel'])->name('levels.store');
 
+
+
+Route::get('/lessons/create', [TeacherProgramController::class, 'createlesson'])->name('lessons.create');
+Route::post('/lessons', [TeacherProgramController::class, 'storelesson'])->name('lessons.store');
 
 
 
