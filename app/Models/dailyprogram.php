@@ -16,6 +16,9 @@ class DailyProgram extends Model
     {
         return $this->hasOne(\App\Models\DailyAchievement::class)->where('user_id', auth()->id());
     }
+
+
+    
     
 
 }

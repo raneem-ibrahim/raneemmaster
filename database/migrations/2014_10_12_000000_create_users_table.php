@@ -22,7 +22,6 @@ return new class extends Migration
                     $table->string('image')->nullable();
                     $table->enum('gender', ['male', 'female']);
                     $table->enum('role', ['student', 'teacher', 'admin'])->default('student');
-                    // $table->enum('memorization_program', ['half_page', 'one_page', 'two_pages'])->nullable();
                     // الأعمدة المضافة للمعلمين فقط:
                     $table->tinyInteger('min_age')->nullable(); // الحد الأدنى لعمر الطالب الذي يدرّسه المعلم
                     $table->tinyInteger('max_age')->nullable(); // الحد الأعلى لعمر الطالب

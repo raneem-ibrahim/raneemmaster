@@ -18,9 +18,9 @@ use App\Http\Controllers\WeeklyProgramController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // أو أي صفحة ثانية مثل login
@@ -54,7 +54,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // لوحة تحكم المعلم
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher', function () {
-        return view('dashboard.dash');
+        return view('dashboard.layouts.dashboard');
     })->name('dashboard.dash');
 });
 
@@ -68,9 +68,9 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
 
 
-Route::get('/dash', function () {
-    return view('dashboard.dash');
-});
+// Route::get('/dash', function () {
+//     return view('dashboard.dash');
+// });
 Route::get('/dash', [AdminController::class, 'dash']);
 
 
@@ -83,7 +83,7 @@ Route::get('/login', function () {
 
 
 
-Route::get('/index', function () {
+Route::get('/', function () {
     return view('public.index');
 })->name('index');
 Route::get('/contact', function () {

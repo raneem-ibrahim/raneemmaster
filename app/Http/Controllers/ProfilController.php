@@ -24,6 +24,60 @@ class ProfilController extends Controller
     // جلب البرنامج الأسبوعي المرتبط بالطالب
     $weeklyProgram = $student->studentWeeklyPrograms()->with('weeklyProgram.dailyPrograms')->first();
 
+    
+ // جلب البرنامج الأسبوعي المرتبط بالطالب
+$weeklyProgram = $student->studentWeeklyPrograms()
+->with('weeklyProgram.dailyPrograms')
+->first();
+
+
+$dailyAchievements = [];
+$dailyAchievements = [];
+
+    if ($weeklyProgram && $weeklyProgram->weeklyProgram) {
+        // 2. تجميع المهام حسب التاريخ
+        $tasksByDate = $weeklyProgram->weeklyProgram->dailyPrograms->groupBy('date');
+
+        // 3. جلب جميع إنجازات الطالب مرة واحدة
+        $allAchievements = \App\Models\DailyAchievement::where('user_id', $student->id)
+            ->whereIn('daily_program_id', $weeklyProgram->weeklyProgram->dailyPrograms->pluck('id'))
+            ->get()
+            ->keyBy('daily_program_id');
+
+        foreach ($tasksByDate as $date => $tasks) {
+            // 4. التحقق من أنواع المهام المطلوبة لهذا اليوم (تحويل Collection إلى array)
+            $requiredTypes = $tasks->pluck('type')->unique()->toArray();
+            
+            $completedTypes = [];
+            foreach ($tasks as $task) {
+                if (isset($allAchievements[$task->id]) && $allAchievements[$task->id]->status) {
+                    $completedTypes[$task->type] = true;
+                }
+            }
+
+            // 5. حساب النسبة المئوية
+            $progress = 0;
+            if (in_array('حفظ', $requiredTypes) && in_array('مراجعة', $requiredTypes)) {
+                // إذا كان اليوم يحتوي على حفظ ومراجعة
+                $progress = (isset($completedTypes['حفظ']) ? 50 : 0) + 
+                           (isset($completedTypes['مراجعة']) ? 50 : 0);
+            } else {
+                // إذا كان اليوم يحتوي على نوع واحد فقط
+                $progress = !empty($completedTypes) ? 100 : 0;
+            }
+
+            // 6. تخزين النتائج
+            $dailyAchievements[] = [
+                'day' => $tasks->first()->day,
+                'date' => $date,
+                'progress' => $progress,
+                'is_completed' => ($progress == 100)
+            ];
+        }
+    }
+
+
+    
 
     // التحقق مما إذا كان الطالب بحاجة لاختيار برنامج الحفظ
     $needsMemorizationProgram = !$student->memorizationProgram;
@@ -49,13 +103,18 @@ class ProfilController extends Controller
         'teachers',
         'selectedTeacher',
         'needsMemorizationProgram',
-                'weeklyProgram' // تمرير بيانات البرنامج الأسبوعي
+                'weeklyProgram', // تمرير بيانات البرنامج الأسبوعي
+                'dailyAchievements' // إضافة بيانات الإنجاز اليومي
     ));
    
 
 
     
 }
+
+
+
+
      
      
      

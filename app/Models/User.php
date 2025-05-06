@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable 
 {
     use HasFactory, Notifiable;
     use Notifiable; 
@@ -88,6 +88,10 @@ public function studentWeeklyPrograms()
     return $this->hasMany(StudentWeeklyProgram::class, 'user_id');
 }
 
+public function dailyAchievements()
+{
+    return $this->hasMany(DailyAchievement::class);
+}
 
 
 

@@ -210,7 +210,8 @@
 
 
    @foreach($student->studentWeeklyPrograms as $studentProgram)
-   <div class="card my-4">
+   @if ($loop->index >= $loop->count - 2)
+      <div class="card my-4">
      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
        <div class="shadow" style="background-color: #020202; border-radius: .5rem .5rem 0 0;">
          @php
@@ -297,6 +298,9 @@
        </div>
      </div>
    </div>
+   @else
+   
+   @endif
  @endforeach
  
 

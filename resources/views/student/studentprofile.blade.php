@@ -22,6 +22,13 @@
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <link rel="stylesheet" href="{{asset('css/studentstyle.css')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -72,16 +79,47 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-0 px-2 py-1" id="messages-tab" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">
-                            <i class="material-symbols-rounded text-lg position-relative">email</i>
-                            <span class="me-1">جداول الحفظ</span>
+                          <i class="material-symbols-rounded text-lg position-relative">event_note</i>
+                          <span class="me-1">جداول الحفظ</span>
+                          
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-0 px-2 py-1" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="false">
-                            <i class="material-symbols-rounded text-lg position-relative">settings</i>
-                            <span class="me-1">احكام التجويد</span>
+                          <i class="material-symbols-rounded text-lg position-relative">menu_book</i>
+                          <span class="me-1">أحكام التجويد</span>
+                          
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle mb-0 px-2 py-1" id="settingsDropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <i class="material-symbols-rounded text-lg position-relative">settings</i>
+                        <span class="me-1">الإعدادات</span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end text-end" aria-labelledby="settingsDropdown">
+                        <li>
+                          <a class="dropdown-item" href="#notifications" data-bs-toggle="tab">
+                            <i class="material-symbols-rounded ms-1">notifications</i>
+                            الإشعارات
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
+                            <i class="material-symbols-rounded ms-1">dark_mode</i>
+                            الوضع الداكن
+                          </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                          <a class="dropdown-item text-danger" href="{{route('index')}}">
+                            <i class="material-symbols-rounded ms-1">logout</i>
+                            تسجيل الخروج
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    
+                    
                 </ul>
             </div>
         </div>
@@ -202,7 +240,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4">
+
+
+
+
+              {{-- <div class="col-lg-4">
                 <div class="card h-100">
                   <div class="card-header pb-0 p-3">
                     <div class="row">
@@ -269,7 +311,75 @@
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> --}}
+
+
+
+            
+              <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">إحصائيات إنجاز الحفظ</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                                {{-- <span class="badge bg-gradient-success">أسبوع {{ now()->weekOfYear }}</span> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-3 pb-0">
+                        <ul class="list-group">
+                          @foreach ($dailyAchievements as $data)
+                          <li class="list-group-item border-0 ps-0 pt-0 pb-2">
+                              <div class="d-flex justify-content-between">
+                                  <p class="text-dark mb-0">{{ $data['day'] }}</p>
+                                  <p class="text-sm font-weight-bold mb-0">{{ $data['progress'] }}%</p>
+                              </div>
+                              <div class="progress" style="height: 8px;">
+                                  <div class="progress-bar bg-{{ $data['is_completed'] ? 'success' : ($data['progress'] > 0 ? 'info' : 'secondary') }}"
+                                       role="progressbar"
+                                       style="width: {{ $data['progress'] }}%"
+                                       aria-valuenow="{{ $data['progress'] }}"
+                                       aria-valuemin="0"
+                                       aria-valuemax="100"></div>
+                              </div>
+                          </li>
+                      @endforeach
+            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <style>
+              .progress {
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    transition: width 0.6s ease;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+}
+              </style>
+              
+
+
+
+
+              
             </div>
           </div>
         </div>
@@ -456,5 +566,25 @@
             }
         });
         </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html> 
