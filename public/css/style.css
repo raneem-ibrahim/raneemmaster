@@ -76,13 +76,13 @@ header .navbar {
 }
 .hero-section {
   height: 100vh;
-  background-image: url("/image/hero_bg.jpg (4).jpg");
+  background-image: url("/image/open-book-wood-stand-red-carpet-600x330.jpg");
   background-position: center;
   background-size: cover;
   display: flex;
   align-items: center;
   padding: 0 20px;
-  height: 700px;
+  height: 600px;
 }
 
 #close-menu-btn {

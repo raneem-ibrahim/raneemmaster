@@ -26,7 +26,7 @@ class AdminController extends Controller
     public function dash( )
     {
        
-        return view('dashboard.dash');
+        return view('dashboard.layouts.dashboard');
     }
 
 

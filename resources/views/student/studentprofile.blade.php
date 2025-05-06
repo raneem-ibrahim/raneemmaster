@@ -206,7 +206,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12 mb-lg-0 mb-4">
+
+
+
+                  {{-- <div class="col-md-12 mb-lg-0 mb-4">
                     <div class="card mt-4">
                       <div class="card-header pb-0 p-3">
                         <div class="row">
@@ -237,81 +240,73 @@
                         </div>
                       </div>
                     </div>
+                  </div> --}}
+
+                  <div class="col-md-12 mb-lg-0 mb-4">
+                    <div class="card mt-4">
+                      <div class="card-header pb-0 p-3">
+                        <div class="row">
+                          <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">مساهمات الطالب</h6>
+                          </div>
+                          <div class="col-6 text-end">
+                            <a class="btn bg-gradient-dark mb-0" data-bs-toggle="collapse" href="#addContributionForm" role="button" aria-expanded="false" aria-controls="addContributionForm"><i class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;إضافة نص جديد</a>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <!-- Form to add new contribution -->
+                      <div class="card-body p-3 collapse" id="addContributionForm">
+                        <form action="" method="POST">
+                          @csrf
+                          <div class="mb-3">
+                            <label for="contributionType" class="form-label">نوع المشاركة</label>
+                            <select class="form-select" id="contributionType" name="type" required>
+                              <option value="نصيحة">نصيحة</option>
+                              <option value="حديث">حديث</option>
+                              <option value="آية">آية</option>
+                              <option value="عبارة">عبارة</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="contributionText" class="form-label">محتوى المشاركة</label>
+                            <textarea class="form-control" id="contributionText" name="content" rows="4" required></textarea>
+                          </div>
+                          <button type="submit" class="btn bg-gradient-dark">إضافة المشاركة</button>
+                        </form>
+                      </div>
+                  
+                      <div class="card-body p-3">
+                        <div class="row">
+                          <!-- Display existing contributions -->
+                          
+                            <div class="col-md-6 mb-md-0 mb-4">
+                              <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/chat.png" alt="comment">
+                                <div>
+                                  <h6 class="mb-0"></h6>
+                                  <p class="text-xs mb-0"></p>
+                                </div>
+                                <i class="material-symbols-rounded ms-auto text-dark">lightbulb</i>
+                              </div>
+                            </div>
+                     
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  
+
+
+
+
                 </div>
               </div>
 
 
 
 
-              {{-- <div class="col-lg-4">
-                <div class="card h-100">
-                  <div class="card-header pb-0 p-3">
-                    <div class="row">
-                      <div class="col-6 d-flex align-items-center">
-                        <h6 class="mb-0">الفواتير</h6>
-                      </div>
-                      <div class="col-6 text-end">
-                        <button class="btn btn-outline-primary btn-sm mb-0">عرض الكل</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body p-3 pb-0">
-                    <ul class="list-group">
-                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex flex-column">
-                          <h6 class="mb-1 text-dark font-weight-bold text-sm">مارس، 01، 2020</h6>
-                          <span class="text-xs">#MS-415646</span>
-                        </div>
-                        <div class="d-flex align-items-center text-sm">
-                          $180
-                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-                        </div>
-                      </li>
-                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex flex-column">
-                          <h6 class="text-dark mb-1 font-weight-bold text-sm">فبراير، 10، 2021</h6>
-                          <span class="text-xs">#RV-126749</span>
-                        </div>
-                        <div class="d-flex align-items-center text-sm">
-                          $250
-                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-                        </div>
-                      </li>
-                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex flex-column">
-                          <h6 class="text-dark mb-1 font-weight-bold text-sm">أبريل، 05، 2020</h6>
-                          <span class="text-xs">#FB-212562</span>
-                        </div>
-                        <div class="d-flex align-items-center text-sm">
-                          $560
-                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-                        </div>
-                      </li>
-                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex flex-column">
-                          <h6 class="text-dark mb-1 font-weight-bold text-sm">يونيو، 25، 2019</h6>
-                          <span class="text-xs">#QW-103578</span>
-                        </div>
-                        <div class="d-flex align-items-center text-sm">
-                          $120
-                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-                        </div>
-                      </li>
-                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                        <div class="d-flex flex-column">
-                          <h6 class="text-dark mb-1 font-weight-bold text-sm">مارس، 01، 2019</h6>
-                          <span class="text-xs">#AR-803481</span>
-                        </div>
-                        <div class="d-flex align-items-center text-sm">
-                          $300
-                          <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-symbols-rounded text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div> --}}
+          
 
 
 
