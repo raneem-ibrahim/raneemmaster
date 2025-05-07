@@ -15,6 +15,7 @@
 body{
   font-family: "Marhey", sans-serif;
 }
+
 header {
   position: fixed;
   top: 0;
@@ -60,7 +61,7 @@ header .navbar {
   color: rgb(131, 130, 130) !important;
 }
 .navbar .droplist:hover{
-    color: var(--colorprimary)!important;
+    color:black!important;
     border-color: #fff !important;
     background: rgba(255, 255, 255, 0.15) !important;
 }
@@ -70,7 +71,12 @@ header .navbar {
   transition: 0.2s ease !important;
 }
 .navbar  a:hover  {
-  color: var(--colorprimary)!important;
+  color: black!important;
+  text-decoration: underline !important;
+  text-underline-offset: 8px !important;
+}
+.navbar span:hover {
+  color: black!important;
   text-decoration: underline !important;
   text-underline-offset: 8px !important;
 }

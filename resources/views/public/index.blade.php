@@ -40,63 +40,54 @@
         <ul class="menu-links">
           <span id="close-menu-btn" class="material-symbols-outlined">close</span>
        
-          <li><a href="{{url('index')}}"> الرئيسية</a></li>
+          <li><a href="{{url('/')}}"> الرئيسية</a></li>
           <li><a href="{{url('aboutus')}}">من نحن </a></li>
           <li><a href="{{url('contact')}}">اتصل بنا </a></li>
-          <li><a href="{{url('bloge')}}"> مدونة </a></li>
-          {{-- <li ><div class="dropdown ">
-            <a class="btn btn-secondary dropdown-toggle droplist" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              الاعدادات
-            </a>
+          <li><a href="{{url('bloge')}}"> الدورات </a></li>
           
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item " href="#">Action</a></li>
-              <li><a class="dropdown-item " href="#">Another action</a></li>
-              <li><a class="dropdown-item " href="#">Something else here</a></li>
-            </ul>
-          </div>
-        </li> --}}
-        <li>
-          <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle droplist" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              الاعدادات
-            </a>
-          
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-              @guest
-                {{-- يظهر فقط إذا لم يكن المستخدم مسجلاً الدخول --}}
-                <li>
-                  <a class="dropdown-item" href="{{ url('login') }}">
-                    تسجيل الدخول 
-                    <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i>
-                  </a>
-                </li>
-              @endguest
+          <li>
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle droplist" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                الاعدادات
+              </a>
             
-              @auth
-                {{-- يظهر فقط إذا كان المستخدم مسجلاً الدخول --}}
-                <li>
-                  <a class="dropdown-item" href="{{ url('student') }}">
-                    الملف الشخصي 
-                    <i class="fa-regular fa-user" style="color: #838282;"></i>
-                  </a>
-                </li>
-                <li>
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0; color: inherit;">
-                      تسجيل خروج 
+              <ul class="dropdown-menu text-end" aria-labelledby="dropdownMenuLink" style="text-align: right; direction: rtl;">
+          
+                @guest
+                  {{-- يظهر فقط إذا لم يكن المستخدم مسجلاً الدخول --}}
+                  <li>
+                    <a class="dropdown-item d-flex flex-row-reverse justify-content-between align-items-center" href="{{ url('login') }}">
+                      <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i>
+                      <span>تسجيل الدخول</span>
+                    </a>
+                  </li>
+                @endguest
+              
+                @auth
+                  {{-- يظهر فقط إذا كان المستخدم مسجلاً الدخول --}}
+                  <li>
+                    <a class="dropdown-item d-flex flex-row-reverse justify-content-between align-items-center" href="{{ url('student') }}">
+                      <span style="color: black">الملف الشخصي</span>
                       <i class="fa-regular fa-user" style="color: #838282;"></i>
-                    </button>
-                  </form>
-                </li>
-              @endauth
-            
-            </ul>
-            
-          </div>
-        </li>
+                      
+                    </a>
+                  </li>
+                  <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                      @csrf
+                      <button type="submit" class="dropdown-item d-flex flex-row-reverse justify-content-between align-items-center w-100" style="background: none; border: none; padding: 0.25rem 1.5rem; color: inherit;">
+                        <span>تسجيل خروج</span>
+                        <i class="fa-solid fa-right-from-bracket" style="color: #838282;"></i>
+                      </button>
+                    </form>
+                  </li>
+                @endauth
+              
+              </ul>
+            </div>
+          </li>
+
+
         </ul>
         <span id="hamburger-btn" class="material-symbols-outlined">menu</span>
       </nav>
@@ -277,5 +268,7 @@
         <script src="/asset/js/bootstrap.min.js"></script>
         <script src="/asset/js/owl.carousel.min.js"></script>
         <script src="/asset/js/main.js"></script>
+
+      
   </body>
 </html>

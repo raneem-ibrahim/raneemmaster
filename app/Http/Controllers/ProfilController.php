@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Course;
 
 class ProfilController extends Controller
 {
@@ -96,6 +97,8 @@ $dailyAchievements = [];
             ->get();
     }
 
+    $courses = $selectedTeacher ? Course::where('created_by', $selectedTeacher->id)->with('levels')->get() : collect();
+ // أو حسب نوع الربط اللي بدك إياه
 
 
     return view('student.studentprofile', compact(
@@ -104,7 +107,8 @@ $dailyAchievements = [];
         'selectedTeacher',
         'needsMemorizationProgram',
                 'weeklyProgram', // تمرير بيانات البرنامج الأسبوعي
-                'dailyAchievements' // إضافة بيانات الإنجاز اليومي
+                'dailyAchievements' ,// إضافة بيانات الإنجاز اليومي
+                'courses' 
     ));
    
 
@@ -226,6 +230,14 @@ public function saveAchievements(Request $request)
 
     return redirect()->back()->with('success', 'تم حفظ الإنجاز بنجاح.');
 }
+
+// public function viewCourses()
+// {
+//     $courses = Course::with('levels')->get(); // جلب كل الكورسات
+//     return view('student.viewcourses', compact('courses'));
+// }
+
+
 
 
 

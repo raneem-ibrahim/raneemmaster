@@ -94,6 +94,11 @@ public function dailyAchievements()
 }
 
 
+ // المعلم أنشأ كورسات
+ public function courses()
+ {
+     return $this->hasMany(\App\Models\Course::class, 'created_by');
+ }
 
     protected $hidden = [
         'password',

@@ -11,6 +11,12 @@
             @foreach($courses as $course)
                 <div class="col-md-6 mb-4">
                     <div class="card border-1 shadow-sm">
+
+                        {{-- ✅ صورة الكورس --}}
+                        @if($course->image)
+                            <img src="{{ asset('storage/' . $course->image) }}" class="card-img-top" alt="صورة الكورس" style="max-height: 250px; object-fit: cover;">
+                        @endif
+
                         <div class="card-body">
                             <h5 class="card-title">{{ $course->title }}</h5>
                             <p class="card-text">{{ $course->description }}</p>

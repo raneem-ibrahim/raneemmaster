@@ -165,16 +165,25 @@ public function storeCourse(Request $request)
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // تحقق من الصورة
     ]);
+
+    $imagePath = null;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('courses', 'public'); // تخزين في storage/app/public/courses
+    }
 
     Course::create([
         'title' => $request->title,
         'description' => $request->description,
+        'image' => $imagePath, // تخزين المسار
         'created_by' => auth()->id(),
     ]);
 
     return redirect()->back()->with('success', 'تم إنشاء الكورس بنجاح');
 }
+
 // هاي دالة عرض صفحة انشاء المستويات 
 public function createLevelPage($courseId)
 {

@@ -1,10 +1,9 @@
 @extends('dashboard.dash')
 
-
 @section('content')
 <style>
     body {
-        background-color: #fdf6ee; /* بيج فاتح */
+        background-color: #fdf6ee;
     }
 
     .course-form-container {
@@ -48,7 +47,7 @@
 
 <div class="container py-5">
     <div class="course-form-container">
-        <h2 style=" font-family: 'Marhey', sans-serif;">إضافة كورس جديد</h2>
+        <h2 style=" font-family: 'Marhey', sans-serif;">إضافة دورة جديد</h2>
 
         {{-- رسائل النجاح --}}
         @if (session('success'))
@@ -67,19 +66,25 @@
         @endif
 
         {{-- النموذج --}}
-        <form action="{{ route('teacher.courses.store') }}" method="POST">
+        <form action="{{ route('teacher.courses.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
-                <label for="title" class="form-label">عنوان الكورس</label>
-                <input type="text" name="title" id="title" class="form-control" required placeholder=" اسم الكورس">
-
-            <div class="mb-3">
-                <label for="description" class="form-label">وصف الكورس (اختياري)</label>
-                <textarea name="description" id="description" rows="4" class="form-control" placeholder="وصف مختصر لمحتوى الكورس"></textarea>
+                <label for="title" class="form-label">عنوان الدورة</label>
+                <input type="text" name="title" id="title" class="form-control" required placeholder=" اسم الدورة">
             </div>
 
-            <button type="submit" class="btn btn-custom">حفظ الكورس</button>
+            <div class="mb-3">
+                <label for="description" class="form-label">وصف الدورة (اختياري)</label>
+                <textarea name="description" id="description" rows="4" class="form-control" placeholder="وصف مختصر لمحتوى الدورة"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">صورة الدورة (اختياري)</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-custom">حفظ الدورة</button>
         </form>
     </div>
 </div>

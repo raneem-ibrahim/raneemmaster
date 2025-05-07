@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'created_by'];
+    protected $fillable = ['title', 'description', 'created_by' ,'image'];
 
 
     // levels() توضح أن الكورس يحتوي على مستويات متعددة.

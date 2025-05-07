@@ -33,7 +33,7 @@
 
 <body class="g-sidenav-show bg-gray-100">
   <div class="container-fluid px-2 px-md-4">
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/image/شفيع.jpg');">
+    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/image/صورةجديد.jpg');">
       <span class="mask "></span>
     </div>
 
@@ -103,12 +103,7 @@
                             الإشعارات
                           </a>
                         </li>
-                        <li>
-                          <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
-                            <i class="material-symbols-rounded ms-1">dark_mode</i>
-                            الوضع الداكن
-                          </a>
-                        </li>
+                      
                         <li><hr class="dropdown-divider"></li>
                         <li>
                           <a class="dropdown-item text-danger" href="{{route('index')}}">
@@ -400,9 +395,11 @@
         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
           <div class="row justify-content-center">
             <div class="col-md-8 text-center py-5">
-              <i class="material-symbols-rounded text-6xl text-secondary">settings</i>
+              {{-- <i class="material-symbols-rounded text-6xl text-secondary">settings</i>
               <h4 class="mt-3">الإعدادات المتقدمة</h4>
-              <p class="text-muted">هنا يمكنك تعديل إعدادات حسابك وتفضيلاتك</p>
+              <p class="text-muted">هنا يمكنك تعديل إعدادات حسابك وتفضيلاتك</p> --}}
+              @include('student.viewcourses', ['courses' => $courses])
+
             </div>
           </div>
         </div>

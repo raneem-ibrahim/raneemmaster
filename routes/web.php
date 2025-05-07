@@ -138,6 +138,7 @@ Route::post('/setMemorizationProgram', [ProfilController::class, 'setMemorizatio
 Route::get('/student', [ProfilController::class, 'student']);
 Route::post('/profile/achievements', [ProfilController::class, 'saveAchievements'])->name('profile.saveAchievements');
 
+// Route::get('/view-courses', [ProfileController::class, 'viewCourses'])->name('courses.view');
 
 
 
