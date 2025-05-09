@@ -78,6 +78,10 @@
                 <label for="description" class="form-label">وصف الدورة (اختياري)</label>
                 <textarea name="description" id="description" rows="4" class="form-control" placeholder="وصف مختصر لمحتوى الدورة"></textarea>
             </div>
+            <div class="mb-3">
+                <label for="details" class="form-label">الشرح الكامل</label>
+                <textarea name="details" id="details" rows="6" class="form-control" placeholder="أدخل الشرح الكامل للدورة" required></textarea>
+            </div>
 
             <div class="mb-3">
                 <label for="image" class="form-label">صورة الدورة (اختياري)</label>

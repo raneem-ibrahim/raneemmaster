@@ -165,24 +165,27 @@ public function storeCourse(Request $request)
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // تحقق من الصورة
+        'details' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
     $imagePath = null;
 
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('courses', 'public'); // تخزين في storage/app/public/courses
+        $imagePath = $request->file('image')->store('courses', 'public');
     }
 
     Course::create([
         'title' => $request->title,
         'description' => $request->description,
-        'image' => $imagePath, // تخزين المسار
+        'details' => $request->details,
+        'image' => $imagePath,
         'created_by' => auth()->id(),
     ]);
 
     return redirect()->back()->with('success', 'تم إنشاء الكورس بنجاح');
 }
+
 
 // هاي دالة عرض صفحة انشاء المستويات 
 public function createLevelPage($courseId)
@@ -236,7 +239,7 @@ public function createlesson()
 
 
 
-
+// function store lesson
 public function storelesson(Request $request)
 {
     $request->validate([
@@ -258,6 +261,22 @@ public function storelesson(Request $request)
 
     return redirect()->back()->with('success', 'تمت إضافة الدرس بنجاح!');
 }
+
+// function dedlete courses
+public function destroy($id)
+{
+    $course = Course::findOrFail($id);
+
+    // حذف الصورة إذا كانت موجودة
+    if ($course->image && \Storage::exists('public/' . $course->image)) {
+        \Storage::delete('public/' . $course->image);
+    }
+
+    $course->delete();
+
+    return redirect()->back()->with('success', 'تم حذف الدورة بنجاح.');
+}
+
 
 
 }

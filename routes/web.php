@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TeacherProgramController;
 use App\Http\Controllers\WeeklyProgramController;
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,7 +47,7 @@ require __DIR__.'/auth.php';
 // لوحة تحكم المدير
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return view('dashboard.dash');
+        return view('dashboard.layouts.dashboard');
     })->name('admin.dashboard');
 });
 
@@ -161,6 +161,7 @@ Route::get('/weekly-program/create', [TeacherProgramController::class, 'create']
 // صفحة إنشاء المستويات
 Route::get('/courses', [TeacherProgramController::class, 'listCourses'])->name('courses.index');
 Route::post('/course/{courseId}/levels/store', [TeacherProgramController::class, 'storeLevel'])->name('levels.store');
+Route::delete('/courses/{id}', [TeacherProgramController::class, 'destroy'])->name('courses.destroy');
 
 
 
@@ -174,3 +175,8 @@ Route::post('/lessons', [TeacherProgramController::class, 'storelesson'])->name(
 
  Route::post('/weekly-program/store', [WeeklyProgramController::class, 'store'])->name('weekly-program.store');
  
+
+
+                                  //HomeController
+ Route::get('/bloge', [HomeController::class, 'showPublicCourses'])->name('public.courses');
+ Route::get('/courses/{id}', [HomeController::class, 'showCourseDetails'])->name('public.course.details');

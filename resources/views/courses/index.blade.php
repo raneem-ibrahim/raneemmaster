@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4" style="font-family: 'Marhey', sans-serif;">قائمة الكورسات</h2>
+    <h2 class="mb-4" style="font-family: 'Marhey', sans-serif;">قائمة الدورات</h2>
 
     @if($courses->isEmpty())
-        <div class="alert alert-warning">لا يوجد كورسات حالياً.</div>
+        <div class="alert alert-warning">لا يوجد دورات  حالياً.</div>
     @else
         <div class="row">
             @foreach($courses as $course)
@@ -25,6 +25,17 @@
                             <a href="#" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#createLevelModal{{ $course->id }}">
                                 إنشاء مستوى جديد
                             </a>
+                            <!-- زر حذف الدورة -->
+<!-- زر حذف الدورة باستخدام SweetAlert -->
+<button type="button" class="btn btn-danger" onclick="confirmDelete({{ $course->id }})" style="font-family: 'Marhey', sans-serif;">حذف الدورة</button>
+
+<!-- فورم الحذف (مخفي) -->
+<form id="delete-form-{{ $course->id }}" action="{{ route('courses.destroy', $course->id) }}" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+
 
                             <!-- مودال إنشاء مستوى -->
                             <div class="modal fade" id="createLevelModal{{ $course->id }}" tabindex="-1" aria-labelledby="createLevelModalLabel{{ $course->id }}" aria-hidden="true">
@@ -99,6 +110,25 @@
         color: black;
     }
 </style>
+<script>
+  function confirmDelete(courseId) {
+      Swal.fire({
+          title: 'هل أنت متأكد؟',
+          text: "لا يمكنك التراجع بعد الحذف!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#c37044',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'نعم، احذفها',
+          cancelButtonText: 'إلغاء'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              document.getElementById('delete-form-' + courseId).submit();
+          }
+      })
+  }
+</script>
+
 
 <!-- سكربت Bootstrap JS (مطلوب لتشغيل المودال) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

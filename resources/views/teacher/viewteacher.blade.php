@@ -57,17 +57,24 @@
               من {{ $teacher->min_age ?? '-' }} إلى {{ $teacher->max_age ?? '-' }} سنة
             </td>
             <td>
-              <button class="btn btn-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editTeacherModal"
-                onclick="fillEditForm({{ $teacher->id }}, '{{ $teacher->first_name }}', '{{ $teacher->last_name }}', '{{ $teacher->email }}', '{{ $teacher->age }}', '{{ $teacher->gender }}', '{{ $teacher->min_age }}', '{{ $teacher->max_age }}', '{{ asset('storage/' . $teacher->image) }}')">
-                <i class="material-symbols-rounded">edit</i> تعديل
-              </button>
+              <button class="btn btn-link text-decoration-none p-0 me-2" 
+              data-bs-toggle="modal" 
+              data-bs-target="#editTeacherModal"
+              onclick="fillEditForm({{ $teacher->id }}, '{{ $teacher->first_name }}', '{{ $teacher->last_name }}', '{{ $teacher->email }}', '{{ $teacher->age }}', '{{ $teacher->gender }}', '{{ $teacher->min_age }}', '{{ $teacher->max_age }}', '{{ asset('storage/' . $teacher->image) }}')"
+              style="color: #c37044;">
+          <i class="material-symbols-rounded align-middle">edit</i>
+          <span class="align-middle">تعديل</span>
+      </button>
 
               <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $teacher->id }}">
                 @csrf
                 @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $teacher->id }})">
-                  <i class="material-symbols-rounded">delete</i> حذف
-                </button>
+                <button class="btn btn-link text-decoration-none p-0" 
+                onclick="confirmDelete({{ $teacher->id }})"
+                style="color: #dc3545;">
+            <i class="material-symbols-rounded align-middle">delete</i>
+            <span class="align-middle">حذف</span>
+        </button>
               </form>
             </td>
           </tr>

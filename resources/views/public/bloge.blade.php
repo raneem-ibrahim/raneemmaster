@@ -42,7 +42,7 @@
           <li><a href="{{url('/')}}"> الرئيسية</a></li>
           <li><a href="{{url('aboutus')}}">من نحن </a></li>
           <li><a href="{{url('contact')}}">اتصل بنا </a></li>
-          <li><a href="{{url('bloge')}}"> مدونة </a></li>
+          <li><a href="{{url('bloge')}}"> الدورات </a></li>
           <li>
             <div class="dropdown">
               <a class="btn btn-secondary dropdown-toggle droplist" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,9 +90,180 @@
     </header>
     <section class="hero-section">
         <div class="quran-verse">
-          <p class="verse-text">مدونة</p>
+          <p class="verse-text">الدورات </p>
         </div>
       </section>
+
+
+
+     
+      <div class="custom-courses-wrapper" dir="rtl">
+        <h2 class="custom-section-title"  style=" font-family: 'Marhey', sans-serif;">الدورات التعليمية</h2>
+    
+        <div class="custom-courses-grid">
+            @foreach ($courses as $course)
+                <div class="custom-card">
+                    <div class="custom-card-image-wrapper">
+                        <img src="{{ asset('storage/' . $course->image) }}" alt="صورة الدورة" class="custom-card-img">
+                        <div class="custom-video-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                    </div>
+    
+                    <div class="custom-card-body">
+                        <h5 class="custom-card-title" style=" font-family: 'Marhey', sans-serif;">{{ $course->title }}</h5>
+                        <p class="custom-card-description">{{ Str::limit($course->description, 60) }}</p>
+                        <p class="custom-card-levels">عدد المستويات: {{ $course->levels->count() }}</p>
+    
+                        <div class="custom-card-footer">
+                            <div class="custom-stars"> <span style="color:black;">(4.5)</span>★★★★</div>
+                            <a href="{{ route('public.course.details', $course->id) }}" class="custom-read-more-btn">اقرأ المزيد</a>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    
+    
+    
+<style>
+.custom-courses-wrapper {
+    padding: 60px 20px;
+    background-color: #fdfdfd;
+}
+
+.custom-section-title {
+    color: #c37044;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+.custom-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px; /* قللنا المسافة بين الكاردات */
+    justify-content: center;
+}
+.custom-courses-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* قلل المسافة بين الكاردات */
+    padding: 0 40px; /* قلل الهوامش الجانبية */
+}
+
+
+.custom-card {
+    background-color: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 330px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+
+.custom-card-image-wrapper {
+    position: relative;
+}
+
+.custom-card-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.custom-video-icon {
+    position: absolute;
+    bottom: -37px;
+    left: 10px;
+    color: #c37044;
+    font-size: 3rem;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.custom-card-body {
+    padding: 20px;
+    text-align: right;
+    direction: rtl;
+}
+
+.custom-card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.custom-card-description {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.custom-card-levels {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.custom-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-stars {
+    color: gold;
+    font-size: 1.2rem;
+}
+
+.custom-read-more-btn {
+    background-color: #c37044;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.custom-read-more-btn:hover {
+  color: #050302;
+}
+
+
+
+</style>  
+      
+      <!-- تصميم الزر -->
+      {{-- <style>
+          .btn-custom {
+              background-color: #c37044;
+              color: white;
+              font-weight: bold;
+              font-family: 'Cairo', sans-serif;
+              border-radius: 1rem;
+              transition: 0.3s;
+          }
+          .btn-custom1:hover {
+              background-color: #a4552f;
+              color: #fff;
+          }
+      </style> --}}
+    
+      
+
+
+
+
+
 
       <footer>
         <div class="footer-divider">

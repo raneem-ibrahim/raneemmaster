@@ -22,40 +22,41 @@
         </a>
     </li>
     </li>
+    @auth
+    @if(auth()->user()->role === 'admin')
     <li class="nav-item dropdown">
-      <a class="nav-link text-dark dropdown-toggle" href="#" id="teachersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="material-symbols-rounded opacity-10">groups</i>
-          <span class="nav-link-text me-1">معلمين</span>
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="teachersDropdown">
-          
-        <li>
-            <a class="dropdown-item" href="{{route('addteacher')}}">
-                <i class="material-symbols-rounded opacity-10 me-2">person_add</i>
-                إضافة معلم جديد
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="{{route('teachers.index')}}">
-                <i class="material-symbols-rounded opacity-10 me-2">list</i>
-                قائمة المعلمين
-            </a>
-        </li>
-    
-    </ul>
-    
-  </li>
+        <a class="nav-link text-dark dropdown-toggle" href="#" id="teachersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="material-symbols-rounded opacity-10">groups</i>
+            <span class="nav-link-text me-1">معلمين</span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="teachersDropdown">
+            <li>
+                <a class="dropdown-item" href="{{route('addteacher')}}">
+                    <i class="material-symbols-rounded opacity-10 me-2">person_add</i>
+                    إضافة معلم جديد
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{route('teachers.index')}}">
+                    <i class="material-symbols-rounded opacity-10 me-2">list</i>
+                    قائمة المعلمين
+                </a>
+            </li>
+        </ul>
+    </li>
+    @endif
+@endauth
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle text-dark" href="javascript:;" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="material-symbols-rounded opacity-10">library_add</i>
-        <span class="nav-link-text me-1">إدارة الكورس</span>
+        <span class="nav-link-text me-1">إدارة الدورات</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="coursesDropdown">
         <li>
         
           <a class="dropdown-item" href="{{url('createcourse')}}">
               <i class="material-symbols-rounded opacity-10">add</i>
-              <span class="me-2">إنشاءكورس</span>
+              <span class="me-2">إنشاء دورة</span>
           </a>
 
       
@@ -63,7 +64,7 @@
         <li>
             <a class="dropdown-item" href="{{route('courses.index')}}">
                 <i class="material-symbols-rounded opacity-10">video_library</i>
-                <span class="me-2">  الكورسات</span>
+                <span class="me-2">  الدورات</span>
             </a>
         </li>
         <li><hr class="dropdown-divider"></li>
