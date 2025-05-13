@@ -23,8 +23,47 @@ class AdminController extends Controller
     $courses = Course::all();
         return view('dashboard.pages.profile', compact('user','courses'));
     }
-    public function dash( )
+//     public function dash( )
+//     {
+//          $studentsCount = User::where('role', 'student')->count();
+//     $teachersCount = User::where('role', 'teacher')->count();
+//     $coursesCount = Course::count();
+//     $weeklyProgramsCount = WeeklyProgram::count(); // أو ممكن نقسمهم حسب النوع (حفظ/مراجعة)
+
+       
+//         return view('dashboard.layouts.dashboard'  , compact(
+//         'studentsCount',
+//         'teachersCount',
+//         'coursesCount',
+//         'weeklyProgramsCount'
+//     ));
+//     }
+
+//     public function teacherDash()
+// {
+//     $teacher = auth()->user();
+
+//     // جلب الطلاب المرتبطين بهذا المعلم من جدول student_teacher
+//     $studentIds = \DB::table('student_teacher')
+//                     ->where('teacher_id', $teacher->id)
+//                     ->pluck('student_id');
+
+//     $studentsCount = $studentIds->count();
+//     $coursesCount = Course::where('created_by', $teacher->id)->count(); // إذا كان عندك created_by في courses
+
+//     $weeklyProgramsCount = WeeklyProgram::whereIn('user_id', $studentIds)->count();
+
+//     return view('dashboard.layouts.dashboard', compact(
+//         'studentsCount',
+//         'coursesCount',
+//         'weeklyProgramsCount'
+//     ));
+// }
+
+
+ public function dash( )
     {
+        
        
         return view('dashboard.layouts.dashboard');
     }

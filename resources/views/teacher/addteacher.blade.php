@@ -85,6 +85,13 @@
                                 <label class="form-label">العمر</label>
                                 <input type="number" name="age" class="form-control" min="18" max="80" required>
                             </div>
+                            <div class="col-md-6">
+    <label class="form-label">رقم الهاتف</label>
+    <input type="text" name="phone" class="form-control" required
+        pattern="^07\d{8}$"
+        title="رقم الهاتف يجب أن يبدأ بـ 07 ويحتوي على 10 أرقام">
+</div>
+
     
                             <div class="col-md-6">
                                 <label class="form-label">الجنس</label>
@@ -129,7 +136,9 @@
       document.querySelector('form').addEventListener('submit', function (e) {
           const email = document.querySelector('input[name="email"]').value;
           const password = document.querySelector('input[name="password"]').value;
-  
+          const phone = document.querySelector('input[name="phone"]').value;
+
+          const phoneRegex = /^07\d{8}$/;
           const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   
@@ -139,7 +148,10 @@
           } else if (!passwordRegex.test(password)) {
               alert('كلمة المرور يجب أن تحتوي على 8 خانات على الأقل، تشمل حرف كبير، حرف صغير، رقم، ورمز خاص');
               e.preventDefault();
-          }
+          } else if (!phoneRegex.test(phone)) {
+    alert('رقم الهاتف يجب أن يبدأ بـ 07 ويحتوي على 10 أرقام');
+    e.preventDefault();
+}
       });
   </script>
   {{-- هاد للسويت اليرت --}}
@@ -163,7 +175,7 @@
   
   
  {{-- start footer  --}}
-    @include('dashboard.include.footer')
+    {{-- @include('dashboard.include.footer') --}}
      {{-- end footer  --}}
     </div>
   </main>

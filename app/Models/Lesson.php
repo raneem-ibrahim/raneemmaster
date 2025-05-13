@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     use HasFactory;
-    protected $fillable = ['level_id', 'title', 'description', 'video_url'];
+    protected $fillable = ['level_id', 'title', 'description', 'video_url','teacher_id'];
 
 
     // level() يربط الدرس بالمستوى الذي ينتمي له.
@@ -16,4 +16,14 @@ class Lesson extends Model
     {
         return $this->belongsTo(Level::class);
     }
+    public function teacher()
+{
+    return $this->belongsTo(User::class, 'teacher_id');
+}
+public function viewers()
+{
+    return $this->belongsToMany(User::class, 'lesson_views')->withTimestamps();
+}
+
+
 }

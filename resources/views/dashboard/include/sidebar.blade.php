@@ -10,7 +10,7 @@
   <div class="collapse navbar-collapse px-0 w-auto back_side2 " id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link text-dark" href="{{url('/dash')}}">
+        <a class="nav-link text-dark" href="{{url('/admin/dashboard')}}">
           <i class="material-symbols-rounded opacity-10">dashboard</i>
           <span class="nav-link-text me-1">لوحة القيادة</span>
         </a>
@@ -52,15 +52,16 @@
         <span class="nav-link-text me-1">إدارة الدورات</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="coursesDropdown">
-        <li>
-        
-          <a class="dropdown-item" href="{{url('createcourse')}}">
-              <i class="material-symbols-rounded opacity-10">add</i>
-              <span class="me-2">إنشاء دورة</span>
-          </a>
-
-      
-        </li>
+      <li>
+    @auth
+        @if(auth()->user()->role === 'admin') <!-- أو أي شرط آخر -->
+            <a class="dropdown-item" href="{{ url('createcourse') }}">
+                <i class="material-symbols-rounded opacity-10">add</i>
+                <span class="me-2">إنشاء دورة</span>
+            </a>
+        @endif
+    @endauth
+</li>
         <li>
             <a class="dropdown-item" href="{{route('courses.index')}}">
                 <i class="material-symbols-rounded opacity-10">video_library</i>
@@ -94,71 +95,49 @@
           </a>
       </li>
       
-      <!-- تصنيف الدروس -->
-      <li>
-          <a class="dropdown-item" href="">
-              <i class="material-symbols-rounded opacity-10 me-2">category</i>
-              <span>تصنيف الدروس</span>
-          </a>
-      </li>
+   
       
-      <li><hr class="dropdown-divider"></li>
-      
-      <!-- الدروس الأكثر مشاهدة -->
-      <li>
-          <a class="dropdown-item" href="">
-              <i class="material-symbols-rounded opacity-10 me-2">trending_up</i>
-              <span>الدروس الأكثر مشاهدة</span>
-          </a>
-      </li>
+     
   </ul>
 </li>
       <li class="nav-item">
         <a class="nav-link text-dark" href="{{route('profile')}}">
           <i class="material-symbols-rounded opacity-10">person</i>
-          <span class="nav-link-text me-1">حساب تعريفي</span>
+          <span class="nav-link-text me-1"> الملف الشخصي</span>
         </a>
       </li>
-      {{-- <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/sign-in.html">
-          <i class="material-symbols-rounded opacity-10">login</i>
-          <span class="nav-link-text me-1">تسجيل الدخول</span>
-        </a>
-      </li> --}}
-      @auth
-  <li class="nav-item">
-    <form method="POST" action="{{ route('logout') }}">
-      @csrf
-      <button type="submit" class="nav-link text-dark" style="background: none; border: none; padding: 0;">
-        <i class="material-symbols-rounded opacity-10">logout</i>
-        <span class="nav-link-text me-1">تسجيل الخروج</span>
-      </button>
-    </form>
-  </li>
-@else
-  <li class="nav-item">
-    <a class="nav-link text-dark" href="{{ route('login') }}">
-      <i class="material-symbols-rounded opacity-10">login</i>
-      <span class="nav-link-text me-1">تسجيل الدخول</span>
-    </a>
-  </li>
-@endauth
-
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="../pages/sign-up.html">
-          <i class="material-symbols-rounded opacity-10">assignment</i>
-          <span class="nav-link-text me-1">اشتراك</span>
-        </a>
-      </li>
+    
     </ul>
   </div>
-  {{-- <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+ <div class="sidenav-footer position-absolute w-100 bottom-0">
     <div class="mx-3">
-      <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
-      <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+        @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn btn-outline-dark mt-4 w-100" type="button">
+                <i class="material-symbols-rounded opacity-10">logout</i>
+                تسجيل الخروج
+            </button>
+        </form>
+        @else
+        <a class="btn btn-outline-dark mt-4 w-100" href="{{ route('login') }}" type="button">
+            <i class="material-symbols-rounded opacity-10">login</i>
+            تسجيل الدخول
+        </a>
+        @endauth
+        
+        <a class="btn bg-gradient-dark w-100" href="../pages/sign-up.html" type="button">
+            <i class="material-symbols-rounded opacity-10">share</i>
+            شارك
+        </a>
     </div>
-  </div> --}}
+</div>
 </aside>
+
+
+
+
+
 {{-- <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-end me-2 rotate-caret bg-white my-2 back_side" id="sidenav-main ">
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute start-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>

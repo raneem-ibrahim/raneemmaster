@@ -101,43 +101,50 @@ class TeacherProgramController extends Controller
   
    
     
+// دالة تخزين المعلم من قبل الأدمن 
 
+   public function storeteacher(Request $request)
+{
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => [
+            'required',
+            'min:8',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/'
+        ],
+        'phone' => 'required|regex:/^07\d{8}$/|unique:users,phone',
+        'age' => 'required|integer|min:18|max:80',
+        'gender' => 'required|in:ذكر,أنثى',
+        'teaching_from_age' => 'required|integer|min:3|max:80',
+        'teaching_to_age' => 'required|integer|min:3|max:80',
+        'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
 
-    public function storeteacher(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-            'age' => 'required|integer|min:18|max:80',
-            'gender' => 'required|in:ذكر,أنثى',
-            'teaching_from_age' => 'required|integer|min:3|max:80',
-            'teaching_to_age' => 'required|integer|min:3|max:80',
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        ]);
-    
-        $user = new User();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->age = $request->age;
-        $user->gender = $request->gender === 'ذكر' ? 'male' : 'female';
-        $user->role = 'teacher';
-        $user->min_age = $request->teaching_from_age;
-        $user->max_age = $request->teaching_to_age;
-    
-        // معالجة الصورة إن وُجدت
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('teacher_images', 'public');
-            $user->image = $path;
-        }
-    
-        $user->save();
-    
-        return redirect()->back()->with('success', 'تم حفظ بيانات المعلم بنجاح');
+    $user = new User();
+    $user->first_name = $request->first_name;
+    $user->last_name = $request->last_name;
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->phone = $request->phone;
+    $user->age = $request->age;
+    $user->gender = $request->gender === 'ذكر' ? 'male' : 'female';
+    $user->role = 'teacher';
+    $user->min_age = $request->teaching_from_age;
+    $user->max_age = $request->teaching_to_age;
+
+    // معالجة الصورة إن وُجدت
+    if ($request->hasFile('photo')) {
+        $path = $request->file('photo')->store('teacher_images', 'public');
+        $user->image = $path;
     }
+
+    $user->save();
+
+    return redirect()->back()->with('success', 'تم حفظ بيانات المعلم بنجاح');
+}
+
     // function view teachers
     public function viewteacher()
 {
@@ -157,8 +164,8 @@ public function createcourse(){
      
      // إنشاء الكورس من قبل الأدمن (أو المعلم حسب الحالة)
      $courses = Course::all(); // جلب جميع الكورسات
-
-    return view('courses.create');
+    $teachers = User::where('role', 'teacher')->get();
+    return view('courses.create' , compact('teachers'));
 }
 public function storeCourse(Request $request)
 {
@@ -167,6 +174,8 @@ public function storeCourse(Request $request)
         'description' => 'nullable|string',
         'details' => 'required|string',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'teachers' => 'nullable|array', // التحقق من وجود معلمين (اختياري)
+        'teachers.*' => 'exists:users,id', // كل ID لازم يكون لمعلم موجود
     ]);
 
     $imagePath = null;
@@ -175,7 +184,8 @@ public function storeCourse(Request $request)
         $imagePath = $request->file('image')->store('courses', 'public');
     }
 
-    Course::create([
+    // 1. إنشاء الدورة
+    $course = Course::create([
         'title' => $request->title,
         'description' => $request->description,
         'details' => $request->details,
@@ -183,8 +193,14 @@ public function storeCourse(Request $request)
         'created_by' => auth()->id(),
     ]);
 
-    return redirect()->back()->with('success', 'تم إنشاء الكورس بنجاح');
+    // 2. ربط المعلمين مع الدورة
+    if ($request->has('teachers')) {
+        $course->teachers()->attach($request->teachers); // علاقة many-to-many
+    }
+
+    return redirect()->back()->with('success', 'تم إنشاء الدورة وربط المعلمين بها بنجاح');
 }
+
 
 
 // هاي دالة عرض صفحة انشاء المستويات 
@@ -247,20 +263,35 @@ public function storelesson(Request $request)
         'level_id' => 'required|exists:levels,id',
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'video_file' => 'required|file|mimetypes:video/mp4,video/x-msvideo,video/quicktime|max:50000', // 50MB حد أقصى
+        'video_file' => 'required|file|mimes:mp4,avi,mov|max:51200', // 50MB كحد أقصى
     ]);
 
+    // تخزين الفيديو في المسار المحدد
     $videoPath = $request->file('video_file')->store('videos', 'public'); // تخزين في storage/app/public/videos
 
-    Lesson::create([
-        'level_id' => $request->level_id,
-        'title' => $request->title,
-        'description' => $request->description,
-        'video_url' => $videoPath, // هذا الحقل نفسه الموجود عندك
-    ]);
+    // التحقق من أن المستخدم معلم
+    if (auth()->check() && auth()->user()->role === 'teacher') {
+        // عرض معلومات المستخدم للتحقق من المعرف
+        $user = auth()->user();
 
-    return redirect()->back()->with('success', 'تمت إضافة الدرس بنجاح!');
+        // إنشاء الدرس وربطه بالمعلم
+        Lesson::create([
+            'course_id' => $request->course_id,
+            'level_id' => $request->level_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'video_url' => $videoPath, // مسار الفيديو المخزن
+            'teacher_id' => auth()->id(), // ربط الدرس بالمعلم
+        ]);
+
+        return redirect()->back()->with('success', 'تمت إضافة الدرس بنجاح!');
+    } else {
+        return redirect()->back()->with('error', 'فقط المعلم يمكنه إضافة درس.');
+    }
 }
+
+
+
 
 // function dedlete courses
 public function destroy($id)
@@ -276,6 +307,55 @@ public function destroy($id)
 
     return redirect()->back()->with('success', 'تم حذف الدورة بنجاح.');
 }
+
+
+// هاي دالة تحديث الملف الشخصي للمعلم
+public function updateprofileteacher(Request $request)
+{
+    $user = auth()->user();
+
+    // تحديث صورة المعلم
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $path = $image->store('teachers', 'public');
+        $user->image = $path;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'image_url' => asset('storage/' . $path)
+        ]);
+    }
+
+    // التحقق من الحقل المراد تحديثه
+    if ($request->filled('field')) {
+        $field = $request->input('field');
+
+        switch ($field) {
+            case 'phone':
+                $request->validate([
+                    'phone' => 'required|string|max:20',
+                ]);
+                $user->phone = $request->input('phone');
+                $user->save();
+                return back()->with('success', 'تم تحديث رقم الهاتف بنجاح.');
+
+            case 'password':
+                $request->validate([
+                    'password' => 'required|string|min:6|confirmed',
+                ]);
+                $user->password = Hash::make($request->input('password'));
+                $user->save();
+                return back()->with('success', 'تم تحديث كلمة المرور بنجاح.');
+
+            default:
+                return back()->with('error', 'حقل غير صالح.');
+        }
+    }
+
+    return back()->with('error', 'لم يتم تحديد أي عملية.');
+}
+
 
 
 

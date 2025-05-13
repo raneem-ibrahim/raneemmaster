@@ -145,6 +145,19 @@ header .navbar {
   }
 
 @media (max-width: 768px) {
+   .navbar .menu-links a {
+    color: #000 !important;
+  }
+
+  .navbar .droplist {
+    color: #000 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #ccc !important;
+  }
+
+  .navbar .dropdown-menu a {
+    color: #000 !important;
+  }
   header {
     padding: 10px;
   }

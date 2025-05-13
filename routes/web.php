@@ -45,11 +45,20 @@ require __DIR__.'/auth.php';
 
 
 // لوحة تحكم المدير
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin/dashboard', function () {
+//         return view('dashboard.layouts.dashboard');
+//     })->name('admin.dashboard');
+// });
+// لوحة تحكم المدير
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard.layouts.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dash'])->name('admin.dashboard');
 });
+
+// Route::middleware(['auth', 'role:teacher'])->group(function () {
+//     Route::get('/teacher', [AdminController::class, 'teacherDash'])->name('dashboard.dash');
+// });
+
 
 // لوحة تحكم المعلم
 Route::middleware(['auth', 'role:teacher'])->group(function () {
@@ -65,13 +74,7 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     })->name('public.index');
 });
 
-
-
-
-// Route::get('/dash', function () {
-//     return view('dashboard.dash');
-// });
-Route::get('/dash', [AdminController::class, 'dash']);
+// Route::get('/dash', [AdminController::class, 'dash']);
 
 
 
@@ -163,6 +166,7 @@ Route::get('/courses', [TeacherProgramController::class, 'listCourses'])->name('
 Route::post('/course/{courseId}/levels/store', [TeacherProgramController::class, 'storeLevel'])->name('levels.store');
 Route::delete('/courses/{id}', [TeacherProgramController::class, 'destroy'])->name('courses.destroy');
 
+Route::put('/teacher/profile/update', [TeacherProgramController::class, 'updateprofileteacher'])->name('teacher.profile.update');
 
 
 Route::get('/lessons/create', [TeacherProgramController::class, 'createlesson'])->name('lessons.create');

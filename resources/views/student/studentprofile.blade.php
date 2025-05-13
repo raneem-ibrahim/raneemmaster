@@ -30,8 +30,19 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+<style>
+  html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-<body class="g-sidenav-show bg-gray-100">
+.container {
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+  </style>
+<body class="g-sidenav-show bg-gray-100" style=" overflow-x: hidden;">
   <div class="container-fluid px-2 px-md-4">
     <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('/image/صورةجديد.jpg');">
       <span class="mask "></span>
@@ -128,254 +139,196 @@
         <div class="tab-pane fade show active" id="app" role="tabpanel" aria-labelledby="app-tab">
           <div class="row">
 
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="row">
-                  <div class="col-xl-6 mb-xl-0 mb-4">
-                    <div class="card bg-transparent shadow-xl">
-                      <div class="overflow-hidden position-relative border-radius-xl">
-                        <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
-                        <span class="mask bg-gradient-dark opacity-10"></span>
-                        <div class="card-body position-relative z-index-1 p-3">
-                          <i class="material-symbols-rounded text-white p-2">wifi</i>
-                          <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
-                          <div class="d-flex">
-                            <div class="d-flex">
-                              <div class="me-4">
-                                <p class="text-white text-sm opacity-8 mb-0">حامل البطاقة</p>
-                                <h6 class="text-white mb-0">جاك بيترسون</h6>
-                              </div>
-                              <div>
-                                <p class="text-white text-sm opacity-8 mb-0">تاريخ الانتهاء</p>
-                                <h6 class="text-white mb-0">11/22</h6>
-                              </div>
-                            </div>
-                            <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-                              <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-6">
-                    <div class="row">
-                      <div class="col-md-6 col-6">
-                        <div class="card">
-                          <div class="card-header mx-4 p-3 text-center">
-                            <div class="icon icon-shape icon-lg bg-gradient-dark shadow text-center border-radius-lg">
-                              <i class="material-symbols-rounded opacity-10">account_balance</i>
-                            </div>
-                          </div>
-
-
-                          <div class="card-body pt-0 p-3 text-center">
-                            <h6 class="text-center mb-0">الراتب</h6>
-                            <span class="text-xs">
-                              @if($selectedTeacher)
-                                المعلم: {{ $selectedTeacher->first_name }} {{ $selectedTeacher->last_name }}
-                              @else
-                                بيلونغ إنترأكتيف
-                              @endif
-                            </span>
-                            <hr class="horizontal dark my-3">
-                            <h5 class="mb-0">+$2000</h5>
-                          </div>
-                          
-                        </div>
-                      </div>
-                      <div class="col-md-6 col-6">
-                        <div class="card">
-                          <div class="card-header mx-4 p-3 text-center">
-                            <div class="icon icon-shape icon-lg bg-gradient-dark shadow text-center border-radius-lg">
-                              <i class="material-symbols-rounded opacity-10">account_balance_wallet</i>
-                            </div>
-                          </div>
-                          <div class="card-body pt-0 p-3 text-center">
-                            <h6 class="text-center mb-0">بايبال</h6>
-                            <span class="text-xs">دفع العمل الحر</span>
-                            <hr class="horizontal dark my-3">
-                            <h5 class="mb-0">$455.00</h5>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  {{-- <div class="col-md-12 mb-lg-0 mb-4">
-                    <div class="card mt-4">
-                      <div class="card-header pb-0 p-3">
-                        <div class="row">
-                          <div class="col-6 d-flex align-items-center">
-                            <h6 class="mb-0">طرق الدفع</h6>
-                          </div>
-                          <div class="col-6 text-end">
-                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;إضافة بطاقة جديدة</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body p-3">
-                        <div class="row">
-                          <div class="col-md-6 mb-md-0 mb-4">
-                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                              <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
-                              <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
-                              <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="تحرير البطاقة">edit</i>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                              <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-                              <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
-                              <i class="material-symbols-rounded ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="تحرير البطاقة">edit</i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> --}}
-
-                  <div class="col-md-12 mb-lg-0 mb-4">
-                    <div class="card mt-4">
-                      <div class="card-header pb-0 p-3">
-                        <div class="row">
-                          <div class="col-6 d-flex align-items-center">
-                            <h6 class="mb-0">مساهمات الطالب</h6>
-                          </div>
-                          <div class="col-6 text-end">
-                            <a class="btn bg-gradient-dark mb-0" data-bs-toggle="collapse" href="#addContributionForm" role="button" aria-expanded="false" aria-controls="addContributionForm"><i class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;إضافة نص جديد</a>
-                          </div>
-                        </div>
-                      </div>
-                  
-                      <!-- Form to add new contribution -->
-                      <div class="card-body p-3 collapse" id="addContributionForm">
-                        <form action="" method="POST">
-                          @csrf
-                          <div class="mb-3">
-                            <label for="contributionType" class="form-label">نوع المشاركة</label>
-                            <select class="form-select" id="contributionType" name="type" required>
-                              <option value="نصيحة">نصيحة</option>
-                              <option value="حديث">حديث</option>
-                              <option value="آية">آية</option>
-                              <option value="عبارة">عبارة</option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <label for="contributionText" class="form-label">محتوى المشاركة</label>
-                            <textarea class="form-control" id="contributionText" name="content" rows="4" required></textarea>
-                          </div>
-                          <button type="submit" class="btn bg-gradient-dark">إضافة المشاركة</button>
-                        </form>
-                      </div>
-                  
-                      <div class="card-body p-3">
-                        <div class="row">
-                          <!-- Display existing contributions -->
-                          
-                            <div class="col-md-6 mb-md-0 mb-4">
-                              <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/chat.png" alt="comment">
-                                <div>
-                                  <h6 class="mb-0"></h6>
-                                  <p class="text-xs mb-0"></p>
-                                </div>
-                                <i class="material-symbols-rounded ms-auto text-dark">lightbulb</i>
-                              </div>
-                            </div>
-                     
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-
-
-
-
-                </div>
-              </div>
-
-
-
-
-          
-
-
-
-            
-              <div class="col-lg-4">
-                <div class="card h-100">
-                    <div class="card-header pb-0 p-3">
-                        <div class="row">
-                            <div class="col-6 d-flex align-items-center">
-                                <h6 class="mb-0">إحصائيات إنجاز الحفظ</h6>
-                            </div>
-                            <div class="col-6 text-end">
-                                {{-- <span class="badge bg-gradient-success">أسبوع {{ now()->weekOfYear }}</span> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-3 pb-0">
-                        <ul class="list-group">
-                          @foreach ($dailyAchievements as $data)
-                          <li class="list-group-item border-0 ps-0 pt-0 pb-2">
-                              <div class="d-flex justify-content-between">
-                                  <p class="text-dark mb-0">{{ $data['day'] }}</p>
-                                  <p class="text-sm font-weight-bold mb-0">{{ $data['progress'] }}%</p>
-                              </div>
-                              <div class="progress" style="height: 8px;">
-                                  <div class="progress-bar bg-{{ $data['is_completed'] ? 'success' : ($data['progress'] > 0 ? 'info' : 'secondary') }}"
-                                       role="progressbar"
-                                       style="width: {{ $data['progress'] }}%"
-                                       aria-valuenow="{{ $data['progress'] }}"
-                                       aria-valuemin="0"
-                                       aria-valuemax="100"></div>
-                              </div>
-                          </li>
-                      @endforeach
-            
-                        </ul>
-                    </div>
-                </div>
+   <div class="container" style="width: 550px; margin-left: 0;">
+    <div class="row" style="justify-content: flex-end;">
+        <!-- الدائرة الأولى -->
+        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+                <span class="progress-left">
+                    <span class="progress-bar"></span>
+                </span>
+                <span class="progress-right">
+                    <span class="progress-bar"></span>
+                </span>
+                <div class="progress-value">90%</div>
             </div>
-            
-            <style>
-              .progress {
-    height: 20px;
-    margin-bottom: 10px;
-}
-
-.progress-bar {
-    transition: width 0.6s ease;
-    font-size: 12px;
-    color: #fff;
-    text-align: center;
-    line-height: 20px;
-}
-
-.bg-success {
-    background-color: #28a745 !important;
-}
-
-.bg-info {
-    background-color: #17a2b8 !important;
-}
-              </style>
-              
-
-
-
-
-              
+            <div class="progress-label">المستوى الأول</div>
+        </div>
+        
+        <!-- الدائرة الثانية -->
+        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+                <span class="progress-left">
+                    <span class="progress-bar"></span>
+                </span>
+                <span class="progress-right">
+                    <span class="progress-bar"></span>
+                </span>
+                <div class="progress-value">75%</div>
             </div>
+            <div class="progress-label">المستوى الثاني</div>
+        </div>
+        
+        <!-- الدائرة الثالثة -->
+        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+                <span class="progress-left">
+                    <span class="progress-bar"></span>
+                </span>
+                <span class="progress-right">
+                    <span class="progress-bar"></span>
+                </span>
+                <div class="progress-value">60%</div>
+            </div>
+            <div class="progress-label">المستوى الثالث</div>
+        </div>
+    </div>
+</div>
+
           </div>
         </div>
         
+ {{-- هاد ستايل circile progress bar --}}
+<style>
+  .progress{
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    background: none;
+    margin: 0 auto;
+    box-shadow: none;
+    position: relative;
+}
+.progress:after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.progress > span{
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+.progress .progress-left{
+    left: 0;
+}
+.progress .progress-bar{
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 12px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+.progress .progress-left .progress-bar{
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+.progress .progress-right{
+    right: 0;
+}
+.progress .progress-right .progress-bar{
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+    animation: loading-1 1.8s linear forwards;
+}
+.progress .progress-value{
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: #ffffff;
+    font-size: 24px;
+    color:  #c37044;
+    line-height: 135px;
+    text-align: center;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+.progress.blue .progress-bar{
+    border-color:  #c37044;
+}
+.progress.blue .progress-left .progress-bar{
+    animation: loading-2 1.5s linear forwards 1.8s;
+}
 
 
+
+
+
+
+@keyframes loading-1{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+@keyframes loading-2{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(144deg);
+        transform: rotate(144deg);
+    }
+}
+@keyframes loading-3{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+}
+@keyframes loading-4{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(36deg);
+        transform: rotate(36deg);
+    }
+}
+@keyframes loading-5{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(126deg);
+        transform: rotate(126deg);
+    }
+}
+@media only screen and (max-width: 990px){
+    .progress{ margin-bottom: 20px; }
+}
+
+  </style>
         {{-- هون صفحة الرسائل  --}}
         <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
           <div class="row justify-content-center">
@@ -398,7 +351,7 @@
               {{-- <i class="material-symbols-rounded text-6xl text-secondary">settings</i>
               <h4 class="mt-3">الإعدادات المتقدمة</h4>
               <p class="text-muted">هنا يمكنك تعديل إعدادات حسابك وتفضيلاتك</p> --}}
-              @include('student.viewcourses', ['courses' => $courses])
+              @include('student.disblay_video')
 
             </div>
           </div>
@@ -416,7 +369,7 @@
     
     <div class="row">
       @if ($selectedTeacher)
-        {{-- عرض المعلم الذي تم اختياره --}}
+        عرض المعلم الذي تم اختياره
         <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
           <div class="card card-blog card-plain">
             <div class="card-header p-0 m-2">
@@ -430,9 +383,6 @@
                   {{ $selectedTeacher->first_name }} {{ $selectedTeacher->last_name }}
                 </h5>
               </a>
-              <p class="mb-4 text-sm">
-                {{ $selectedTeacher->bio ?? 'لا توجد معلومات إضافية.' }}
-              </p>
               <div class="avatar-group mt-2">
                 @foreach ($selectedTeacher->students as $student)
                   <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $student->first_name }} {{ $student->last_name }}">
@@ -444,7 +394,7 @@
           </div>
         </div>
       @elseif($teachers)
-        {{-- عرض كل المعلمين إذا الطالب لم يختر بعد --}}
+        عرض كل المعلمين إذا الطالب لم يختر بعد
         @foreach ($teachers as $teacher)
           <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
             <div class="card card-blog card-plain">
@@ -459,9 +409,6 @@
                     {{ $teacher->first_name }} {{ $teacher->last_name }}
                   </h5>
                 </a>
-                <p class="mb-4 text-sm">
-                  {{ $teacher->bio ?? 'لا توجد معلومات إضافية.' }}
-                </p>
                 <div class="d-flex align-items-center justify-content-between">
                   <form action="{{ route('select.teacher') }}" method="POST">
                     @csrf
@@ -481,7 +428,7 @@
           </div>
         @endforeach
       @endif
-    </div>
+    </div> 
 {{-- نهاية اختر معلمك --}}
 
 

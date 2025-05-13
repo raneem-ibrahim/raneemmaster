@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\DailyProgram;
 use Illuminate\Http\Request;
-use App\Models\WeeklyProgram;
 class HifzProgramController extends Controller
 {
-    
 
-    public function index()
+    public function index(Request $request)
     {
-        $weeklyHifzPrograms = WeeklyProgram::with('dailyPrograms')
-            ->where('program_type', 'حفظ')
-            ->get();
-    
+        $user_id = $request->query('id');
+
+        $programs = DailyProgram::where('id', $user_id)->get();
+
         return response()->json([
-            'status' => true,
-            'data' => $weeklyHifzPrograms
+            'success' => true,
+            'data' => $programs
         ]);
     }
-    
+
+
 }

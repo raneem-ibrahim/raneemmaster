@@ -1,13 +1,13 @@
 
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
   <div class="container-fluid py-1 px-3">
-    <nav aria-label="breadcrumb">
+    {{-- <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 ">
         <li class="breadcrumb-item text-sm ps-2"><a class="opacity-5 text-dark" href="javascript:;">لوحات القيادة</a></li>
         <li class="breadcrumb-item text-sm text-dark active" aria-current="page">RTL</li>
       </ol>
       <h6 class="font-weight-bolder mb-0">RTL</h6>
-    </nav>
+    </nav> --}}
     <div class="collapse navbar-collapse mt-sm-0 mt-2 px-0" id="navbar">
       <div class="ms-md-auto pe-md-3 d-flex align-items-center">
         <div class="input-group input-group-outline">
@@ -31,11 +31,11 @@
             </div>
           </a>
         </li>
-        <li class="nav-item px-3 d-flex align-items-center">
+        {{-- <li class="nav-item px-3 d-flex align-items-center">
           <a href="javascript:;" class="nav-link text-body p-0">
             <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
           </a>
-        </li>
+        </li> --}}
 
 
 
@@ -183,7 +183,7 @@ $unreadMessages = Contact::where('is_read', false)->latest()->take(5)->get();
 
 
         <li class="nav-item d-flex align-items-center">
-          <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+          <a  href="{{url('/profile')}}" class="nav-link text-body font-weight-bold px-0">
             <i class="material-symbols-rounded">account_circle</i>
           </a>
         </li>

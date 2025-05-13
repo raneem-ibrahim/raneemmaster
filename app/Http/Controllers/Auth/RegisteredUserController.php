@@ -28,8 +28,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'age' => ['required', 'integer', 'min:5', 'max:100'],
             'gender' => ['required', 'in:male,female'],
-            'desired_study' => ['required', 'array'],
-            'desired_study.*' => ['in:hifz,ahkam'],
+            
         ]);
 
         $user = User::create([
@@ -39,7 +38,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'age' => $request->age,
             'gender' => $request->gender,
-            'desired_study' => $request->desired_study,
+           
             'role' => 'student', // قيمة افتراضية
         ]);
 

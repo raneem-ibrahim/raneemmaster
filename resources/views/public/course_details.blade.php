@@ -202,7 +202,7 @@
 
         @forelse($course->levels as $level)
             <div class="mb-4">
-                <h5 class="text-c37044">المستوى: {{ $level->title }}</h5>
+                <h5 class="text-c37044">المستوى{{$level->level_number}}: {{ $level->title }}</h5>
                 <ul>
                     @forelse($level->lessons as $lesson)
                         <li>{{ $lesson->title }}</li>

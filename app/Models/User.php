@@ -19,8 +19,10 @@ class User extends Authenticatable
         'age',
         'image',
         'gender',
-        'desired_study',
-        'role'
+        'role',
+        'phone',
+        'min_age',
+        'max_age'
     ];
   
 
@@ -99,6 +101,16 @@ public function dailyAchievements()
  {
      return $this->hasMany(\App\Models\Course::class, 'created_by');
  }
+ public function lessons()
+{
+    return $this->hasMany(Lesson::class, 'teacher_id');
+}
+public function viewedLessons()
+{
+    return $this->belongsToMany(Lesson::class, 'lesson_views')->withTimestamps();
+}
+
+
 
     protected $hidden = [
         'password',

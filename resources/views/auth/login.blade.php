@@ -70,11 +70,19 @@
       </div>
 
       <!-- Email Address -->
-      <div class="input-field">
+      {{-- <div class="input-field">
         <input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username">
         <label for="email">البريد الإلكتروني</label>
         <x-input-error :messages="$errors->get('email')" class="input-error" />
-      </div>
+      </div> --}}
+      <div class="input-field">
+    <input id="email" type="email" name="email" :value="old('email')" 
+           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
+           title="الرجاء إدخال بريد إلكتروني صحيح (مثال: user@example.com)"
+           required autofocus autocomplete="username">
+    <label for="email">البريد الإلكتروني</label>
+    <x-input-error :messages="$errors->get('email')" class="input-error" />
+</div>
 
       <!-- Password -->
       <div class="input-field">
@@ -82,6 +90,7 @@
         <label for="password">كلمة المرور</label>
         <x-input-error :messages="$errors->get('password')" class="input-error" />
       </div>
+      
 
       <!-- Remember Me -->
         <div class="forget">
@@ -98,6 +107,10 @@
         </div>
 
         <button type="submit">تسجيل الدخول</button>
+        <div class="auth-footer">
+    <span style="color: white">ليس لديك حساب؟</span>
+    <a href="{{ route('register') }}" class="register-link" style="color: white">إنشاء حساب جديد</a>
+</div>
     </form>
   </div>
 </body>

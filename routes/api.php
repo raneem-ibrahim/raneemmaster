@@ -18,9 +18,9 @@ use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/hifz-programs', [App\Http\Controllers\Api\HifzProgramController::class, 'index']);
+Route::post('/hifz-programs', [App\Http\Controllers\Api\HifzProgramController::class, 'index']);
 Route::post('/daily-achievements', [DailyAchievementController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/login', [AuthController::class, 'login']);
-
+Route::post('/signup', [AuthController::class, 'register']);
 

@@ -16,14 +16,20 @@ use Illuminate\Database\Eloquent\Model;
 //         return $this->hasMany(StudentProgram::class);
 //     }
 
-    class MemorizationProgram extends Model
+class MemorizationProgram extends Model
 {
     protected $fillable = ['user_id', 'program'];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function dailyPrograms()
+    {
+        return $this->hasMany(DailyProgram::class);
+    }
+
 
 }
 

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row"> 
         {{-- هاي بداية الكاردات او السطر --}}
         <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4 ">
             <div class="card ">
@@ -87,6 +87,86 @@
                 </div>
             </div>
         </div>
+
+</div>
+        {{-- <div class="row">
+     كرت عدد الطلاب 
+    <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between p-3 pt-2 card1">
+                <div class="icon icon-md icon-shape custom-bg shadow-dark text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">groups</i>
+                </div>
+                <div class="text-start pt-1">
+                    <p class="text-sm mb-0 text-capitalize">عدد الطلاب</p>
+                    <h4 class="mb-0">{{ $studentsCount }}</h4>
+                </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3 card1">
+                <p class="mb-0 text-start">إجمالي الطلاب المسجلين في النظام</p>
+            </div>
+        </div>
+    </div>
+
+     كرت عدد المعلمين 
+    <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between p-3 pt-2 card1">
+                <div class="icon icon-md icon-shape custom-bg shadow-dark text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">school</i>
+                </div>
+                <div class="text-start pt-1">
+                    <p class="text-sm mb-0 text-capitalize">عدد المعلمين</p>
+                    <h4 class="mb-0">{{ $teachersCount }}</h4>
+                </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3 card1">
+                <p class="mb-0 text-start">إجمالي المعلمين المسجلين</p>
+            </div>
+        </div>
+    </div>
+
+     كرت عدد الدورات 
+    <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between p-3 pt-2 card1">
+                <div class="icon icon-md icon-shape custom-bg shadow-dark text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">menu_book</i>
+                </div>
+                <div class="text-start pt-1">
+                    <p class="text-sm mb-0 text-capitalize">عدد الدورات</p>
+                    <h4 class="mb-0">{{ $coursesCount }}</h4>
+                </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3 card1">
+                <p class="mb-0 text-start">الدورات التعليمية المضافة</p>
+            </div>
+        </div>
+    </div>
+
+    كرت عدد البرامج الأسبوعية 
+    <div class="col-lg-3 col-sm-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between p-3 pt-2 card1">
+                <div class="icon icon-md icon-shape custom-bg shadow-dark text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">calendar_month</i>
+                </div>
+                <div class="text-start pt-1">
+                    <p class="text-sm mb-0 text-capitalize">البرامج الأسبوعية</p>
+                    <h4 class="mb-0">{{ $weeklyProgramsCount }}</h4>
+                </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3 card1">
+                <p class="mb-0 text-start">عدد برامج الحفظ والمراجعة</p>
+            </div>
+        </div>
+    </div> --}}
+
+
 {{-- نهاية الكاردات --}}
 
     </div>
@@ -470,6 +550,8 @@
                 </div>
             </div>
         </div>
+   
+
 
         <div class="col-lg-4 col-md-6">
             <div class="card h-100">

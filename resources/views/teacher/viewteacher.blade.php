@@ -33,9 +33,11 @@
             <th>البريد الإلكتروني</th>
             <th>العمر</th>
             <th>الجندر</th>
+            <th>رقم الهاتف</th>
             <th>عدد الطلاب</th>
             <th>الفئة العمرية التي يدرّسها</th>
             <th>العمليات</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -52,6 +54,7 @@
             <td>{{ $teacher->email }}</td>
             <td>{{ $teacher->age }}</td>
             <td>{{ $teacher->gender === 'male' ? 'ذكر' : 'أنثى' }}</td>
+            <td>{{ $teacher->phone }}</td>
             <td>{{ $teacher->students_count }}</td>
             <td>
               من {{ $teacher->min_age ?? '-' }} إلى {{ $teacher->max_age ?? '-' }} سنة
@@ -199,7 +202,7 @@
     </div>
 
     {{-- start footer --}}
-    @include('dashboard.include.footer')
+    {{-- @include('dashboard.include.footer') --}}
     {{-- end footer --}}
   </div>
 </main>

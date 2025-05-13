@@ -97,8 +97,33 @@ $dailyAchievements = [];
             ->get();
     }
 
+    // هاي جلب الدورات 
+
     $courses = $selectedTeacher ? Course::where('created_by', $selectedTeacher->id)->with('levels')->get() : collect();
- // أو حسب نوع الربط اللي بدك إياه
+ // أو حسب نوع الربط اللي بدك 
+ 
+// جلب دروس الفيديو المصنفة حسب مستويات المعلم المرتبط بالطالب
+$lessonsByLevel = [];
+
+$teacher = $student->teacher()->first();
+
+if ($teacher) {
+    // جلب المستويات التي تحتوي على دروس أضافها هذا المعلم
+    $levels = \App\Models\Level::with(['course', 'lessons' => function ($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+    }])->get();
+
+    foreach ($levels as $level) {
+        if ($level->lessons->count() > 0 && $level->course) {
+            $lessonsByLevel[] = [
+                'course_title' => $level->course->title,
+                'level_title' => $level->title,
+                'lessons' => $level->lessons,
+            ];
+        }
+    }
+}
+
 
 
     return view('student.studentprofile', compact(
@@ -108,7 +133,8 @@ $dailyAchievements = [];
         'needsMemorizationProgram',
                 'weeklyProgram', // تمرير بيانات البرنامج الأسبوعي
                 'dailyAchievements' ,// إضافة بيانات الإنجاز اليومي
-                'courses' 
+                'courses' ,
+  'lessonsByLevel' // ✅ تمرير الدورات مع الدروس
     ));
    
 
