@@ -192,7 +192,7 @@
                             @endif
                         </td>
                         <td class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('weekly-program.create.single', $student->id) }}" class="btn btn-sm btn-success" title="إنشاء برنامج حفظ">
+                            <a href="{{ route('weekly-program.selectStudents') }}" class="btn btn-sm btn-success" title="إنشاء برنامج حفظ">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </td>

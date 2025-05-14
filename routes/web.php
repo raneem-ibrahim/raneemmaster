@@ -140,6 +140,7 @@ Route::put('/photo', [ProfilController::class, 'update']) ->name('photostudent')
 Route::post('/setMemorizationProgram', [ProfilController::class, 'setMemorizationProgram'])->name("setMemorizationProgram");
 Route::get('/student', [ProfilController::class, 'student']);
 Route::post('/profile/achievements', [ProfilController::class, 'saveAchievements'])->name('profile.saveAchievements');
+Route::post('/student/update-info', [ProfilController::class, 'updateInfo'])->name('student.updateInfo');
 
 // Route::get('/view-courses', [ProfileController::class, 'viewCourses'])->name('courses.view');
 

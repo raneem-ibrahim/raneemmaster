@@ -356,7 +356,4 @@ public function updateprofileteacher(Request $request)
     return back()->with('error', 'لم يتم تحديد أي عملية.');
 }
 
-
-
-
 }

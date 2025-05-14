@@ -263,7 +263,22 @@ public function saveAchievements(Request $request)
 //     return view('student.viewcourses', compact('courses'));
 // }
 
+// هاي دالة تعديل الباسورد ورقم الهاتف للطالب
+public function updateInfo(Request $request)
+{
+    $request->validate([
+        'phone' => ['required', 'regex:/^07\d{8}$/'],
+        'password' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/'],
+    ]);
 
+    $student = auth()->user();
+
+    $student->phone = $request->phone;
+    $student->password = bcrypt($request->password);
+    $student->save();
+
+    return back()->with('success', 'تم تحديث المعلومات بنجاح');
+}
 
 
 

@@ -303,24 +303,86 @@ input[type="radio"].form-check-input:focus {
           </div>
 
           <!-- كارد معلومات الطالب -->
+<!-- معلومات الطالب -->
 <div class="card mt-4 p-3 text-right" style="background-color: #fdfdfd; border: 1px solid #ddd; border-radius: 10px;">
-  <h5 class="mb-3" style="text-align: right; color: #2c7a7b;">معلومات الطالب</h5>
+  <h5 class="mb-4" style="text-align: right; color: #2c7a7b;">معلومات الطالب</h5>
 
-  <!-- بيانات الطالب -->
-  <div class="mb-2"><strong>الاسم:</strong> أحمد محمد</div>
-  <div class="mb-2"><strong>البريد الإلكتروني:</strong> ahmad@example.com</div>
-  <div class="mb-2"><strong>كلمة المرور:</strong> ********</div>
-  <div class="mb-2"><strong>رقم الهاتف:</strong> 0791234567</div>
+  <div class="row" style="flex-direction: row-reverse;">
+    <div class="col-md-6">
+      <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div><strong>رقم الهاتف:</strong> {{ $student->phone ?? 'غير مدخل' }}</div>
+        <i class="fas fa-edit text-primary" style="cursor: pointer;color: #c37044 !important;" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+      </div>
+      <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div><strong>كلمة المرور:</strong> ********</div>
+        <i class="fas fa-edit text-primary" style="cursor: pointer; color: #c37044 !important;" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+      </div>
+    </div>
+    <!-- معلومات المعلم كما هي -->
+    <div class="col-md-6">
+      @if($selectedTeacher)
+        <div class="d-flex align-items-center mb-3" style="gap: 10px;">
+         <img src="{{ asset('storage/' . $selectedTeacher->image) }}" alt="صورة المعلم" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
 
-  <!-- بيانات المعلم -->
-  <div class="mt-3 mb-2 d-flex align-items-center" style="gap: 10px;">
-    <img src="teacher.jpg" alt="صورة المعلم" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
-    <div>
-      <div><strong>المعلم:</strong> الشيخ عمر العلي</div>
-      <div><strong>الدورات:</strong> حفظ القرآن - أحكام التجويد</div>
+          <div>
+            <div><strong>المعلم:</strong> {{ $selectedTeacher->first_name }} {{ $selectedTeacher->last_name }}</div>
+            <div>
+              <strong>الدورات:</strong>
+              @if($courses->isNotEmpty())
+                {{ $courses->pluck('title')->join(' - ') }}
+              @else
+                لا يوجد دورات
+              @endif
+            </div>
+          </div>
+        </div>
+      @else
+        <div class="mb-3 text-muted">لم يتم تعيين معلم بعد.</div>
+      @endif
+
+      <div class="form-group">
+        <label for="student-feedback"><strong>رأيك / ملاحظاتك:</strong></label>
+        <textarea id="student-feedback" class="form-control" rows="2"
+                  placeholder="اكتب رأيك هنا..."
+                  style="resize: none; border-radius: 8px; border-color: #ccc;"></textarea>
+      </div>
     </div>
   </div>
 </div>
+
+
+<!-- مودال التعديل -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ route('student.updateInfo') }}">
+      @csrf
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">تعديل المعلومات</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="phone" class="form-label">رقم الهاتف</label>
+            <input type="text" name="phone" class="form-control" value="{{ old('phone', $student->phone) }}" required pattern="^07\d{8}$" title="رقم الهاتف يجب أن يبدأ بـ 07 ويتكون من 10 أرقام.">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">كلمة المرور الجديدة</label>
+            <input type="password" name="password" class="form-control" required
+                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"
+                   title="كلمة المرور يجب أن تحتوي على حرف كبير، صغير، رقم، ورمز خاص، ويجب أن لا تقل عن 8 أحرف.">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" style="cursor: pointer; background-color: #c37044 !important;">حفظ التعديلات</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
    <!--  نهاية كارد معلومات الطالب   -->
         </div>
                    </div>
