@@ -209,6 +209,45 @@
    --}}
 
 
+
+
+   {{-- هون اختيار جدول للحفظ  --}}
+@if ($needsMemorizationProgram)
+    <form action="{{ route('setMemorizationProgram') }}" method="POST"
+        class="p-4 bg-white shadow rounded-4 border border-2"
+        style="max-width: 550px; margin: 40px auto; font-family: 'Cairo', sans-serif; border-color: #c37044;">
+        @csrf
+        <h4 class="text-center mb-4 fw-bold"
+            style="color: #c37044; border-bottom: 2px solid #c37044; padding-bottom: 10px;">
+            اختيار برنامج الحفظ اليومي
+        </h4>
+
+        <div class="mb-4">
+            <label for="memorization_program" class="form-label text-dark fw-semibold">اختر المستوى:</label>
+            <select name="memorization_program" id="memorization_program"
+                class="form-select border-dark rounded-3 shadow-sm"
+                style="background-color: #fdf8f5; color: #000;">
+                <option value="half_page">نصف صفحة</option>
+                <option value="one_page">صفحة</option>
+                <option value="two_pages">صفحتين</option>
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button type="submit"
+                class="btn px-5 py-2 rounded-pill shadow text-white"
+                style="background-color: #c37044;">
+                <i class="bi bi-bookmark-check-fill me-1"></i> حفظ الاختيار
+            </button>
+        </div>
+    </form>
+@endif
+
+
+
+{{-- نهياة اختيار جدول الحفظ  --}}
+
+
    @foreach($student->studentWeeklyPrograms as $studentProgram)
    @if ($loop->index >= $loop->count - 2)
       <div class="card my-4">

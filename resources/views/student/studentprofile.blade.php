@@ -132,62 +132,206 @@
         {{-- نهاية تنقل الصفحات  --}}
     </div>
 
+<div class="mb-5 pe-3">
 
 
-      
-      <div class="tab-content">
+  {{-- إذا كان الطالب لم يختر بعد --}}
+  @if (!$selectedTeacher && $teachers)
+    <h6 class="mb-3 fw-bold text-dark">اختر معلمك</h6>
+    <form action="{{ route('select.teacher') }}" method="POST">
+      @csrf
+
+      {{-- قائمة المعلمين --}}
+      <div class="list-group mb-3">
+        @foreach ($teachers as $teacher)
+          <label class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+              <input class="form-check-input me-2" type="radio" name="teacher_id" value="{{ $teacher->id }}">
+              <img src="{{ $teacher->image ? asset('storage/' . $teacher->image) : asset('image/صورة شخصية.jpg') }}"
+                   alt="صورة المعلم"
+                   class="rounded-circle"
+                   style="width: 40px; height: 40px; object-fit: cover;">
+              <span class="fw-semibold">{{ $teacher->first_name }} {{ $teacher->last_name }}</span>
+            </div>
+            <small class="text-muted">{{ $teacher->students->count() }} طلاب</small>
+          </label>
+        @endforeach
+      </div>
+
+      {{-- زر الحفظ --}}
+      <div class="text-center">
+        <button type="submit" class="btn btn-dark btn-sm rounded-pill px-4">تأكيد الاختيار</button>
+      </div>
+    </form>
+@endif
+</div>
+<style>
+input[type="radio"].form-check-input:checked {
+  background-color: #c37044 !important;
+  border-color: #c37044 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+input[type="radio"].form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(195, 112, 68, 0.25) !important;
+}
+
+  </style>
+{{-- نهاية اختر معلمك --}}
+
+
+
+
+        <div class="tab-content">
         <div class="tab-pane fade show active" id="app" role="tabpanel" aria-labelledby="app-tab">
-          <div class="row">
+        <div class="row" style="flex-direction: row-reverse;">
 
-   <div class="container" style="width: 550px; margin-left: 0;">
-    <div class="row" style="justify-content: flex-end;">
-        <!-- الدائرة الأولى -->
-        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
-            <div class="progress blue">
-                <span class="progress-left">
-                    <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">90%</div>
-            </div>
-            <div class="progress-label">المستوى الأول</div>
-        </div>
-        
-        <!-- الدائرة الثانية -->
-        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
-            <div class="progress blue">
-                <span class="progress-left">
-                    <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">75%</div>
-            </div>
-            <div class="progress-label">المستوى الثاني</div>
-        </div>
-        
-        <!-- الدائرة الثالثة -->
-        <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
-            <div class="progress blue">
-                <span class="progress-left">
-                    <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">60%</div>
-            </div>
-            <div class="progress-label">المستوى الثالث</div>
-        </div>
+       
+            <!-- عمود إنجاز الأسبوع -->
+<div class="col-md-4">
+  <div class="card p-3 text-right" style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 10px;">
+    <h5 class="mb-3" style="text-align: right;">إنجاز الأسبوع</h5>
+
+    <style>
+      .custom-progress {
+        height: 22px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        direction: rtl;
+      }
+      .custom-progress-bar {
+        background: linear-gradient(to left, #28a745, #218838);
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        line-height: 22px;
+        white-space: nowrap;
+        transition: width 0.6s ease;
+      }
+    </style>
+
+    <!-- مثال: يوم السبت -->
+    <div class="mb-3">
+      <label class="mb-1">السبت</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 75%;">75%</div>
+      </div>
     </div>
+
+    <!-- الأحد -->
+    <div class="mb-3">
+      <label class="mb-1">الأحد</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 60%;">60%</div>
+      </div>
+    </div>
+
+    <!-- الإثنين -->
+    <div class="mb-3">
+      <label class="mb-1">الإثنين</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 90%;">90%</div>
+      </div>
+    </div>
+
+    <!-- الثلاثاء -->
+    <div class="mb-3">
+      <label class="mb-1">الثلاثاء</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 50%;">50%</div>
+      </div>
+    </div>
+
+    <!-- الأربعاء -->
+    <div class="mb-3">
+      <label class="mb-1">الأربعاء</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 85%;">85%</div>
+      </div>
+    </div>
+
+    <!-- الخميس -->
+    <div class="mb-3">
+      <label class="mb-1">الخميس</label>
+      <div class="custom-progress">
+        <div class="custom-progress-bar" style="width: 40%;">40%</div>
+      </div>
+    </div>
+
+    <!-- الجمعة -->
+    <div class="mb-2 text-muted text-center">الجمعة: عطلة</div>
+    
+
+  </div>
 </div>
 
+
+
+      <!-- عمود دوائر التقدم -->
+                   <div class="col-md-8">
+        <div class="row" style="justify-content: flex-end;">
+          <!-- الدائرة الأولى -->
+          <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+              <span class="progress-left"><span class="progress-bar"></span></span>
+              <span class="progress-right"><span class="progress-bar"></span></span>
+              <div class="progress-value">90%</div>
+            </div>
+            <div class="progress-label text-center">المستوى الأول</div>
           </div>
+
+          <!-- الدائرة الثانية -->
+          <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+              <span class="progress-left"><span class="progress-bar"></span></span>
+              <span class="progress-right"><span class="progress-bar"></span></span>
+              <div class="progress-value">75%</div>
+            </div>
+            <div class="progress-label text-center">المستوى الثاني</div>
+          </div>
+
+          <!-- الدائرة الثالثة -->
+          <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+            <div class="progress blue">
+              <span class="progress-left"><span class="progress-bar"></span></span>
+              <span class="progress-right"><span class="progress-bar"></span></span>
+              <div class="progress-value">60%</div>
+            </div>
+            <div class="progress-label text-center">المستوى الثالث</div>
+          </div>
+
+          <!-- كارد معلومات الطالب -->
+<div class="card mt-4 p-3 text-right" style="background-color: #fdfdfd; border: 1px solid #ddd; border-radius: 10px;">
+  <h5 class="mb-3" style="text-align: right; color: #2c7a7b;">معلومات الطالب</h5>
+
+  <!-- بيانات الطالب -->
+  <div class="mb-2"><strong>الاسم:</strong> أحمد محمد</div>
+  <div class="mb-2"><strong>البريد الإلكتروني:</strong> ahmad@example.com</div>
+  <div class="mb-2"><strong>كلمة المرور:</strong> ********</div>
+  <div class="mb-2"><strong>رقم الهاتف:</strong> 0791234567</div>
+
+  <!-- بيانات المعلم -->
+  <div class="mt-3 mb-2 d-flex align-items-center" style="gap: 10px;">
+    <img src="teacher.jpg" alt="صورة المعلم" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
+    <div>
+      <div><strong>المعلم:</strong> الشيخ عمر العلي</div>
+      <div><strong>الدورات:</strong> حفظ القرآن - أحكام التجويد</div>
+    </div>
+  </div>
+</div>
+   <!--  نهاية كارد معلومات الطالب   -->
         </div>
+                   </div>
+                   
+
+          </div>
+         </div>
+             </div>
+
         
+
  {{-- هاد ستايل circile progress bar --}}
 <style>
   .progress{
@@ -362,90 +506,15 @@
 
       </div>
 
-    {{--  بداية اختر معلمك  --}}
-    <div class="mb-5 pe-3">
-      <h6 class="mb-1">المعلمين</h6>
-    </div>
-    
-    <div class="row">
-      @if ($selectedTeacher)
-        عرض المعلم الذي تم اختياره
-        <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-          <div class="card card-blog card-plain">
-            <div class="card-header p-0 m-2">
-              <a class="d-block shadow-xl border-radius-xl">
-                <img src="{{ $selectedTeacher->image ? asset('storage/' . $selectedTeacher->image) : asset('image/صورة شخصية.jpg') }}" alt="صورة المعلم" class="img-fluid shadow border-radius-lg">
-              </a>
-            </div>
-            <div class="card-body p-3">
-              <a href="javascript:;">
-                <h5>
-                  {{ $selectedTeacher->first_name }} {{ $selectedTeacher->last_name }}
-                </h5>
-              </a>
-              <div class="avatar-group mt-2">
-                @foreach ($selectedTeacher->students as $student)
-                  <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $student->first_name }} {{ $student->last_name }}">
-                    <img alt="صورة الطالب" src="{{ $student->image ? asset('storage/' . $student->image) : asset('image/صورة شخصية.jpg') }}">
-                  </a>
-                @endforeach
-              </div>
-            </div>
-          </div>
-        </div>
-      @elseif($teachers)
-        عرض كل المعلمين إذا الطالب لم يختر بعد
-        @foreach ($teachers as $teacher)
-          <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-            <div class="card card-blog card-plain">
-              <div class="card-header p-0 m-2">
-                <a class="d-block shadow-xl border-radius-xl">
-                  <img src="{{ $teacher->image ? asset('storage/' . $teacher->image) : asset('image/صورة شخصية.jpg') }}" alt="صورة المعلم" class="img-fluid shadow border-radius-lg">
-                </a>
-              </div>
-              <div class="card-body p-3">
-                <a href="javascript:;">
-                  <h5>
-                    {{ $teacher->first_name }} {{ $teacher->last_name }}
-                  </h5>
-                </a>
-                <div class="d-flex align-items-center justify-content-between">
-                  <form action="{{ route('select.teacher') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="teacher_id" value="{{ $teacher->id }}">
-                    <button type="submit" class="btn btn-outline-primary btn-sm mb-0">اختر معلمك</button>
-                  </form>
-                  <div class="avatar-group mt-2">
-                    @foreach ($teacher->students as $student)
-                      <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $student->first_name }} {{ $student->last_name }}">
-                        <img alt="صورة الطالب" src="{{ $student->image ? asset('storage/' . $student->image) : asset('image/صورة شخصية.jpg') }}">
-                      </a>
-                    @endforeach
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-      @endif
-    </div> 
-{{-- نهاية اختر معلمك --}}
+  
 
 
-{{-- هون اختيار جدول للحفظ  --}}
-@if ($needsMemorizationProgram)
-    <form action="{{ route('setMemorizationProgram') }}" method="POST">
-        @csrf
-        <label for="memorization_program">اختر برنامج الحفظ اليومي:</label>
-        <select name="memorization_program" id="memorization_program" class="form-select">
-            <option value="half_page">نصف صفحة</option>
-            <option value="one_page">صفحة</option>
-            <option value="two_pages">صفحتين</option>
-        </select>
-        <button type="submit" class="btn btn-primary mt-2">حفظ الاختيار</button>
-    </form>
-@endif
-{{-- نهياة اختيار جدول الحفظ  --}}
+
+
+
+
+
+
 
 
     </div>
