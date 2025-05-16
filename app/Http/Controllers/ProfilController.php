@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Course;
+use App\Models\LessonProgress;
+use App\Models\LessonView;
 
 class ProfilController extends Controller
 {
@@ -124,6 +126,36 @@ if ($teacher) {
     }
 }
 
+  
+    // حساب تقدم الحفظ والمراجعة
+    $hifzProgress = [
+        'total' => 0,
+        'completed' => 0,
+    ];
+    
+    $reviewProgress = [
+        'total' => 0,
+        'completed' => 0,
+    ];
+
+    foreach ($student->studentWeeklyPrograms as $program) {
+        foreach ($program->weeklyProgram->dailyPrograms as $day) {
+            if ($day->type === 'حفظ') {
+                $hifzProgress['total']++;
+                if ($day->achievement && $day->achievement->status) {
+                    $hifzProgress['completed']++;
+                }
+            } elseif ($day->type === 'مراجعة') {
+                $reviewProgress['total']++;
+                if ($day->achievement && $day->achievement->status) {
+                    $reviewProgress['completed']++;
+                }
+            }
+        }
+    }
+
+    $hifzPercentage = $hifzProgress['total'] > 0 ? round(($hifzProgress['completed'] / $hifzProgress['total']) * 100) : 0;
+    $reviewPercentage = $reviewProgress['total'] > 0 ? round(($reviewProgress['completed'] / $reviewProgress['total']) * 100) : 0;
 
 
     return view('student.studentprofile', compact(
@@ -134,7 +166,12 @@ if ($teacher) {
                 'weeklyProgram', // تمرير بيانات البرنامج الأسبوعي
                 'dailyAchievements' ,// إضافة بيانات الإنجاز اليومي
                 'courses' ,
-  'lessonsByLevel' // ✅ تمرير الدورات مع الدروس
+              'lessonsByLevel', // ✅ تمرير الدورات مع الدروس
+        // لنسبة الحفظ
+        'hifzPercentage',
+        'reviewPercentage',
+        'hifzProgress',
+        'reviewProgress'
     ));
    
 
@@ -279,9 +316,5 @@ public function updateInfo(Request $request)
 
     return back()->with('success', 'تم تحديث المعلومات بنجاح');
 }
-
-
-
-
 
 }

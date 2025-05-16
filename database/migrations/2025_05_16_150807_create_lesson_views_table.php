@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-  Schema::create('lesson_views', function (Blueprint $table) {
+       // في ملف migration
+Schema::create('lesson_views', function (Blueprint $table) {
     $table->id();
-
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');   // الطالب
-    $table->foreignId('lesson_id')->constrained()->onDelete('cascade'); // الدرس
-
+    $table->foreignId('user_id')->constrained();
+    $table->foreignId('lesson_id')->constrained();
+    $table->boolean('is_completed')->default(false);
+    $table->integer('progress')->default(0); // النسبة المئوية
     $table->timestamps();
-
-    $table->unique(['user_id', 'lesson_id']); // كل طالب يشاهد الدرس مرة واحدة فقط
+    
+    $table->unique(['user_id', 'lesson_id']); // لمنع التكرار
 });
-
-
     }
 
     /**

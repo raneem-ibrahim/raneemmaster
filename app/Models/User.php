@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Message;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +12,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
     use Notifiable; 
+       use SoftDeletes;
     protected $fillable = [
         'first_name',
         'last_name',
@@ -121,4 +123,20 @@ public function viewedLessons()
         'email_verified_at' => 'datetime',
         'desired_study' => 'array',
     ];
+
+
+
+    public function getCompletionPercentage($levelId) {
+    $totalLessons = Lesson::where('level_id', $levelId)->count();
+    if ($totalLessons == 0) return 0;
+    
+    $completedLessons = LessonView::where('user_id', $this->id)
+        ->whereHas('lesson', function($q) use ($levelId) {
+            $q->where('level_id', $levelId);
+        })
+        ->where('is_completed', true)
+        ->count();
+        
+    return round(($completedLessons / $totalLessons) * 100);
+}
 }

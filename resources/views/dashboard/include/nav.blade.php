@@ -16,7 +16,7 @@
         </div>
       </div>
       <ul class="navbar-nav d-flex align-items-center me-auto ms-0 justify-content-end">
-        <li class="nav-item d-flex align-items-center">
+        {{-- <li class="nav-item d-flex align-items-center">
           <a class="btn btn-outline-primary btn-sm mb-0 ms-3" target="_blank" href="https://www.creative-tim.com/builder?ref=navbar-material-dashboard">منشئ مضمنة</a>
         </li>
         <li class="mt-1">
@@ -30,7 +30,7 @@
               <i class="sidenav-toggler-line"></i>
             </div>
           </a>
-        </li>
+        </li> --}}
         {{-- <li class="nav-item px-3 d-flex align-items-center">
           <a href="javascript:;" class="nav-link text-body p-0">
             <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>

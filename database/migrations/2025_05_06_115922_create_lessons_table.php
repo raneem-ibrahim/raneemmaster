@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('video_url'); // رابط YouTube أو ملف من التخزين
             $table->timestamps();
-    
+     
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('cascade');
         });
     }

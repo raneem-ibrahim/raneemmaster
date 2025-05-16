@@ -17,8 +17,12 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Level;
 use App\Models\Lesson;
 
+
 class TeacherProgramController extends Controller
 {
+    public function disblaydash(){
+        return view('dashboard.layouts.dashboard');
+    }
     public function studentsList()
     {
         $students = auth()->user()->students()->with('memorizationProgram')->get();
@@ -298,15 +302,16 @@ public function destroy($id)
 {
     $course = Course::findOrFail($id);
 
-    // حذف الصورة إذا كانت موجودة
+    // حذف الصورة من التخزين فقط (وليس من قاعدة البيانات)
     if ($course->image && \Storage::exists('public/' . $course->image)) {
         \Storage::delete('public/' . $course->image);
     }
 
-    $course->delete();
+    $course->delete(); // هذا الآن soft delete
 
     return redirect()->back()->with('success', 'تم حذف الدورة بنجاح.');
 }
+
 
 
 // هاي دالة تحديث الملف الشخصي للمعلم
@@ -355,5 +360,89 @@ public function updateprofileteacher(Request $request)
 
     return back()->with('error', 'لم يتم تحديد أي عملية.');
 }
+// هاي الدالة الي بتعرض الدروس للمعلم 
+public function dashboardLessons()
+{
+    $teacher = auth()->user(); // المعلم المسجل دخوله
+
+    $lessons = Lesson::where('teacher_id', $teacher->id)
+        ->with('level.course') // تحميل الدورة المرتبطة عبر المستوى
+        ->latest()
+        ->get();
+        $courseTitle = optional($lessons->first()->level->course)->title;
+
+
+    $levels = Level::all();
+
+    return view('teacher.dashboard_lessons', compact('lessons', 'levels','courseTitle'));
+}
+
+
+
+// هاي دالة تعديل على الدروس
+public function updateLesson(Request $request)
+{
+    $request->validate([
+        'lesson_id' => 'required|exists:lessons,id',
+        'title' => 'required|string',
+        'description' => 'required|string',
+        'level_id' => 'required|exists:levels,id',
+        'video_file' => 'nullable|file|mimes:mp4,mov,avi,webm|max:50000', // الحجم اختياري حسب حاجتك
+    ]);
+
+    $lesson = Lesson::findOrFail($request->lesson_id);
+
+    // إذا تم رفع فيديو جديد
+    if ($request->hasFile('video_file')) {
+        $videoPath = $request->file('video_file')->store('videos', 'public');
+        $lesson->video_url = 'storage/' . $videoPath;
+    }
+
+    $lesson->title = $request->title;
+    $lesson->description = $request->description;
+    $lesson->level_id = $request->level_id;
+    $lesson->save();
+
+    return redirect()->back()->with('success', 'تم تحديث الدرس بنجاح.');
+}
+// هاي دالة تعديل الدروس عن المعلم 
+
+public function update(Request $request)
+{
+    $request->validate([
+        'lesson_id' => 'required|exists:lessons,id',
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'level_id' => 'required|exists:levels,id',
+        'video_file' => 'nullable|file|mimes:mp4,avi,mov|max:200000', // 200MB
+    ]);
+
+    $lesson = Lesson::findOrFail($request->lesson_id);
+
+    $lesson->title = $request->title;
+    $lesson->description = $request->description;
+    $lesson->level_id = $request->level_id;
+
+    if ($request->hasFile('video_file')) {
+        // احفظ الفيديو الجديد
+        $path = $request->file('video_file')->store('videos', 'public');
+        $lesson->video_url = $path;
+    }
+
+    $lesson->save();
+
+    return redirect()->back()->with('success', 'تم تحديث الدرس بنجاح');
+}
+
+public function destroylessons($id)
+{
+    $lesson = Lesson::findOrFail($id);
+    $lesson->delete(); // هذا حذف ناعم
+
+    return redirect()->back()->with('success', 'تم حذف الدرس بنجاح');
+}
+
+
+
 
 }

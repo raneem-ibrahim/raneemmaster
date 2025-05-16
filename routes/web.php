@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TeacherProgramController;
 use App\Http\Controllers\WeeklyProgramController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\studentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -106,6 +107,19 @@ Route::get('/bloge', function () {
 Route::view('/profile', 'dashboard.pages.profile')->name('profile');
 
 
+
+
+
+
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/teacher/students', [studentController::class, 'students'])->name('students.index');
+    Route::post('/teacher/students', [studentController::class, 'store'])->name('students.store');
+    Route::put('/teacher/students/{id}', [studentController::class, 'update'])->name('students.update');
+    Route::delete('/teacher/students/{id}', [studentController::class, 'destroy'])->name('students.destroy');
+});
+
+
+
                                             // AdminController
 
 Route::get('/profile', [AdminController::class, 'show1'])->name('profile');// هاد الروت مشان يجيب معلومات المستخدم الي عمل تسجيل دخول
@@ -152,6 +166,7 @@ Route::post('/student/update-info', [ProfilController::class, 'updateInfo'])->na
                                                    // Teachercontroller
 
 Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
+Route::get('/disblaydash', [TeacherProgramController::class, 'disblaydash']);
 
 
 Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
@@ -172,6 +187,12 @@ Route::put('/teacher/profile/update', [TeacherProgramController::class, 'updatep
 
 Route::get('/lessons/create', [TeacherProgramController::class, 'createlesson'])->name('lessons.create');
 Route::post('/lessons', [TeacherProgramController::class, 'storelesson'])->name('lessons.store');
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/teacher/lessons', [TeacherProgramController::class, 'dashboardLessons'])->name('teacher.lessons');
+});
+Route::put('/lessons/update', [TeacherProgramController::class, 'update'])->name('lessons.update');
+Route::put('/lessons/update', [TeacherProgramController::class, 'update'])->name('lessons.update');
+Route::delete('/lessons/{id}', [TeacherProgramController::class, 'destroylessons'])->name('lessons.destroy');
 
 
 
@@ -185,3 +206,19 @@ Route::post('/lessons', [TeacherProgramController::class, 'storelesson'])->name(
                                   //HomeController
  Route::get('/bloge', [HomeController::class, 'showPublicCourses'])->name('public.courses');
  Route::get('/courses/{id}', [HomeController::class, 'showCourseDetails'])->name('public.course.details');
+
+
+
+ Route::post('/lesson-viewed', [App\Http\Controllers\LessonViewController::class, 'store']);
+// Route::post('/track-lesson-view', [LessonViewController::class, 'trackLessonView']);
+// في routes/web.php
+Route::post('/track-lesson-view', [App\Http\Controllers\LessonViewController::class, 'trackView'])
+    ->middleware('auth');
+
+
+
+
+    Route::get('/get-level-progress', function(Request $request) {
+    $percentage = auth()->user()->getCompletionPercentage($request->level_id);
+    return response()->json(['percentage' => $percentage]);
+});
