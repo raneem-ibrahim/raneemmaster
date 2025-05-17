@@ -2,19 +2,30 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute start-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand px-4 py-3 m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-      <img src=".{{asset('image/logo-removebg-preview.png')}}" class="navbar-brand-img" width="50" height="50" alt="main_logo">
+      {{-- <img src=".{{asset('image/logo-removebg-preview.png')}}" class="navbar-brand-img" width="50" height="50" alt="main_logo"> --}}
       <span class="me-1 text-sm text-dark" style="color:#c37044 !important; font-size:xx-large !important;">ترتيل</span>
     </a>
   </div>
   <hr class="horizontal dark mt-0 mb-2">
   <div class="collapse navbar-collapse px-0 w-auto back_side2 " id="sidenav-collapse-main">
     <ul class="navbar-nav">
+         @auth
+    @if(auth()->user()->role === 'teachter')
       <li class="nav-item">
         <a class="nav-link text-dark" href="{{url('/disblaydash')}}">
           <i class="material-symbols-rounded opacity-10">dashboard</i>
           <span class="nav-link-text me-1">لوحة القيادة</span>
         </a>
       </li>
+      @elseif (auth()->user()->role === 'admin')
+        <li class="nav-item">
+        <a class="nav-link text-dark" href="{{route('admin.dashboard')}}">
+          <i class="material-symbols-rounded opacity-10">dashboard</i>
+          <span class="nav-link-text me-1">لوحة القيادة</span>
+        </a>
+      </li>
+        @endif
+@endauth
       <li class="nav-item">
         <a class="nav-link text-dark" href="{{ route('viewstudent') }}">
             <i class="material-symbols-rounded opacity-10">group</i>
@@ -28,13 +39,13 @@
     </a>
 </li>
  <li class="nav-item">
-    <a class="nav-link text-dark" href="">
+    <a class="nav-link text-dark" href="{{route('teacher.programs.hifz')}}">
         <i class="material-symbols-rounded opacity-10">event_note</i>
         <span class="nav-link-text me-1">جداول الحفظ</span>
     </a>
 </li>
  <li class="nav-item">
-    <a class="nav-link text-dark" href="{{route('students.index')}}">
+    <a class="nav-link text-dark" href="{{route('teacher.review.programs')}}">
       <i class="material-symbols-rounded opacity-10">history_edu</i>
         <span class="nav-link-text me-1">جداول المراجعة </span>
     </a>

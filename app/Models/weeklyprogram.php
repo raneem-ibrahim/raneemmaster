@@ -21,4 +21,12 @@ class WeeklyProgram extends Model
         return $this->belongsToMany(User::class, 'student_weekly_program')
                     ->withTimestamps();
     }
+    
+// WeeklyProgram.php
+public function days()
+{
+    return $this->hasMany(DailyProgram::class);
+}
+
+
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\TeacherProgramController;
 use App\Http\Controllers\WeeklyProgramController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\studentController;
+use App\Http\Controllers\disblayprogramdashController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -117,6 +118,18 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::put('/teacher/students/{id}', [studentController::class, 'update'])->name('students.update');
     Route::delete('/teacher/students/{id}', [studentController::class, 'destroy'])->name('students.destroy');
 });
+
+
+// عرض كل برامج الحفظ الخاصة بالمعلم الحالي
+Route::get('/teacher/my-hifz-programs', [ disblayprogramdashController::class, 'myHifzPrograms'])->name('teacher.programs.hifz');
+
+Route::put('/teacher/day/{id}', [disblayprogramdashController::class, 'updateDay'])->name('teacher.day.update');
+
+// Route::get('/teacher/hifz-programs', [disblayprogramdashController::class, 'myHifzPrograms'])->name('teacher.hifz.programs');
+
+Route::get('/teacher/review-programs', [disblayprogramdashController::class, 'myReviewPrograms'])->name('teacher.review.programs');
+
+Route::put('/teacher/day/{id}/update', [disblayprogramdashController::class, 'updateDay2'])->name('teacher.day.update');
 
 
 

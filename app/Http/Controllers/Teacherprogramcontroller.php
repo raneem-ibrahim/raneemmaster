@@ -73,25 +73,25 @@ class TeacherProgramController extends Controller
         return view('teacher.create_programe', compact('students', 'surahs'));
     }
 
-    public function createSingle(User $student)
-    {
-        if ($student->role != 'student') {
-            abort(404);
-        }
+    // public function createSingle(User $student)
+    // {
+    //     if ($student->role != 'student') {
+    //         abort(404);
+    //     }
 
-        Session::put('selected_students', [$student->id]);
+    //     Session::put('selected_students', [$student->id]);
         
-        if ($student->memorizationProgram) {
-            Session::put('students_programe', $this->mapProgramToName($student->memorizationProgram->program));
-        }
+    //     if ($student->memorizationProgram) {
+    //         Session::put('students_programe', $this->mapProgramToName($student->memorizationProgram->program));
+    //     }
 
-        $surahs = Surah::orderBy('id')->get();
+    //     $surahs = Surah::orderBy('id')->get();
 
-        return view('teacher.create_programe', [
-            'students' => collect([$student]),
-            'surahs' => $surahs
-        ]);
-    }
+    //     return view('teacher.create_programe', [
+    //         'students' => collect([$student]),
+    //         'surahs' => $surahs
+    //     ]);
+    // }
 
     private function mapProgramToName($programValue)
     {

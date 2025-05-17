@@ -34,7 +34,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->authenticate();
         $request->session()->regenerate();
-    
+      // 🔴 أضف هذا الجزء لتسجيل الدخول
+    \App\Models\UserLogin::create([
+        'user_id' => auth()->id(),
+        'ip_address' => $request->ip(),
+        'user_agent' => $request->header('User-Agent'),
+    ]);
         $user = $request->user();
         
         if ($user->role === 'admin') {

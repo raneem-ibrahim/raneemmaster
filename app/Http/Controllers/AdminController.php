@@ -10,6 +10,8 @@ use App\Models\DailyProgram;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Course;
+use Illuminate\Support\Facades\DB;
+
 // use App\Notifications\NewContactMessage;
 // use App\Models\User;
 
@@ -23,21 +25,72 @@ class AdminController extends Controller
     $courses = Course::all();
         return view('dashboard.pages.profile', compact('user','courses'));
     }
-//     public function dash( )
-//     {
-//          $studentsCount = User::where('role', 'student')->count();
-//     $teachersCount = User::where('role', 'teacher')->count();
-//     $coursesCount = Course::count();
-//     $weeklyProgramsCount = WeeklyProgram::count(); // أو ممكن نقسمهم حسب النوع (حفظ/مراجعة)
+    public function dash( )
+    {
+         $studentsCount = User::where('role', 'student')->count();
+    $teachersCount = User::where('role', 'teacher')->count();
+    $coursesCount = Course::count();
+    $weeklyProgramsCount = WeeklyProgram::count(); // أو ممكن نقسمهم حسب النوع (حفظ/مراجعة)
 
        
-//         return view('dashboard.layouts.dashboard'  , compact(
-//         'studentsCount',
-//         'teachersCount',
-//         'coursesCount',
-//         'weeklyProgramsCount'
-//     ));
-//     }
+   
+
+    // باقي البيانات لو بدك
+    $studentsCount = User::where('role', 'student')->count();
+    $teachersCount = User::where('role', 'teacher')->count();
+    $coursesCount = Course::count();
+    $weeklyProgramsCount = WeeklyProgram::count();
+
+    // عدد تسجيلات الدخول لكل يوم لآخر 7 أيام
+    $loginCounts = DB::table('user_logins')
+        ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+        ->where('created_at', '>=', now()->subDays(6)->startOfDay()) // 7 أيام بما فيهم اليوم
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // نريد نملأ الأيام الفارغة بصفر (اختياري ولكن جميل للعرض)
+    $dates = collect();
+    for ($i = 6; $i >= 0; $i--) {
+        $dates->push(now()->subDays($i)->format('Y-m-d'));
+    }
+
+    // تحويل النتائج إلى مصفوفة تاريخ => عدد
+    $loginCountsMap = $loginCounts->pluck('count', 'date');
+
+    // بناء مصفوفة كاملة مع ملء الأيام الفارغة بـ 0
+    $data = $dates->map(function($date) use ($loginCountsMap) {
+        return [
+            'date' => $date,
+            'count' => $loginCountsMap->get($date, 0),
+        ];
+    });
+
+    $teachers = User::where('role', 'teacher')
+    ->with([
+        'students:id,first_name,last_name,image,teacher_id',
+        'courses',
+        'weeklyPrograms',
+    ])
+    ->get();
+
+ 
+
+
+
+        return view('dashboard.layouts.dashboard'  , compact(
+        'studentsCount',
+        'teachersCount',
+        'coursesCount',
+        'weeklyProgramsCount',
+       'studentsCount',
+        'teachersCount',
+        'coursesCount',
+        'weeklyProgramsCount',
+        'data', // ترسل بيانات تسجيل الدخول
+        'teachers '
+    ));
+    }
 
 //     public function teacherDash()
 // {
@@ -61,42 +114,15 @@ class AdminController extends Controller
 // }
 
 
- public function dash( )
-    {
+//  public function dash( )
+//     {
         
        
-        return view('dashboard.layouts.dashboard');
-    }
+//         return view('dashboard.layouts.dashboard');
+//     }
 
 
-    //  هاي الدالة لتحديث صورة  البروفايل تبعت المعلم
-    // public function update(Request $request)
-    // {
-    //     // التحقق من تسجيل الدخول
-    //     if (!auth()->check()) {
-    //         return redirect()->route('login')->with('error', 'يجب تسجيل الدخول أولاً');
-    //     }
-    
-    //     $request->validate([
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    //     ]);
-    
-    //     $user = auth()->user();
-    
-    //     if ($request->hasFile('image')) {
-    //         // حذف الصورة القديمة إذا كانت موجودة
-    //         if ($user->image) {
-    //             Storage::delete('public/' . $user->image);
-    //         }
-    
-    //         // حفظ الصورة الجديدة
-    //         $path = $request->file('image')->store('profile_images', 'public');
-    //         $user->image = $path;
-    //         $user->save();
-    //     }
-    
-    //     return back()->with('success', 'تم تحديث الصورة بنجاح');
-    // }
+   
     public function updateImage(Request $request)
 {
     $request->validate([
