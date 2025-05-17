@@ -289,7 +289,7 @@
             </div>
              @endif
              @endauth
-        {{-- <div class="col-lg-8 col-md-6 mb-md-0 mb-4 ">
+        <div class="col-lg-8 col-md-6 mb-md-0 mb-4 ">
             <div class="card ">
                 <div class="card-header pb-0 card1">
                     <div class="row mb-3">
@@ -599,54 +599,8 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
-<h4 class="mb-3">إحصائيات المعلمين</h4>
-<table class="table table-bordered">
-    <thead class="table-light">
-        <tr>
-            <th>المشروع</th>
-            <th>الأعضاء</th>
-            <th>ميزانية</th>
-            <th>الإكمال</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($teachers as $teacher)
-        <tr>
-            <!-- المشروع -->
-            <td>
-                <div class="d-flex align-items-center">
-                    <img src="{{ asset('uploads/images/' . $teacher->image) }}" alt="صورة" width="40" height="40" class="rounded-circle me-2">
-                    <span>{{ $teacher->first_name }} {{ $teacher->last_name }}</span>
-                </div>
-            </td>
+        </div>
 
-            <!-- الأعضاء -->
-            <td>
-                <div class="d-flex">
-                    @foreach($teacher->students->take(4) as $student)
-                        <img src="{{ asset('uploads/images/' . $student->image) }}" alt="طالب" width="35" height="35" class="rounded-circle me-1" title="{{ $student->first_name }}">
-                    @endforeach
-                </div>
-            </td>
-
-            <!-- ميزانية -->
-            <td>{{ $teacher->courses->count() }}</td>
-
-            <!-- إكمال -->
-            <td>
-                <div class="progress" style="height: 20px;">
-                    <div class="progress-bar bg-success" role="progressbar"
-                         style="width: {{ $teacher->completion_percent }}%;" aria-valuenow="{{ $teacher->completion_percent }}"
-                         aria-valuemin="0" aria-valuemax="100">
-                         {{ $teacher->completion_percent }}%
-                    </div>
-                </div>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
 
         {{-- <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card card1">

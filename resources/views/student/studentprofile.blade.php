@@ -349,12 +349,17 @@
         <div class="mb-3 text-muted">لم يتم تعيين معلم بعد.</div>
       @endif
 
-      <div class="form-group">
+     <form action="{{ route('feedback.store') }}" method="POST">
+    @csrf
+    <div class="form-group">
         <label for="student-feedback"><strong>رأيك / ملاحظاتك:</strong></label>
-        <textarea id="student-feedback" class="form-control" rows="2"
+        <textarea id="student-feedback" name="content" class="form-control" rows="2"
                   placeholder="اكتب رأيك هنا..."
                   style="resize: none; border-radius: 8px; border-color: #ccc;"></textarea>
-      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2" style="background-color: #c37044 !important; color: white!important;">إرسال</button>
+</form>
+
     </div>
   </div>
           </div>

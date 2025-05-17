@@ -9,6 +9,8 @@ use App\Http\Controllers\WeeklyProgramController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\studentController;
 use App\Http\Controllers\disblayprogramdashController;
+use App\Http\Controllers\FeedbackController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -94,13 +96,14 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('public.contact');
 });
-Route::get('/aboutus', function () {
-    return view('public.aboutus');
-});
+// Route::get('/aboutus', function () {
+//     return view('public.aboutus');
+// });
 Route::get('/bloge', function () {
     return view('public.bloge');
 });
-
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::get('/aboutus', [FeedbackController::class, 'aboutus']);
 
 // Route::get('/profile' , function(){
 //     return view('dashboard.pages.profile')->name('profile');
@@ -130,6 +133,7 @@ Route::put('/teacher/day/{id}', [disblayprogramdashController::class, 'updateDay
 Route::get('/teacher/review-programs', [disblayprogramdashController::class, 'myReviewPrograms'])->name('teacher.review.programs');
 
 Route::put('/teacher/day/{id}/update', [disblayprogramdashController::class, 'updateDay2'])->name('teacher.day.update');
+
 
 
 

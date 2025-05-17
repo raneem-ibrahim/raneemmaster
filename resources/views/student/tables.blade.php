@@ -1,5 +1,47 @@
 
 
+ {{-- إذا كان الطالب لم يختر بعد --}}
+  @if (!$selectedTeacher && $teachers)
+    <h6 class="mb-3 fw-bold text-dark">اختر معلمك</h6>
+    <form action="{{ route('select.teacher') }}" method="POST">
+      @csrf
+
+      {{-- قائمة المعلمين --}}
+      <div class="list-group mb-3">
+        @foreach ($teachers as $teacher)
+          <label class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+              <input class="form-check-input me-2" type="radio" name="teacher_id" value="{{ $teacher->id }}">
+              <img src="{{ $teacher->image ? asset('storage/' . $teacher->image) : asset('image/صورة شخصية.jpg') }}"
+                   alt="صورة المعلم"
+                   class="rounded-circle"
+                   style="width: 40px; height: 40px; object-fit: cover;">
+              <span class="fw-semibold">{{ $teacher->first_name }} {{ $teacher->last_name }}</span>
+            </div>
+            <small class="text-muted">{{ $teacher->students->count() }} طلاب</small>
+          </label>
+        @endforeach
+      </div>
+
+      {{-- زر الحفظ --}}
+      <div class="text-center">
+        <button type="submit" class="btn btn-dark btn-sm rounded-pill px-4">تأكيد الاختيار</button>
+      </div>
+    </form>
+@endif
+</div>
+<style>
+input[type="radio"].form-check-input:checked {
+  background-color: #c37044 !important;
+  border-color: #c37044 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+input[type="radio"].form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(195, 112, 68, 0.25) !important;
+}
+
+  </style>
+{{-- نهاية اختر معلمك --}}
 
 
    {{-- هون اختيار جدول للحفظ  --}}

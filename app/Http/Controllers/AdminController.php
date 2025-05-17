@@ -65,19 +65,6 @@ class AdminController extends Controller
             'count' => $loginCountsMap->get($date, 0),
         ];
     });
-
-    $teachers = User::where('role', 'teacher')
-    ->with([
-        'students:id,first_name,last_name,image,teacher_id',
-        'courses',
-        'weeklyPrograms',
-    ])
-    ->get();
-
- 
-
-
-
         return view('dashboard.layouts.dashboard'  , compact(
         'studentsCount',
         'teachersCount',
@@ -87,8 +74,7 @@ class AdminController extends Controller
         'teachersCount',
         'coursesCount',
         'weeklyProgramsCount',
-        'data', // ترسل بيانات تسجيل الدخول
-        'teachers '
+        'data' // ترسل بيانات تسجيل الدخول
     ));
     }
 

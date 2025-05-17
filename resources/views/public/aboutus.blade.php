@@ -182,7 +182,7 @@
 
 
       {{-- start feedback_slider --}}
-      <section class="container">
+      {{-- <section class="container">
         <div class="testimonial mySwiper">
           <div class="testi-content swiper-wrapper">
             <div class="slide swiper-slide">
@@ -246,7 +246,31 @@
           <div class="swiper-button-prev nav-btn"></div>
           <div class="swiper-pagination"></div>
         </div>
-      </section>
+      </section> --}}
+      <section class="container">
+  <div class="testimonial mySwiper">
+    <div class="testi-content swiper-wrapper">
+      
+      @foreach($feedbacks as $feedback)
+        <div class="slide swiper-slide">
+          <img src="{{ asset('storage/' . $feedback->user->image) }}" alt="" class="image" />
+          <p>{{ $feedback->content }}</p>
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details">
+            <span class="name">{{ $feedback->user->first_name }} {{ $feedback->user->last_name }}</span>
+            <span class="job">طالب</span>
+          </div>
+        </div>
+      @endforeach
+
+    </div>
+    <div class="swiper-button-next nav-btn"></div>
+    <div class="swiper-button-prev nav-btn"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+
 
       {{-- end feedback_slider --}}
 

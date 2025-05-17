@@ -46,7 +46,7 @@
           <li><a href="{{url('bloge')}}"> الدورات </a></li>
           
           <li>
-            <div class="dropdown">
+            {{-- <div class="dropdown">
               <a class="btn btn-secondary dropdown-toggle droplist" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 الاعدادات
               </a>
@@ -54,7 +54,7 @@
               <ul class="dropdown-menu text-end" aria-labelledby="dropdownMenuLink" style="text-align: right; direction: rtl;">
           
                 @guest
-                  {{-- يظهر فقط إذا لم يكن المستخدم مسجلاً الدخول --}}
+                  يظهر فقط إذا لم يكن المستخدم مسجلاً الدخول
                   <li>
                     <a class="dropdown-item d-flex flex-row-reverse justify-content-between align-items-center" href="{{ url('login') }}">
                       <i class="fa-solid fa-arrow-right-to-bracket" style="color: #8d8c8c;"></i>
@@ -64,7 +64,7 @@
                 @endguest
               
                 @auth
-                  {{-- يظهر فقط إذا كان المستخدم مسجلاً الدخول --}}
+                  يظهر فقط إذا كان المستخدم مسجلاً الدخول
                   <li>
                     <a class="dropdown-item d-flex flex-row-reverse justify-content-between align-items-center" href="{{ url('student') }}">
                       <span style="color: black">الملف الشخصي</span>
@@ -84,7 +84,77 @@
                 @endauth
               
               </ul>
-            </div>
+            </div> --}}
+           <div class="settings-container">
+    @guest
+        {{-- زر تسجيل الدخول للزوار --}}
+        <a href="{{ url('login') }}" class="setting-item">
+            <i class="fa-solid fa-arrow-right-to-bracket text-white"></i>
+            <span class="setting-text">تسجيل الدخول</span>
+        </a>
+    @endguest
+    
+    @auth
+        {{-- زر الملف الشخصي للمستخدمين --}}
+        <a href="{{ url('student') }}" class="setting-item">
+            <i class="fa-regular fa-user text-white"></i>
+            <span class="setting-text">الملف الشخصي</span>
+        </a>
+        
+        {{-- زر تسجيل الخروج --}}
+        <form method="POST" action="{{ route('logout') }}" class="d-inline setting-item-form">
+            @csrf
+            <button type="submit" class="setting-item">
+                <i class="fa-solid fa-right-from-bracket text-white"></i>
+                <span class="setting-text">تسجيل خروج</span>
+            </button>
+        </form>
+    @endauth
+</div>
+
+<style>
+    .settings-container {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        direction: rtl;
+    }
+    
+    .setting-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+    
+    .setting-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .setting-text {
+        font-family: 'Tajawal', sans-serif;
+    }
+    
+    .setting-item-form {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .setting-item-form button {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+
+
           </li>
 
 
