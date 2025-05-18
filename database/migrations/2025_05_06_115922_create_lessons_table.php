@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('levels', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('course_id');
-            $table->string('title');
-            $table->unsignedInteger('level_number');
-            $table->timestamps();
-    
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-        });
+       Schema::create('lessons', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('level_id')->constrained('levels')->onDelete('cascade');
+    $table->string('title');
+    $table->text('description')->nullable();
+    $table->string('video_url');
+    $table->timestamps();
+  
+});
+
     }
     
 

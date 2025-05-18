@@ -125,20 +125,18 @@
         align-items: center;
         gap: 8px;
         color: white;
-        text-decoration: none;
+       
+        /* text-decoration: none;
         font-size: 1rem;
-        transition: all 0.3s ease;
-        padding: 5px 10px;
-        border-radius: 4px;
+        transition: all 0.3s ease; */
+        /* padding: 5px 10px;
+        border-radius: 4px; */
     }
     
-    .setting-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
+   
     
     .setting-text {
-        font-family: 'Tajawal', sans-serif;
+         font-family: "Marhey", sans-serif !important;
     }
     
     .setting-item-form {

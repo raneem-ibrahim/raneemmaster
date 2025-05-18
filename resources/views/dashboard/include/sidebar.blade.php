@@ -9,14 +9,17 @@
   <hr class="horizontal dark mt-0 mb-2">
   <div class="collapse navbar-collapse px-0 w-auto back_side2 " id="sidenav-collapse-main">
     <ul class="navbar-nav">
-         @auth
+        @auth
+      @if (auth()->user()->role === 'teacher')
           <li class="nav-item">
         <a class="nav-link text-dark" href="{{url('/disblaydash')}}">
           <i class="material-symbols-rounded opacity-10">dashboard</i>
           <span class="nav-link-text me-1">لوحة القيادة</span>
         </a>
       </li>
-   
+       @endif
+@endauth
+     @auth
       @if (auth()->user()->role === 'admin')
         <li class="nav-item">
         <a class="nav-link text-dark" href="{{route('admin.dashboard')}}">
