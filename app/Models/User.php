@@ -130,17 +130,17 @@ public function viewedLessons()
 
 
 
-    public function getCompletionPercentage($levelId) {
-    $totalLessons = Lesson::where('level_id', $levelId)->count();
-    if ($totalLessons == 0) return 0;
+//     public function getCompletionPercentage($levelId) {
+//     $totalLessons = Lesson::where('level_id', $levelId)->count();
+//     if ($totalLessons == 0) return 0;
     
-    $completedLessons = LessonView::where('user_id', $this->id)
-        ->whereHas('lesson', function($q) use ($levelId) {
-            $q->where('level_id', $levelId);
-        })
-        ->where('is_completed', true)
-        ->count();
+//     $completedLessons = LessonView::where('user_id', $this->id)
+//         ->whereHas('lesson', function($q) use ($levelId) {
+//             $q->where('level_id', $levelId);
+//         })
+//         ->where('is_completed', true)
+//         ->count();
         
-    return round(($completedLessons / $totalLessons) * 100);
-}
+//     return round(($completedLessons / $totalLessons) * 100);
+// }
 }

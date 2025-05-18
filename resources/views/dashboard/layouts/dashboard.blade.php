@@ -94,7 +94,7 @@
                 </div>
                 <div class="text-start pt-1">
                     <p class="text-sm mb-0 text-capitalize">عدد الدورات</p>
-                    <h4 class="mb-0">{{ $stats['courses_count'] }}</h4>
+                    <h4 class="mb-0">{{ $courseCount }}</h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -113,7 +113,7 @@
                 </div>
                 <div class="text-start pt-1">
                     <p class="text-sm mb-0 text-capitalize">عدد الطلاب</p>
-                    <h4 class="mb-0">{{ $stats['students_count'] }}</h4>
+                    <h4 class="mb-0">{{ $studentCount }}</h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="text-start pt-1">
                     <p class="text-sm mb-0 text-capitalize">البرامج الأسبوعية</p>
-                    <h4 class="mb-0">{{ $stats['weekly_programs_count'] }}</h4>
+                    <h4 class="mb-0">{{ $weeklyProgramCount }}</h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -151,7 +151,7 @@
                 </div>
                 <div class="text-start pt-1">
                     <p class="text-sm mb-0 text-capitalize">عدد الدروس</p>
-                    <h4 class="mb-0">{{ $stats['lessons_count'] }}</h4>
+                    <h4 class="mb-0">{{ $lessonCount }}</h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">

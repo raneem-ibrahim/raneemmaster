@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Surah;
 use App\Models\DailyProgram;
 use App\Models\WeeklyProgram;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Storage;
@@ -21,18 +21,29 @@ use App\Models\Lesson;
 class TeacherProgramController extends Controller
 {
     // هاي الدالة الي بتعرض لوحة التحكم تبعت المعلم
-    public function disblaydash()
+   public function disblaydash()
 {
-    $teacher = auth()->user(); // الحصول على بيانات المعلم المسجل دخوله
-    
-    $stats = [
-        'courses_count' => $teacher->courses()->count(),
-        'students_count' => $teacher->students()->count(),
-        'weekly_programs_count' => $teacher->weeklyPrograms()->count(),
-        'lessons_count' => $teacher->lessons()->count()
-    ];
-    
-    return view('dashboard.layouts.dashboard', compact('stats'));
+    $teacher = Auth::user();
+
+    // عدد الطلاب المرتبطين بالمعلم
+    $studentCount = \DB::table('student_teacher')
+                        ->where('teacher_id', $teacher->id)
+                        ->count();
+
+    // عدد الكورسات التي أنشأها أو مرتبط بها
+    $courseCount = \DB::table('course_teacher')
+                        ->where('user_id', $teacher->id)
+                        ->count();
+
+    // عدد الدروس التي أنشأها
+    $lessonCount = Lesson::where('teacher_id', $teacher->id)->count();
+
+    // عدد البرامج الأسبوعية التي أنشأها
+    $weeklyProgramCount = WeeklyProgram::where('teacher_id', $teacher->id)->count();
+
+    return view('dashboard.layouts.dashboard', compact(
+        'studentCount', 'courseCount', 'lessonCount', 'weeklyProgramCount'
+    ));
 }
 
 

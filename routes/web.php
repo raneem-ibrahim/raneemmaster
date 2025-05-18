@@ -66,10 +66,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
 // لوحة تحكم المعلم
+// Route::get('/disblaydash', [TeacherProgramController::class, 'disblaydash']);
+// Route::middleware(['auth', 'role:teacher'])->group(function () {
+//     Route::get('/teacher', function () {
+//         return view('dashboard.layouts.dashboard');
+//     })->name('dashboard.dash');
+// });
+// راوت الداشبورد للمعلم
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/teacher', function () {
-        return view('dashboard.layouts.dashboard');
-    })->name('dashboard.dash');
+    Route::get('/teacher', [TeacherProgramController::class, 'disblaydash'])->name('dashboard.dash');
 });
 
 // صفحة الطالب
@@ -184,7 +189,7 @@ Route::post('/student/update-info', [ProfilController::class, 'updateInfo'])->na
                                                    // Teachercontroller
 
 Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
-Route::get('/disblaydash', [TeacherProgramController::class, 'disblaydash']);
+
 
 
 Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
@@ -224,7 +229,7 @@ Route::delete('/lessons/{id}', [TeacherProgramController::class, 'destroylessons
                                   //HomeController
  Route::get('/bloge', [HomeController::class, 'showPublicCourses'])->name('public.courses');
  Route::get('/courses/{id}', [HomeController::class, 'showCourseDetails'])->name('public.course.details');
-Route::post('/track-lesson-view', [\App\Http\Controllers\LessonViewController::class, 'track'])->middleware('auth');
+Route::post('/track-lesson-view', [LessonViewController::class, 'track'])->middleware('auth');
 
 
 
