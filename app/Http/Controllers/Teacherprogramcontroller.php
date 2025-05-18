@@ -41,10 +41,15 @@ class TeacherProgramController extends Controller
     // عدد البرامج الأسبوعية التي أنشأها
     $weeklyProgramCount = WeeklyProgram::where('teacher_id', $teacher->id)->count();
 
+
+
+    
+
     return view('dashboard.layouts.dashboard', compact(
         'studentCount', 'courseCount', 'lessonCount', 'weeklyProgramCount'
     ));
 }
+
 
 
 

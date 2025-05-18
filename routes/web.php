@@ -102,14 +102,14 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('public.contact');
 });
-// Route::get('/aboutus', function () {
-//     return view('public.aboutus');
-// });
+Route::get('/aboutus', function () {
+    return view('public.aboutus');
+});
 Route::get('/bloge', function () {
     return view('public.bloge');
 });
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
-Route::get('/aboutus', [FeedbackController::class, 'aboutus']);
+Route::get('/', [FeedbackController::class, 'index']);
 
 // Route::get('/profile' , function(){
 //     return view('dashboard.pages.profile')->name('profile');
@@ -190,7 +190,7 @@ Route::post('/student/update-info', [ProfilController::class, 'updateInfo'])->na
 
 Route::get('/viewstudent', [TeacherProgramController::class, 'studentsList'])->name('viewstudent');
 
-
+Route::get('/teacher/weekly-lesson-views', [TeacherProgramController::class, 'weeklyLessonViews']);
 
 Route::post('/weekly-program/select-students', [TeacherProgramController::class, 'selectStudents'])->name('weekly-program.selectStudents');
 Route::get('/weekly-program/create', [TeacherProgramController::class, 'create'])->name('weekly-program.create');

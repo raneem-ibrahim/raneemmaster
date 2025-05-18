@@ -12,7 +12,7 @@
         @auth
       @if (auth()->user()->role === 'teacher')
           <li class="nav-item">
-        <a class="nav-link text-dark" href="{{url('/disblaydash')}}">
+        <a class="nav-link text-dark" href="{{route('dashboard.dash')}}">
           <i class="material-symbols-rounded opacity-10">dashboard</i>
           <span class="nav-link-text me-1">لوحة القيادة</span>
         </a>

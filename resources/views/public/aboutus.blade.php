@@ -272,7 +272,7 @@
           <div class="swiper-pagination"></div>
         </div>
       </section> --}}
-      <section class="container">
+      {{-- <section class="container">
   <div class="testimonial mySwiper">
     <div class="testi-content swiper-wrapper">
       
@@ -293,7 +293,7 @@
     <div class="swiper-button-prev nav-btn"></div>
     <div class="swiper-pagination"></div>
   </div>
-</section>
+</section> --}}
 
 
 

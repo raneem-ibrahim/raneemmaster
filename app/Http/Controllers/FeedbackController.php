@@ -21,10 +21,10 @@ class FeedbackController extends Controller
 }
 
 
-public function aboutUs()
+public function index()
 {
     $feedbacks = Feedback::with('user')->latest()->take(10)->get(); // نجيب آخر 10 تعليقات
-    return view('public.aboutus', compact('feedbacks'));
+    return view('public.index', compact('feedbacks'));
 }
 
 

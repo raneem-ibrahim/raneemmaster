@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <!-- Amiri Quranic Font -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-   
-
+   <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+<!-- Swiper CSS -->
+   <link rel="stylesheet" href="css/swiper-bundle.min.css" />
     {{-- start slider --}}
    <!-- استدعاء الخط من Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i&display=swap" rel="stylesheet">
@@ -200,7 +201,7 @@
         <div class="container1">
           <div class="row">
             <div class="col-md-12 text-center">
-              <h2 class="heading-section mb-5">صدقة جارية</h2>
+              {{-- <h2 class="heading-section mb-5">صدقة جارية</h2> --}}
             </div>
             <div class="col-md-12">
               <div class="featured-carousel owl-carousel">
@@ -260,9 +261,191 @@
         </div>
       </section>
 
+<style>
+  .ftco-section {
+    margin-right: 60px !important;
+    margin-left: 60px !important;
+  }
+</style>
 
 
 
+
+      {{-- start feedback_slider --}}
+      {{-- <section class="container">
+        <div class="testimonial mySwiper">
+          <div class="testi-content swiper-wrapper">
+            <div class="slide swiper-slide">
+              <img src="{{asset('image/الحمد الله.jpg')}}" alt="" class="image" />
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                saepe provident dolorem a quaerat quo error facere nihil deleniti
+                eligendi ipsum adipisci, fugit, architecto amet asperiores
+                doloremque deserunt eum nemo.
+              </p>
+              <i class="bx bxs-quote-alt-left quote-icon"></i>
+              <div class="details">
+                <span class="name">Marnie Lotter</span>
+                <span class="job">Web Developer</span>
+              </div>
+            </div>
+            <div class="slide swiper-slide">
+              <img src="{{asset('image/صورة شخصية.jpg')}}" alt="" class="image" />
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                saepe provident dolorem a quaerat quo error facere nihil deleniti
+                eligendi ipsum adipisci, fugit, architecto amet asperiores
+                doloremque deserunt eum nemo.
+              </p>
+              <i class="bx bxs-quote-alt-left quote-icon"></i>
+              <div class="details">
+                <span class="name">Marnie Lotter</span>
+                <span class="job">Web Developer</span>
+              </div>
+            </div>
+            <div class="slide swiper-slide">
+              <img src="{{asset('image/ورد.jpg')}}" alt="" class="image" />
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                saepe provident dolorem a quaerat quo error facere nihil deleniti
+                eligendi ipsum adipisci, fugit, architecto amet asperiores
+                doloremque deserunt eum nemo.
+              </p>
+              <i class="bx bxs-quote-alt-left quote-icon"></i>
+              <div class="details">
+                <span class="name">Marnie Lotter</span>
+                <span class="job">Web Developer</span>
+              </div>
+            </div>
+            <div class="slide swiper-slide">
+              <img src="{{asset('image/صورة شخصية2.jpg')}}" alt="" class="image" />
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                saepe provident dolorem a quaerat quo error facere nihil deleniti
+                eligendi ipsum adipisci, fugit, architecto amet asperiores
+                doloremque deserunt eum nemo.
+              </p>
+              <i class="bx bxs-quote-alt-left quote-icon"></i>
+              <div class="details">
+                <span class="name">Marnie Lotter</span>
+                <span class="job">Web Developer</span>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-next nav-btn"></div>
+          <div class="swiper-button-prev nav-btn"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section> --}}
+      {{-- <section class="container">
+  <div class="testimonial mySwiper">
+    <div class="testi-content swiper-wrapper">
+      
+      @foreach($feedbacks as $feedback)
+        <div class="slide swiper-slide">
+          <img src="{{ asset('storage/' . $feedback->user->image) }}" alt="" class="image" />
+          <p>{{ $feedback->content }}</p>
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details">
+            <span class="name">{{ $feedback->user->first_name }} {{ $feedback->user->last_name }}</span>
+            <span class="job">طالب</span>
+          </div>
+        </div>
+      @endforeach
+
+    </div>
+    <div class="swiper-button-next nav-btn"></div>
+    <div class="swiper-button-prev nav-btn"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section> --}}
+<section class="container">
+  <div class="testimonial mySwiper">
+    <div class="testi-content swiper-wrapper">
+      @foreach($feedbacks as $feedback)
+        <div class="slide swiper-slide">
+          <img src="{{ asset('storage/' . $feedback->user->image) }}" alt="" class="image" onerror="this.src='{{ asset('images/default-user.png') }}'" />
+          <p>{{ $feedback->content }}</p>
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details">
+            <span class="name">{{ $feedback->user->first_name }} {{ $feedback->user->last_name }}</span>
+            <span class="job">طالب</span>
+          </div>
+        </div>
+      @endforeach
+    </div>
+    <div class="swiper-button-next nav-btn"></div>
+    <div class="swiper-button-prev nav-btn"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiper = new Swiper('.mySwiper', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: false, // غيرت من true إلى false
+    grabCursor: true,
+    centeredSlides: false, // غيرت من true إلى false
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: true, // غيرت من false إلى true
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    observer: true,
+    observeParents: true,
+    observeSlideChildren: true,
+    // أضف هذه الإعدادات الجديدة
+    preloadImages: false,
+    lazy: true,
+    watchSlidesProgress: true,
+    watchSlidesVisibility: true
+  });
+
+  console.log('Swiper initialized without infinite loading');
+});
+</script>
+ {{-- <style>
+  .testimonial {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  padding-bottom: 30px;
+}
+
+.swiper-slide {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  color: #333;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #333;
+} --}}
+  {{-- </style> --}}
+<br><br><br>
+
+      {{-- end feedback_slider --}}
 
       <footer>
         <div class="footer-divider">
@@ -340,7 +523,12 @@
 
 
 
-
+             <!-- JavaScript -->
+        <script src="{{ asset('js/script.js') }}"></script>  
+         <!-- Swiper JS -->
+        {{-- <script src="{{ asset('js/swiper-bundle.min.js') }}"></script> --}}
+        <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
       
   </body>
 </html>
