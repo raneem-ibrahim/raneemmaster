@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\studentController;
 use App\Http\Controllers\disblayprogramdashController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\LessonViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -223,19 +224,9 @@ Route::delete('/lessons/{id}', [TeacherProgramController::class, 'destroylessons
                                   //HomeController
  Route::get('/bloge', [HomeController::class, 'showPublicCourses'])->name('public.courses');
  Route::get('/courses/{id}', [HomeController::class, 'showCourseDetails'])->name('public.course.details');
-
-
-
- Route::post('/lesson-viewed', [App\Http\Controllers\LessonViewController::class, 'store']);
-// Route::post('/track-lesson-view', [LessonViewController::class, 'trackLessonView']);
-// في routes/web.php
-Route::post('/track-lesson-view', [App\Http\Controllers\LessonViewController::class, 'trackView'])
-    ->middleware('auth');
+Route::post('/track-lesson-view', [\App\Http\Controllers\LessonViewController::class, 'track'])->middleware('auth');
 
 
 
 
-    Route::get('/get-level-progress', function(Request $request) {
-    $percentage = auth()->user()->getCompletionPercentage($request->level_id);
-    return response()->json(['percentage' => $percentage]);
-});
+  

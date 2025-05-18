@@ -26,21 +26,17 @@ public function viewers()
     return $this->belongsToMany(User::class, 'lesson_views')->withTimestamps();
 }
 
-
-
-
-
-// في Lesson.php
-public function isViewedBy(User $user) {
-    return $this->views()
-        ->where('user_id', $user->id)
-        ->where('is_completed', true)
-        ->exists();
+public function views()
+{
+    return $this->hasMany(\App\Models\LessonView::class);
 }
 
-public function views() {
-    return $this->hasMany(LessonView::class);
+public function isViewedBy($user)
+{
+    return $this->views()->where('user_id', $user->id)->exists();
 }
+
+   
 
 
 }

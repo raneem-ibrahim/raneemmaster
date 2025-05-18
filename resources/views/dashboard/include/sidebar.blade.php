@@ -35,12 +35,16 @@
             <span class="nav-link-text me-1">إنشاء جداول للطلاب</span>
         </a>
     </li>
+     @auth
+      @if (auth()->user()->role === 'teacher')
     <li class="nav-item">
     <a class="nav-link text-dark" href="{{route('students.index')}}">
         <i class="material-symbols-rounded opacity-10">add</i>
         <span class="nav-link-text me-1">إضافة طالب</span>
     </a>
 </li>
+   @endif
+@endauth
  <li class="nav-item">
     <a class="nav-link text-dark" href="{{route('teacher.programs.hifz')}}">
         <i class="material-symbols-rounded opacity-10">event_note</i>

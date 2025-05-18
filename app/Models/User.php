@@ -99,10 +99,14 @@ public function dailyAchievements()
 
 
  // المعلم أنشأ كورسات
+//  public function courses()
+//  {
+//      return $this->hasMany(\App\Models\Course::class, 'created_by');
+//  }
  public function courses()
- {
-     return $this->hasMany(\App\Models\Course::class, 'created_by');
- }
+{
+    return $this->belongsToMany(Course::class, 'course_teacher', 'user_id', 'course_id');
+}
  public function lessons()
 {
     return $this->hasMany(Lesson::class, 'teacher_id');

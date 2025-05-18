@@ -8,6 +8,7 @@ class DailyAchievementController extends Controller
 {
     public function store(Request $request)
 {
+     dd($request->all());
     $data = $request->validate([
         'user_id' => 'required|exists:users,id',
         'daily_program_id' => 'required|exists:daily_programs,id',

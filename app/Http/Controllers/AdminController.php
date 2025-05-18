@@ -65,6 +65,43 @@ class AdminController extends Controller
             'count' => $loginCountsMap->get($date, 0),
         ];
     });
+
+
+
+
+
+         $teachers = User::where('role', 'teacher')
+        ->with(['students', 'lessons', 'weeklyPrograms'])
+        ->get()
+        ->map(function ($teacher) {
+            // حساب نسبة الإنجاز بناءً على عدد البرامج الأسبوعية
+            $totalWeeklyPrograms = WeeklyProgram::where('teacher_id', $teacher->id)->count();
+            
+            // يمكنك تعديل هذا الجزء حسب منطق عملك
+            // هنا نفترض أن كل برنامج أسبوعي منشأ يعتبر مكتمل
+            $completedPrograms = $totalWeeklyPrograms;
+            
+            // أو يمكنك استخدام تاريخ الإنشاء إذا أردت
+            // $completedThisMonth = WeeklyProgram::where('teacher_id', $teacher->id)
+            //     ->whereMonth('created_at', now()->month)
+            //     ->count();
+            
+            $completionRate = $totalWeeklyPrograms > 0 ? min(100, $completedPrograms * 10) : 0; // مثال: كل برنامج يضيف 10%
+
+            return (object)[
+                'id' => $teacher->id,
+                'first_name' => $teacher->first_name,
+                'last_name' => $teacher->last_name,
+                'email' => $teacher->email,
+                'image' => $teacher->image,
+                'students' => $teacher->students,
+                'lessons' => $teacher->lessons,
+                'completion_rate' => $completionRate
+            ];
+        });
+
+    
+  
         return view('dashboard.layouts.dashboard'  , compact(
         'studentsCount',
         'teachersCount',
@@ -74,7 +111,8 @@ class AdminController extends Controller
         'teachersCount',
         'coursesCount',
         'weeklyProgramsCount',
-        'data' // ترسل بيانات تسجيل الدخول
+        'data', // ترسل بيانات تسجيل الدخول
+        'teachers'
     ));
     }
 
@@ -235,20 +273,19 @@ public function store(Request $request, $studentId)
 
 public function destroy($id)
 {
-    // العثور على المعلم بواسطة المعرف
     $teacher = User::findOrFail($id);
 
-    // التأكد من أن المستخدم هو "أدمن" (اختياري)
-    if(auth()->user()->role != 'admin') {
+    // التحقق من الصلاحية
+    if (auth()->user()->role != 'admin') {
         return redirect()->route('teachers.index')->with('error', 'ليس لديك صلاحية لحذف هذا المعلم.');
     }
 
-    // حذف المعلم
+    // حذف ناعم
     $teacher->delete();
 
-    // إعادة توجيه مع رسالة تأكيد
     return redirect()->route('teachers.index')->with('success', 'تم حذف المعلم بنجاح.');
 }
+
 // function edite
 public function edit($id)
 {

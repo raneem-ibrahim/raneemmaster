@@ -1,21 +1,13 @@
 <?php
 
-namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+    namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class LessonView extends Model
 {
-    use HasFactory;
-    // في LessonView.php
-protected $fillable = ['user_id', 'lesson_id', 'is_completed', 'progress'];
-
-public function user() {
-    return $this->belongsTo(User::class);
+    protected $fillable = ['user_id', 'lesson_id'];
 }
 
-public function lesson() {
-    return $this->belongsTo(Lesson::class);
-}
-}
+

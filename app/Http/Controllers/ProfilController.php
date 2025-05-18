@@ -158,6 +158,39 @@ if ($teacher) {
     $reviewPercentage = $reviewProgress['total'] > 0 ? round(($reviewProgress['completed'] / $reviewProgress['total']) * 100) : 0;
 
 
+    $videoProgressByLevel = [];
+if ($teacher) {
+    $levels = \App\Models\Level::with(['course', 'lessons' => function ($query) use ($teacher) {
+        $query->where('teacher_id', $teacher->id);
+    }])->get();
+
+    foreach ($levels as $level) {
+        if ($level->lessons->count() > 0 && $level->course) {
+            $lessons = $level->lessons;
+            $lessonIds = $lessons->pluck('id');
+
+            // إجمالي الدروس في هذا المستوى
+            $totalLessons = $lessons->count();
+
+            // عدد الدروس التي شاهدها الطالب
+            $watchedCount = LessonView::where('user_id', $student->id)
+                ->whereIn('lesson_id', $lessonIds)
+                ->count();
+
+            // حساب النسبة
+            $percentage = $totalLessons > 0 ? round(($watchedCount / $totalLessons) * 100) : 0;
+
+            // تخزين التقدم
+            $videoProgressByLevel[] = [
+                'course_title' => $level->course->title,
+                'level_title' => $level->title,
+                'percentage' => $percentage,
+            ];
+        }
+    }
+}
+
+
     return view('student.studentprofile', compact(
         'student',
         'teachers',
@@ -171,7 +204,8 @@ if ($teacher) {
         'hifzPercentage',
         'reviewPercentage',
         'hifzProgress',
-        'reviewProgress'
+        'reviewProgress',
+        'videoProgressByLevel'
     ));
    
 

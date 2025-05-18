@@ -37,11 +37,11 @@
     }
     
     /* أنماط التبويبات المعدلة */
-    .tab-content {
+    /* .tab-content {
       position: relative;
       width: 100%;
       min-height: 500px; /* ارتفاع مناسب للمحتوى */
-    }
+    } */
     
     .tab-pane {
       position: absolute;
@@ -282,17 +282,26 @@
           </div> --}}
           <!-- في قسم دوائر التقدم -->
 
+@foreach ($videoProgressByLevel as $progress)
 <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
     <div class="progress blue">
-        <span class="progress-left"><span class="progress-bar"></span></span>
-        <span class="progress-right"><span class="progress-bar"></span></span>
-        <div class="progress-value"></div>
+        <span class="progress-left">
+            <span class="progress-bar" style="animation: loading-2 1.5s linear forwards {{ $progress['percentage'] > 50 ? '1.8s' : '0s' }}; transform: rotate({{ $progress['percentage'] > 50 ? (($progress['percentage'] - 50) / 100 * 360) : 0 }}deg);"></span>
+        </span>
+        <span class="progress-right">
+            <span class="progress-bar" style="animation: loading-1 1.8s linear forwards; transform: rotate({{ min($progress['percentage'], 50) / 100 * 360 }}deg);"></span>
+        </span>
+        <div class="progress-value">{{ $progress['percentage'] }}%</div>
     </div>
-    <div class="progress-label text-center">إنجاز الدروس</div>
+    <div class="progress-label text-center">
+        {{ $progress['course_title'] }} - {{ $progress['level_title'] }}
+    </div>
 </div>
+@endforeach
+
 
 <!-- في قسم دوائر التقدم -->
-<div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
+{{-- <div class="col-md-4 col-sm-4" style="padding-right: 15px; padding-left: 0;">
     <div class="progress blue">
         <span class="progress-left"><span class="progress-bar"></span></span>
         <span class="progress-right"><span class="progress-bar"></span></span>
@@ -308,7 +317,7 @@
         <div class="progress-value">{{ $reviewPercentage }}%</div>
     </div>
     <div class="progress-label text-center">إنجاز المراجعة</div>
-</div>
+</div> --}}
 
 
 

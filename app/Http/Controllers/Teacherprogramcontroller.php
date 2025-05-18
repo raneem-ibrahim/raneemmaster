@@ -20,9 +20,27 @@ use App\Models\Lesson;
 
 class TeacherProgramController extends Controller
 {
-    public function disblaydash(){
-        return view('dashboard.layouts.dashboard');
-    }
+    // هاي الدالة الي بتعرض لوحة التحكم تبعت المعلم
+    public function disblaydash()
+{
+    $teacher = auth()->user(); // الحصول على بيانات المعلم المسجل دخوله
+    
+    $stats = [
+        'courses_count' => $teacher->courses()->count(),
+        'students_count' => $teacher->students()->count(),
+        'weekly_programs_count' => $teacher->weeklyPrograms()->count(),
+        'lessons_count' => $teacher->lessons()->count()
+    ];
+    
+    return view('dashboard.layouts.dashboard', compact('stats'));
+}
+
+
+
+
+
+
+
     public function studentsList()
     {
         $students = auth()->user()->students()->with('memorizationProgram')->get();
