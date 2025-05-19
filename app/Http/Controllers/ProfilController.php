@@ -190,7 +190,7 @@ if ($teacher) {
     }
 }
 
-
+//  $feedbacks = Feedback::with('user')->latest()->take(10)->get();
     return view('student.studentprofile', compact(
         'student',
         'teachers',
@@ -206,6 +206,7 @@ if ($teacher) {
         'hifzProgress',
         'reviewProgress',
         'videoProgressByLevel'
+        // 'feedbacks'
     ));
    
 

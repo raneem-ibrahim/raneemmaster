@@ -132,14 +132,14 @@
                 <img src="{{asset('image/contactimage.jpg')}}" alt="صورة لشخص يصلي">
             </div>
             <div class="content-container">
-                <h2><span>Contact</span> Us and Get in <span>Touch</span></h2>
-                <p>لوريم إيبسوم دولور سيت أميت، كونسيكتيتور أديبيسينج إليت، سيد دو eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <h2><span>نسعد بخدمتك والإجابة على استفساراتك</span></h2>
+<p>نحن في موقع ترتيل نسعى لتقديم تجربة تعليمية متميزة في حفظ وتعلم القرآن الكريم وأحكام التجويد. إن كانت لديك أي استفسارات، اقتراحات، أو تحتاج إلى مساعدة — لا تتردد في التواصل معنا.</p>
                 <ul class="contact-info">
-                    <li>Paradise Road 70, Avenue Park, London, UK<i class="fas fa-map-marker-alt" style="color: #38678b;"></i></li>
-                    <li>+123 456 789<i class="fas fa-phone" style="color: #38678b;"></i></li>
-                    <li>mail@salam.co<i class="fas fa-envelope" style="color: #38678b;"></i></li>
-                    <li>@salam.officiali <i class="fab fa-instagram" style="color: #38678b;"></i></li>
-                    <li>Salam Islamic Center<i class="fab fa-facebook" style="color: #38678b;"></i></li>
+                    <li> المملكة الأردنية الهاشمية – العقبة<i class="fas fa-map-marker-alt" style="color: #38678b;"></i></li>
+                    <li>+962 7756 7289<i class="fas fa-phone" style="color: #38678b;"></i></li>
+                    <li> info@tarteel.com<i class="fas fa-envelope" style="color: #38678b;"></i></li>
+                    <li>تابعنا على إنستغرام tarteel_eslam: <i class="fab fa-instagram" style="color: #38678b;"></i></li>
+                    <li>tarteel <i class="fab fa-facebook" style="color: #38678b;"></i></li>
                 </ul>
             </div>
         </section>
@@ -239,60 +239,65 @@
 
 
   <br><br>
-      <footer>
-        <div class="footer-divider">
-            <span class="footer-logo"><img src="{{asset('image/لوجو.png')}}" alt="الشعار" height="40"></span>
-        </div>
-        
-        <div class="footer-content">
-            <div class="footer-title-icons">
-                <h2 class="footer-title"> <img src="{{asset('image/namelogo.png')}}" width="120px" height="100px"></h2>
-                <div class="footer-icons">
-                    <a href="#"><i class="fa-brands fa-facebook" style="color: #38678b;"></i></a>
-                    <a href="#"><i class="fa-brands fa-whatsapp" style="color: #2a5d84;"></i></a>
-                </div>
-            </div>
-            <div>
-                <h3 style="font-size: 16px; font-weight: bold; ">الخدمات</h3>
-                <ul class="footer-links">
-                    <li>المسجد الكبير</li>
-                    <li>الحج والعمرة</li>
-                    <li>الزكاة والصدقة</li>
-                    <li>رمضان</li>
-                    <li>تفسير القرآن</li>
-                </ul>
-            </div>
-            <div>
-                <h3 style="font-size: 16px; font-weight: bold;">البرامج</h3>
-                <ul class="footer-links">
-                    <li>التجمعات</li>
-                    <li>العبادة</li>
-                    <li>المجتمع</li>
-                    <li>المعرفة</li>
-                    <li>المركز الإعلامي</li>
-                    <li>الوظائف</li>
-                </ul>
-            </div>
-            <div>
-                <h3 style="font-size: 16px; font-weight: bold;">روابط</h3>
-                <ul class="footer-links">
-                    <li>شركاؤنا</li>
-                    <li>اتصل بنا</li>
-                    <li>مركز المساعدة</li>
-                    <li>المدونة الإسلامية</li>
-                    <li>الرؤى</li>
-                </ul>
+   <footer>
+    <div class="footer-divider">
+        <span class="footer-logo"><img src="{{asset('image/لوجو.png')}}" alt="شعار ترتيل" height="40"></span>
+    </div>
+    
+    <div class="footer-content">
+        <div class="footer-title-icons">
+            <h2 class="footer-title">
+                <img src="{{asset('image/namelogo.png')}}" width="120px" height="100px" alt="شعار اسم ترتيل">
+            </h2>
+            <div class="footer-icons">
+                <a href="#"><i class="fa-brands fa-facebook" style="color: #38678b;"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color: #2a5d84;"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram" style="color: #38678b;"></i></a>
+                {{-- <a href="#"><i class="fa-brands fa-youtube" style="color: #c4302b;"></i></a> --}}
             </div>
         </div>
-        
-        <div class="footer-bottom">
-            <p style="font-size: 14px;">مدعوم من SocioLib.</p>
-            <div>
-                <a href="#" style="text-decoration: none; color: black;">سياسة الخصوصية</a> |
-                <a href="#" style="text-decoration: none; color: black;">الشروط والأحكام</a>
-            </div>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;font-family: 'Marhey', sans-serif">خدماتنا</h3>
+            <ul class="footer-links">
+                <li>تحفيظ القرآن الكريم</li>
+                <li>مراجعة الحفظ الأسبوعي</li>
+                <li>تعليم أحكام التجويد</li>
+                <li>متابعة أداء الطلاب</li>
+                <li>إشراف معلمين متخصصين</li>
+            </ul>
         </div>
-    </footer>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;font-family: 'Marhey', sans-serif">البرامج التعليمية</h3>
+            <ul class="footer-links">
+                <li>برنامج الحفظ الأسبوعي</li>
+                <li>برنامج المراجعة</li>
+                <li>دورات التجويد</li>
+                <li>المستويات التعليمية</li>
+                <li>مكتبة الفيديو</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;font-family: 'Marhey', sans-serif">روابط مهمة</h3>
+            <ul class="footer-links">
+                <li>من نحن</li>
+                <li>اتصل بنا</li>
+                <li>سياسة الخصوصية</li>
+                <li>الشروط والأحكام</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p style="font-size: 14px;">جميع الحقوق محفوظة © 2025 لموقع ترتيل لتحفيظ القرآن الكريم.</p>
+        <div>
+            <a href="#" style="text-decoration: none; color: black;">سياسة الخصوصية</a> |
+            <a href="#" style="text-decoration: none; color: black;">الشروط والأحكام</a>
+        </div>
+    </div>
+</footer>
      
 
 

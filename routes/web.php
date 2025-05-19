@@ -77,12 +77,18 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher', [TeacherProgramController::class, 'disblaydash'])->name('dashboard.dash');
 });
 
-// صفحة الطالب
+// // صفحة الطالب
+// Route::middleware(['auth', 'role:student'])->group(function () {
+//     Route::get('/public/index', function () {
+//         return view('public.index');
+//     })->name('public.index');
+// });
+
 Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/public/index', function () {
-        return view('public.index');
-    })->name('public.index');
+    Route::get('/public/index', [FeedbackController::class, 'index'])->name('public.index');
 });
+
+Route::get('/', [FeedbackController::class, 'index']);
 
 // Route::get('/dash', [AdminController::class, 'dash']);
 
@@ -96,9 +102,9 @@ Route::get('/login', function () {
 
 
 
-Route::get('/', function () {
-    return view('public.index');
-})->name('index');
+// Route::get('/', function () {
+//     return view('public.index');
+// })->name('index');
 Route::get('/contact', function () {
     return view('public.contact');
 });
@@ -109,7 +115,7 @@ Route::get('/bloge', function () {
     return view('public.bloge');
 });
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
-Route::get('/', [FeedbackController::class, 'index']);
+// Route::get('/', [FeedbackController::class, 'index']);
 
 // Route::get('/profile' , function(){
 //     return view('dashboard.pages.profile')->name('profile');

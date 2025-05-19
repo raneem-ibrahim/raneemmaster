@@ -162,10 +162,10 @@
         </a>
         @endauth
         
-        <a class="btn bg-gradient-dark w-100" href="../pages/sign-up.html" type="button">
+        {{-- <a class="btn bg-gradient-dark w-100" href="../pages/sign-up.html" type="button">
             <i class="material-symbols-rounded opacity-10">share</i>
             شارك
-        </a>
+        </a> --}}
     </div>
 </div>
 </aside>

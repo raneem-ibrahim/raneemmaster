@@ -26,6 +26,7 @@
 
 <!-- استدعاء مكتبة الأيقونات Ionicons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
 <!-- استدعاء ملف الـ Style.css من المجلد الجديد -->
 <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
@@ -167,19 +168,17 @@
           <p class="verse-reference">سورة المزمل، الآية 4</p>
         </div>
       </section>
-
+<br><br><br>
 
        {{-- start section_about  --}}
        <div class="bodyabout">
         <section class="about-section">
             <div class="about-text">
                 <h2>من نحن</h2>
-                <p>
-                  نحن مجتمع يسعى لنشر القيم والتقاليد الإسلامية من خلال التعليم والتفاعل الثقافي. 
-                  نحن مجتمع يسعى لنشر القيم والتقاليد الإسلامية من خلال التعليم والتفاعل الثقافي. 
-                  هدفنا هو بناء بيئة داعمة تجمع بين الأفراد المهتمين بالمعرفة والروحانية.
-                    هدفنا هو بناء بيئة داعمة تجمع بين الأفراد المهتمين بالمعرفة والروحانية.
-                </p>
+              <p>
+موقع <strong>ترتيل</strong> هو منصة إلكترونية تعليمية تهدف إلى تيسير حفظ القرآن الكريم وتعلُّم أحكام التجويد بأسلوب منهجي مبسط وتفاعلي. نؤمن بأن القرآن رسالة حياة، ونسعى جاهدين إلى ربط القلوب بكلام الله من خلال برامج تعليمية أسبوعية، دروس فيديو منظمة، ومتابعة دائمة من المعلمين المؤهلين. في ترتيل، نرافقك خطوة بخطوة في رحلتك الإيمانية، حيث نزرع الحفظ، ونجني التلاوة الصحيحة، ونرتقي بالفهم والتدبر.
+</p>
+
             </div>
         
             <div class="image-container">
@@ -209,9 +208,19 @@
                   <div class="work">
                     <div class="img d-flex align-items-end justify-content-center" style="background-image: url({{('/asset/images/خطة.jpg')}});">
                       <div class="text w-100">
-                        <!-- <span class="cat">Web Design</span> -->
-                        <h3><a href="#">Working Spaces for Startups Freelancer</a></h3>
-                      </div>
+  <h4 class="h6 text-muted text-justify" 
+      style="color: white !important;
+       font-family: 'Marhey', sans-serif;
+        direction: rtl; 
+         background-color: #cdcbcb6e;
+          border: 1px solid white;
+           border-radius: 10px;
+            padding:22px;
+             font-size: 25px;">
+    يتيح النظام تواصلًا فعالًا بين الطالب والمعلم، لمتابعة الأداء، تقديم النصائح، أو تعديل البرامج حسب الحاجة.
+  </h4>
+</div>
+
                     </div>
                   </div>
                 </div>
@@ -220,7 +229,14 @@
                     <div class="img d-flex align-items-end justify-content-center" style="background-image: url({{('/asset/images/احكام.jpg')}});">
                       <div class="text w-100">
                         <!-- <span class="cat">Web Design</span> -->
-                        <h3><a href="#">Working Spaces for Startups Freelancer</a></h3>
+                       <h4 class="h6 text-muted text-justify" 
+      style="color: white !important; font-family: 'Marhey', sans-serif; direction: rtl; 
+      background-color: #cdcbcb6e;
+          border: 1px solid white;
+           border-radius: 10px;
+            padding:15px;
+             font-size: 25px;">يمكن لكل طالب تسجيل إنجازه اليومي في الحفظ والمراجعة والسرد، مع إمكانية عرض نسبة التقدم بشكل تفاعلي في ملفه الشخصي.
+  </h4>
                       </div>
                     </div>
                   </div>
@@ -230,7 +246,14 @@
                     <div class="img d-flex align-items-end justify-content-center" style="background-image: url({{('/asset/images/طفل.jpg')}});">
                       <div class="text w-100">
                         <!-- <span class="cat">Web Design</span> -->
-                        <h3><a href="#">Working Spaces for Startups Freelancer</a></h3>
+                       <h4 class="h6 text-muted text-justify" 
+      style="color: white !important; font-family: 'Marhey', sans-serif; direction: rtl; 
+      background-color: #cdcbcb6e;
+          border: 1px solid white;
+           border-radius: 10px;
+            padding:15px;
+             font-size: 25px;">نقدّم برامج حفظ منظمة تبدأ من الأحد حتى الخميس، يحدد فيها المعلم آيات الحفظ لكل طالب حسب مستواه، مع جدول متابعة واضح وسهل.
+    </h4>
                       </div>
                     </div>
                   </div>
@@ -240,7 +263,14 @@
                     <div class="img d-flex align-items-end justify-content-center" style="background-image: url({{('/asset/images/قرأن.jpg')}});">
                       <div class="text w-100">
                         <!-- <span class="cat">Web Design</span> -->
-                        <h3><a href="#">Working Spaces for Startups Freelancer</a></h3>
+                       <h4 class="h6 text-muted text-justify" 
+      style="color: white !important; font-family: 'Marhey', sans-serif; direction: rtl; 
+      background-color: #cdcbcb6e;
+          border: 1px solid white;
+           border-radius: 10px;
+            padding:25px;
+             font-size: 25px;">نوفر دروس فيديو تعليمية تغطي ثلاثة مستويات في التجويد، من الأساسيات إلى التلاوة المتقنة، بإشراف معلمين متخصصين.
+    </h4>
                       </div>
                     </div>
                   </div>
@@ -250,7 +280,14 @@
                     <div class="img d-flex align-items-end justify-content-center" style="background-image: url({{('/asset/images/مكتبة.jpg')}});">
                       <div class="text w-100">
                         <!-- <span class="cat">Web Design</span> -->
-                        <h3><a href="#">Working Spaces for Startups Freelancer</a></h3>
+                        <h4 class="h6 text-muted text-justify" 
+      style="color: white !important; font-family: 'Marhey', sans-serif; direction: rtl; 
+      background-color: #cdcbcb6e;
+          border: 1px solid white;
+           border-radius: 10px;
+            padding:25px;
+             font-size: 25px;">يعرض الموقع لكل طالب فقط الجداول والدروس التي أعدها له معلمه، مما يجعل تجربة التعلم شخصية ومنظمة.
+      </h4>
                       </div>
                     </div>
                   </div>
@@ -337,7 +374,7 @@
           <div class="swiper-pagination"></div>
         </div>
       </section> --}}
-      {{-- <section class="container">
+      <section class="container">
   <div class="testimonial mySwiper">
     <div class="testi-content swiper-wrapper">
       
@@ -358,13 +395,24 @@
     <div class="swiper-button-prev nav-btn"></div>
     <div class="swiper-pagination"></div>
   </div>
-</section> --}}
-<section class="container">
+</section>
+{{-- <section class="container">
   <div class="testimonial mySwiper">
     <div class="testi-content swiper-wrapper">
       @foreach($feedbacks as $feedback)
+        @php
+          $imagePath = $feedback->user->image 
+              ? 'storage/' . $feedback->user->image 
+              : 'images/default-user.png';
+        @endphp
+
         <div class="slide swiper-slide">
-          <img src="{{ asset('storage/' . $feedback->user->image) }}" alt="" class="image" onerror="this.src='{{ asset('images/default-user.png') }}'" />
+          <img class="swiper-lazy image"
+               data-src="{{ asset($imagePath) }}"
+               src="{{ asset('images/placeholder.png') }}"
+               onerror="this.src='{{ asset('images/default-user.png') }}'"
+               alt="user image" />
+          <div class="swiper-lazy-preloader"></div>
           <p>{{ $feedback->content }}</p>
           <i class="bx bxs-quote-alt-left quote-icon"></i>
           <div class="details">
@@ -378,18 +426,53 @@
     <div class="swiper-button-prev nav-btn"></div>
     <div class="swiper-pagination"></div>
   </div>
-</section>
+</section> --}}
+{{-- @php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
+<section class="container">
+  <div class="testimonial mySwiper">
+    <div class="testi-content swiper-wrapper">
+      @foreach($feedbacks as $feedback)
+        <div class="slide swiper-slide">
+          <img
+            class="swiper-lazy image"
+            data-src="{{ $feedback->user->image ? Storage::url($feedback->user->image) : asset('images/default-user.png') }}"
+            src="{{ asset('images/placeholder.png') }}"
+            onerror="this.onerror=null; this.src='{{ asset('images/default-user.png') }}';"
+            alt="user image"
+          />
+          <div class="swiper-lazy-preloader"></div>
+
+          <p>{{ $feedback->content }}</p>
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details">
+            <span class="name">{{ $feedback->user->first_name }} {{ $feedback->user->last_name }}</span>
+            <span class="job">طالب</span>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <div class="swiper-button-next nav-btn"></div>
+    <div class="swiper-button-prev nav-btn"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section> --}}
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const swiper = new Swiper('.mySwiper', {
     slidesPerView: 1,
     spaceBetween: 30,
-    loop: false, // غيرت من true إلى false
+    loop: false,
     grabCursor: true,
-    centeredSlides: false, // غيرت من true إلى false
+    centeredSlides: false,
     autoplay: {
       delay: 5000,
-      disableOnInteraction: true, // غيرت من false إلى true
+      disableOnInteraction: true,
     },
     pagination: {
       el: '.swiper-pagination',
@@ -399,19 +482,30 @@ document.addEventListener('DOMContentLoaded', function() {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
     },
-    observer: true,
-    observeParents: true,
-    observeSlideChildren: true,
-    // أضف هذه الإعدادات الجديدة
     preloadImages: false,
-    lazy: true,
+    lazy: {
+      loadPrevNext: true,
+      loadOnTransitionStart: true,
+      loadPrevNextAmount: 2,
+    },
     watchSlidesProgress: true,
-    watchSlidesVisibility: true
+    watchSlidesVisibility: true,
+    on: {
+      lazyImageReady: function() {
+        console.log('Image loaded successfully');
+      },
+      lazyImageError: function() {
+        console.log('Error loading image');
+      }
+    }
   });
 
-  console.log('Swiper initialized without infinite loading');
+  // Debugging
+  console.log('Swiper initialized successfully');
+  console.log('Total slides:', swiper.slides.length);
 });
 </script>
+
  {{-- <style>
   .testimonial {
   max-width: 100%;
@@ -447,7 +541,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       {{-- end feedback_slider --}}
 
-      <footer>
+      {{-- <footer>
         <div class="footer-divider">
             <span class="footer-logo"><img src="{{asset('image/لوجو.png')}}" alt="الشعار" height="40"></span>
         </div>
@@ -501,8 +595,67 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </footer>
-    
+     --}}
 
+<footer>
+    <div class="footer-divider">
+        <span class="footer-logo"><img src="{{asset('image/لوجو.png')}}" alt="شعار ترتيل" height="40"></span>
+    </div>
+    
+    <div class="footer-content">
+        <div class="footer-title-icons">
+            <h2 class="footer-title">
+                <img src="{{asset('image/namelogo.png')}}" width="120px" height="100px" alt="شعار اسم ترتيل">
+            </h2>
+            <div class="footer-icons">
+                <a href="#"><i class="fa-brands fa-facebook" style="color: #38678b;"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color: #2a5d84;"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram" style="color: #38678b;"></i></a>
+                {{-- <a href="#"><i class="fa-brands fa-youtube" style="color: #c4302b;"></i></a> --}}
+            </div>
+        </div>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;">خدماتنا</h3>
+            <ul class="footer-links">
+                <li>تحفيظ القرآن الكريم</li>
+                <li>مراجعة الحفظ الأسبوعي</li>
+                <li>تعليم أحكام التجويد</li>
+                <li>متابعة أداء الطلاب</li>
+                <li>إشراف معلمين متخصصين</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;">البرامج التعليمية</h3>
+            <ul class="footer-links">
+                <li>برنامج الحفظ الأسبوعي</li>
+                <li>برنامج المراجعة</li>
+                <li>دورات التجويد</li>
+                <li>المستويات التعليمية</li>
+                <li>مكتبة الفيديو</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 style="font-size: 16px; font-weight: bold;">روابط مهمة</h3>
+            <ul class="footer-links">
+                <li>من نحن</li>
+                <li>اتصل بنا</li>
+                <li>سياسة الخصوصية</li>
+                <li>الشروط والأحكام</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p style="font-size: 14px;">جميع الحقوق محفوظة © 2025 لموقع ترتيل لتحفيظ القرآن الكريم.</p>
+        <div>
+            <a href="#" style="text-decoration: none; color: black;">سياسة الخصوصية</a> |
+            <a href="#" style="text-decoration: none; color: black;">الشروط والأحكام</a>
+        </div>
+    </div>
+</footer>
 
     <script>
       const header = document.querySelector("header");
@@ -529,6 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {{-- <script src="{{ asset('js/swiper-bundle.min.js') }}"></script> --}}
         <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-      
+      <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
   </body>
 </html>
